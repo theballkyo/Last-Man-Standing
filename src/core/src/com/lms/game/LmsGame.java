@@ -10,14 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public class LmsGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
 	SceneLoader sl;
 	private OrthographicCamera cam;
 	private Viewport vp;
+	private Player player;
 
 	@Override
 	public void create () {
@@ -25,16 +24,20 @@ public class LmsGame extends ApplicationAdapter {
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		sl.loadScene("MainScene", vp);
 		
+		ItemWrapper root = new ItemWrapper(sl.getRoot());
+		player = new Player();
+		root.getChild("player").addScript(player);
+		
 	}
 	
 	public void act() {
         cam = (OrthographicCamera)vp.getCamera();
         // camera.position.x = deer.getCenterX();
 
-       if(Gdx.input.isKeyPressed(Keys.LEFT)) cam.position.x -= 1f;
-       if(Gdx.input.isKeyPressed(Keys.RIGHT)) cam.position.x += 1f;
-       if(Gdx.input.isKeyPressed(Keys.UP)) cam.position.y += 1f;
-       if(Gdx.input.isKeyPressed(Keys.DOWN)) cam.position.y -= 1f;
+       cam.position.x = player.getx();
+       //if(Gdx.input.isKeyPressed(Keys.RIGHT)) cam.position.x += 1f;
+       cam.position.y = player.gety();
+       //if(Gdx.input.isKeyPressed(Keys.DOWN)) cam.position.y -= 1f;
        
        //Gdx.app.log("Cam:", ""+cam.position.y);
     }

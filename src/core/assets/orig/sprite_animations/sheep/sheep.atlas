@@ -1,6 +1,6 @@
 
 sheep.png
-size: 392,392
+size: 512,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
