@@ -52,11 +52,11 @@ public class Player implements IScript{
 	@Override
 	public void act(float delta) {
 		
-		
-		
+		speed.y+=gravity*delta;
+		rayCast();
 		animation.paused = true;
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && speed.y == 0){
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump){
 			speed.y = jumpSpeed;
 			isJump = true;
 		}
@@ -77,12 +77,15 @@ public class Player implements IScript{
 			transformComponent.scaleX = 1f;
 			animation.paused = false;
 		}
-		speed.y+=gravity*delta;
 		
+		
+		Gdx.app.log("Speed Y", ""+speed.y);
 		transformComponent.y += speed.y*delta;
 		
-		if(transformComponent.y < 7f){
+		if(speed.y == 0) {
 			isJump = false;
+		}
+		if(transformComponent.y < 7f){
 			speed.y = 0;
 			transformComponent.y = 7f;
 		}
@@ -91,7 +94,7 @@ public class Player implements IScript{
 			transformComponent.x = 0f;
 		}
 		
-		rayCast();
+		
 	}
 	
 	private void rayCast() {
@@ -111,7 +114,7 @@ public class Player implements IScript{
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 				
 				speed.y = 0;
-				Gdx.app.log("Ray", ""+point.y  + " " + PhysicsBodyLoader.getScale());
+				
 				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
 			
 				return 0;
