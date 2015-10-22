@@ -7,8 +7,10 @@ public class GameClient {
 	
 	Socket client;
 	
+	private boolean isConnected;
+	private boolean isClose;
 	public GameClient() {
-		
+	
 	}
 	
 	public void run() {
@@ -38,6 +40,7 @@ public class GameClient {
 	public void ping() {
 		try
 	      {
+			client.setSoTimeout(1000);
 	         System.out.println("Ping to " 
 			 + client.getRemoteSocketAddress());
 	         OutputStream outToServer = client.getOutputStream();
@@ -51,12 +54,24 @@ public class GameClient {
 	      {
 	         if(e.getMessage().equals("Connection reset by peer: socket write error")) {
 	        	 try {
+	        		 System.out.println("Status: Closed Socket");
 					client.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	         }
+	         else {
+	        	 System.out.println("Status: " + e.getMessage());
+	         }
 	      }
+	}
+	
+	public boolean isConnected() {
+		return client.isConnected();
+	}
+	
+	public boolean isClose() {
+		return client.isClosed();
 	}
 }
