@@ -31,7 +31,7 @@ public class Player implements IScript{
 	private Vector2 speed;
 	private float gravity = -1200f;
 	
-	private final float jumpSpeed = 400f;
+	private final float jumpSpeed = 600f;
 	private float decreseX;
 	
 	private boolean isJump = false;
@@ -60,7 +60,7 @@ public class Player implements IScript{
 			speed.y = jumpSpeed;
 			isJump = true;
 		}
-		Gdx.app.log("isJump", ""+isJump);
+		
 		if(isJump)
 			decreseX = speed.x * 0.4f;
 		else
@@ -104,15 +104,15 @@ public class Player implements IScript{
 		
 		Vector2 rayFrom = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y+rayGap)*PhysicsBodyLoader.getScale());
 		Vector2 rayTo = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y - raySize)*PhysicsBodyLoader.getScale());
-	
+		rayFrom.y -= 2f;
 		world.rayCast(new RayCastCallback(){
 
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 				
 				speed.y = 0;
-				
-				transformComponent.y = point.y / PhysicsBodyLoader.getScale() +0.1f;
+				Gdx.app.log("Ray", ""+point.y  + " " + PhysicsBodyLoader.getScale());
+				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
 			
 				return 0;
 			}
