@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.title = "Last Man Standing - Developer Test.";
 		config.width = 1200;
 		config.height = 800;
-		config.resizable = false;
+		config.resizable = true;
 		new LwjglApplication(new LmsGame(), config);
 	}
 }

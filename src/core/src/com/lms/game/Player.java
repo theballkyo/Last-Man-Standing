@@ -5,11 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
+import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.SpineDataComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.AnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
+import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.scripts.IScript;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
@@ -19,7 +24,9 @@ public class Player implements IScript{
 
 	private Entity player;
 	private TransformComponent transformComponent;
+	private DimensionsComponent dimensionsComponent;
 	
+	private World world;
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
 	private float gravity = -1200f;
@@ -28,11 +35,17 @@ public class Player implements IScript{
 	private float decreseX;
 	
 	private boolean isJump = false;
+	
+	public Player(World world) {
+		this.world = world;
+	}
+
 	@Override
 	public void init(Entity entity) {
 		player = entity;
 		transformComponent = ComponentRetriever.get(entity, TransformComponent.class);
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
+		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
 		speed = new Vector2(500, 0);
 	}
 
@@ -77,8 +90,34 @@ public class Player implements IScript{
 		if(transformComponent.x < 0f) {
 			transformComponent.x = 0f;
 		}
+		
+		rayCast();
 	}
 	
+	private void rayCast() {
+
+		float rayGap = dimensionsComponent.height/2;
+		
+		float raySize = -(speed.y)*Gdx.graphics.getDeltaTime();
+		
+		if(speed.y > 0) return;
+		
+		Vector2 rayFrom = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y+rayGap)*PhysicsBodyLoader.getScale());
+		Vector2 rayTo = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y - raySize)*PhysicsBodyLoader.getScale());
+	
+		world.rayCast(new RayCastCallback(){
+
+			@Override
+			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+				
+				speed.y = 0;
+				
+				transformComponent.y = point.y / PhysicsBodyLoader.getScale() +0.1f;
+			
+				return 0;
+			}
+		}, rayFrom, rayTo);
+	}
 
 
 	@Override

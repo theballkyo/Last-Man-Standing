@@ -25,7 +25,7 @@ public class LmsGame extends ApplicationAdapter {
 		sl.loadScene("MainScene", vp);
 		
 		ItemWrapper root = new ItemWrapper(sl.getRoot());
-		player = new Player();
+		player = new Player(sl.world);
 		root.getChild("player").addScript(player);
 		
 	}
