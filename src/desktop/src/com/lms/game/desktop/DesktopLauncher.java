@@ -7,6 +7,7 @@ import com.lms.game.LmsGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Last Man Standing - Developer Test.";
 		config.width = 1200;
 		config.height = 800;
 		config.resizable = false;

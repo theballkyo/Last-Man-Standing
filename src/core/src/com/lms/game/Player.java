@@ -44,7 +44,7 @@ public class Player implements IScript{
 		}
 		animation.paused = true;
 		if(speed.y != 0)
-			decreseX = 300;
+			decreseX = speed.x * 0.5f;
 		else
 			decreseX = 0;
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
