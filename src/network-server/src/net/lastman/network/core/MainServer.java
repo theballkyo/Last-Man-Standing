@@ -11,8 +11,7 @@ import com.badlogic.gdx.backends.headless.HeadlessFiles;
 import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
 import com.badlogic.gdx.backends.headless.HeadlessNet;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
-import com.badlogic.gdx.backends.lwjgl.LwjglFiles;
-import com.badlogic.gdx.backends.lwjgl.LwjglNativesLoader;
+
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.net.ServerSocketHints;
 import com.lms.game.LmsGame;

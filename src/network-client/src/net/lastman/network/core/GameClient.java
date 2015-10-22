@@ -14,7 +14,7 @@ public class GameClient {
 	}
 	
 	public void run() {
-		String serverName = "127.0.0.1";
+		String serverName = "192.168.1.52";
 		int port = 20156;
 		try
 	      {
