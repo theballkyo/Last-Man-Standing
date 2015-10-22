@@ -52,6 +52,26 @@ project(":core") {
     }
 }
 
+project(":network-server") {
+    apply plugin: "java"
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        compile "org.mockito:mockito-all:1.9.5"
+    }
+}
+
+project(":network-client") {
+    apply plugin: "java"
+
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile project(":network-server")
+    }
+}
 tasks.eclipse.doLast {
     delete ".project"
 }

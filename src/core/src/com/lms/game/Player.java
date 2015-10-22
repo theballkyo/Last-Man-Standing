@@ -22,12 +22,12 @@ public class Player implements IScript{
 	
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
-	private float gravity = -700f;
+	private float gravity = -1200f;
 	
-	private final float jumpSpeed = 300f;
-	
+	private final float jumpSpeed = 400f;
 	private float decreseX;
 	
+	private boolean isJump = false;
 	@Override
 	public void init(Entity entity) {
 		player = entity;
@@ -38,15 +38,21 @@ public class Player implements IScript{
 
 	@Override
 	public void act(float delta) {
-
+		
+		
+		
+		animation.paused = true;
+		
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && speed.y == 0){
 			speed.y = jumpSpeed;
+			isJump = true;
 		}
-		animation.paused = true;
-		if(speed.y != 0)
-			decreseX = speed.x * 0.5f;
+		Gdx.app.log("isJump", ""+isJump);
+		if(isJump)
+			decreseX = speed.x * 0.4f;
 		else
 			decreseX = 0;
+		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			transformComponent.x-=(speed.x - decreseX)*delta;
 			transformComponent.scaleX = -1f;
@@ -63,6 +69,7 @@ public class Player implements IScript{
 		transformComponent.y += speed.y*delta;
 		
 		if(transformComponent.y < 7f){
+			isJump = false;
 			speed.y = 0;
 			transformComponent.y = 7f;
 		}
