@@ -37,9 +37,9 @@ public class LmsGame extends ApplicationAdapter {
        cam.position.x = player.getx();
        //if(Gdx.input.isKeyPressed(Keys.RIGHT)) cam.position.x += 1f;
        cam.position.y = player.gety();
-       //if(Gdx.input.isKeyPressed(Keys.DOWN)) cam.position.y -= 1f;
        
-       //Gdx.app.log("Cam:", ""+cam.position.y);
+       if(cam.position.y < Gdx.graphics.getHeight() / 2) cam.position.y = Gdx.graphics.getHeight() / 2;
+       if(cam.position.x < Gdx.graphics.getWidth() / 2) cam.position.x = Gdx.graphics.getWidth() / 2;
     }
 	
 	@Override
