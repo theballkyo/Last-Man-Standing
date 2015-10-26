@@ -1,15 +1,19 @@
 package com.lms.game;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lms.entity.MainEntity;
+import com.lms.entity.SheepEntity;
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.components.sprite.AnimationComponent;
+import com.uwsoft.editor.renderer.data.CompositeItemVO;
+import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
+import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public class LmsGame extends ApplicationAdapter {
@@ -17,16 +21,32 @@ public class LmsGame extends ApplicationAdapter {
 	private OrthographicCamera cam;
 	private Viewport vp;
 	private Player player;
-
+	private MainEntity me;
 	@Override
 	public void create () {
 		sl = new SceneLoader();
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		sl.loadScene("MainScene", vp);
 		
+		me = new MainEntity(sl);
+		
 		ItemWrapper root = new ItemWrapper(sl.getRoot());
 		player = new Player(sl.world);
 		root.getChild("player").addScript(player);
+		
+		SheepEntity john = me.create("sheep", "john");
+		john.vo.x = 400f;
+		john.create(sl.getRoot());
+		john.add();
+		
+		SheepEntity carry = me.create("sheep", "carry");
+		carry.create(sl.getRoot());
+		carry.add();
+		
+		ItemWrapper root2 = new ItemWrapper(sl.getRoot());
+		root2.getChild(john.getName()).addScript(new Player(sl.world));
+		root2.getChild(carry.getName()).addScript(new Player(sl.world));
+		
 		
 	}
 	

@@ -35,7 +35,7 @@ public class Player implements IScript{
 	private float decreseX;
 	
 	private boolean isJump = false;
-	
+
 	public Player(World world) {
 		this.world = world;
 	}
@@ -43,12 +43,16 @@ public class Player implements IScript{
 	@Override
 	public void init(Entity entity) {
 		player = entity;
+		Gdx.app.log("E name", ""+player.getId());
 		transformComponent = ComponentRetriever.get(entity, TransformComponent.class);
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
 		speed = new Vector2(500, 0);
 	}
 
+	public Entity getEntity() {
+		return player;
+	}
 	@Override
 	public void act(float delta) {
 		
@@ -78,8 +82,6 @@ public class Player implements IScript{
 			animation.paused = false;
 		}
 		
-		
-		Gdx.app.log("Speed Y", ""+speed.y);
 		transformComponent.y += speed.y*delta;
 		
 		if(speed.y == 0) {
@@ -88,6 +90,7 @@ public class Player implements IScript{
 		if(transformComponent.y < 7f){
 			speed.y = 0;
 			transformComponent.y = 7f;
+			isJump = false;
 		}
 		
 		if(transformComponent.x < 0f) {
@@ -107,7 +110,7 @@ public class Player implements IScript{
 		
 		Vector2 rayFrom = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y+rayGap)*PhysicsBodyLoader.getScale());
 		Vector2 rayTo = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y - raySize)*PhysicsBodyLoader.getScale());
-		rayFrom.y -= 2f;
+		rayFrom.y -= 2.2f;
 		world.rayCast(new RayCastCallback(){
 
 			@Override
