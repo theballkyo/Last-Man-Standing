@@ -14,7 +14,6 @@ import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.net.ServerSocketHints;
-import com.lms.game.LmsGame;
 public class MainServer {
 
 	public static void main(String[] args) {

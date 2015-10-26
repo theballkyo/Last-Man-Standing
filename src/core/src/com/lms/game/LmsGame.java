@@ -1,6 +1,5 @@
 package com.lms.game;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,10 +9,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.components.sprite.AnimationComponent;
-import com.uwsoft.editor.renderer.data.CompositeItemVO;
-import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
-import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public class LmsGame extends ApplicationAdapter {
