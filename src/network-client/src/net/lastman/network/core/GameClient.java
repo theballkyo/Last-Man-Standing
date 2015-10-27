@@ -9,12 +9,13 @@ public class GameClient {
 	
 	private boolean isConnected;
 	private boolean isClose;
+	
 	public GameClient() {
 	
 	}
 	
-	public void run() {
-		String serverName = "192.168.1.52";
+	public boolean run() {
+		String serverName = "127.0.0.1";
 		int port = 20156;
 		try
 	      {
@@ -27,14 +28,13 @@ public class GameClient {
 	         DataOutputStream out = new DataOutputStream(outToServer);
 	         out.writeUTF("Hello from "
 	                      + client.getLocalSocketAddress());
-	         InputStream inFromServer = client.getInputStream();
-	         DataInputStream in =
-	                        new DataInputStream(inFromServer);
-	         System.out.println("Server says " + in.readUTF());
 	      }catch(IOException e)
 	      {
 	         e.printStackTrace();
+	         return false;
 	      }
+		
+		return true;
 	}
 	
 	public void ping() {
@@ -46,18 +46,13 @@ public class GameClient {
 	         OutputStream outToServer = client.getOutputStream();
 	         DataOutputStream out = new DataOutputStream(outToServer);
 	         out.writeUTF("PING");
-	         InputStream inFromServer = client.getInputStream();
-	         DataInputStream in =
-	                        new DataInputStream(inFromServer);
-	         System.out.println("Server says " + in.readUTF());
 	      }catch(IOException e)
 	      {
 	         if(e.getMessage().equals("Connection reset by peer: socket write error")) {
 	        	 try {
-	        		 System.out.println("Status: Closed Socket");
+	        		System.out.println("Status: Closed Socket");
 					client.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	         }
@@ -74,4 +69,47 @@ public class GameClient {
 	public boolean isClose() {
 		return client.isClosed();
 	}
+	
+	public Socket getClient() {
+		return client;
+	}
+	
+	public String getInput() {
+		try {
+			InputStream inFromServer;
+			inFromServer = client.getInputStream();
+			DataInputStream in = new DataInputStream(inFromServer);
+			String msg = in.readUTF();
+			if(msg.equals("PING"))
+				return "P";
+			// System.out.println("Server says " + msg);
+			return msg;
+		} catch (IOException e) {
+			if(e.getMessage().contains("Connection reset")) {
+				System.out.println("Server closed !");
+				return null;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void sendMsg(String msg) {
+		   try {
+			   DataOutputStream out = new DataOutputStream(client.getOutputStream());
+			   out.writeUTF(msg);
+			} catch (IOException e) {
+				if(e.getMessage().equals("Connection reset by peer: socket write error")) {
+		        	 try {
+		        		System.out.println("Status: Closed Socket");
+						client.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		         }
+		         else {
+		        	 System.out.println("Status: " + e.getMessage());
+		         }
+			}
+	   }
 }

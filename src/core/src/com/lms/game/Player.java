@@ -139,5 +139,8 @@ public class Player implements IScript{
 	public float gety(){
 		return transformComponent.y;
 	}
-
+	
+	public float getScaleX(){
+		return transformComponent.scaleX;
+	}
 }

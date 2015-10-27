@@ -1,10 +1,9 @@
 package net.lastman.network.core;
 
-import java.io.IOException;
+import java.util.Scanner;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.Protocol;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.backends.headless.HeadlessFiles;
@@ -12,11 +11,11 @@ import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
 import com.badlogic.gdx.backends.headless.HeadlessNet;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.net.ServerSocketHints;
+
 public class MainServer {
 
 	public static void main(String[] args) {
+
 		HeadlessNativesLoader.load();
 		MockGraphics mockGraphics = new MockGraphics();
 		Gdx.graphics = mockGraphics;
@@ -28,7 +27,23 @@ public class MainServer {
 		HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
 		ApplicationListener handlessApp = new HeadlessApplication(new ListenerServer()).getApplicationListener();
 
-		new GameServer().runSocket();
+		final GameServer gs = new GameServer();
+		gs.runSocket();
+		new Thread(new Runnable(){
+			public void run() {
+				final Scanner in = new Scanner(System.in);
+		        while(in.hasNext()) {
+		            final String line = in.nextLine();
+		            System.out.println("> " + line);
+		            if ("end".equalsIgnoreCase(line)) {
+		            	
+		                System.out.println("Ending one thread");
+		                break;
+		            }
+		            gs.broadcast(line);
+		        }
+			}
+		}).start();
 	}
 
 }

@@ -26,10 +26,15 @@ public class SheepEntity extends CoreEntity{
 		vo.y = 500f;
 		vo.layerName = entityName;
 		vo.itemIdentifier = entityName;
+		vo.playMode = 2;
 	}
 	
 	public void pause() {
 		ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class).paused = true;
+	}
+	
+	public void unpause() {
+		ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class).paused = false;
 	}
 	
 	public void create(Entity root) {
@@ -38,6 +43,7 @@ public class SheepEntity extends CoreEntity{
 	
 	public void add() {
 		getScene().engine.addEntity(getEntity());
+		unpause();
 	}
 	
 		
