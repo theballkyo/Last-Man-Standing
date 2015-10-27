@@ -44,6 +44,7 @@ public class MainServer {
 		        }
 			}
 		}).start();
+		new UDPServer(7777);
 	}
 
 }
