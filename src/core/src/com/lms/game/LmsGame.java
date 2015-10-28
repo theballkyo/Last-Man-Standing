@@ -15,6 +15,7 @@ import com.lms.entity.SheepEntity;
 import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.TransformComponent;
+import com.uwsoft.editor.renderer.components.additional.ButtonComponent;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
@@ -36,8 +37,8 @@ public class LmsGame extends ApplicationAdapter {
 	public void create() {
 		sl = new SceneLoader();
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		sl.loadScene("MainScene", vp);
-
+		sl.loadScene("StartScene", vp);
+		
 		me = new MainEntity(sl);
 
 		ItemWrapper root = new ItemWrapper(sl.getRoot());
@@ -55,6 +56,29 @@ public class LmsGame extends ApplicationAdapter {
 		 * root2.getChild(john.getName()).addScript(new Player(sl.world));
 		 * root2.getChild(carry.getName()).addScript(new Player(sl.world));
 		 */
+		
+		sl.addComponentsByTagName("button", ButtonComponent.class);
+		root.getChild("button").getEntity().getComponent(ButtonComponent.class).addListener(new ButtonComponent.ButtonListener() {
+			
+			@Override
+			public void touchUp() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void touchDown() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void clicked() {
+				sl.loadScene("MainScene", vp);
+				
+			}
+		});
+		
 		gc = new GameClient();
 		while (!gc.run()) {
 		}
