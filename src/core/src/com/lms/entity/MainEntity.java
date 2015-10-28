@@ -15,14 +15,13 @@ public class MainEntity {
 	SceneLoader sl;
 	
 	Map<String, Class<?>> ret = new HashMap<String, Class<?>>();
-	
+
 	public MainEntity(SceneLoader sl) {
 		this.sl = sl;
-		
 		ret.put("sheep", SheepEntity.class);
 	}
 	
-	public <T extends CoreEntity> T create(String type, String name) {
+	public <T extends CoreEntity> T newEntity(String type, String name) {
 		
 		try {
 			return (T) ret.get(type).getDeclaredConstructor(String.class, SceneLoader.class).newInstance(name, sl);

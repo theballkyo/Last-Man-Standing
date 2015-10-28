@@ -1,33 +1,32 @@
 package com.lms.entity;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.badlogic.ashley.core.Entity;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.data.CompositeItemVO;
-import com.uwsoft.editor.renderer.data.MainItemVO;
+import com.uwsoft.editor.renderer.scripts.IScript;
+import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 public abstract class CoreEntity {
 
-	private Entity entity;
+	protected Entity entity;
 	protected SceneLoader sl;
 
-	private String entityName;
+	protected String entityName;
 
+	abstract public void create();
+	
 	public CoreEntity(String entityName) {
 		this.entityName = entityName;
 	}
 
-	public void add() {
-		getScene().engine.addEntity(getEntity());
+	protected void add() {
+		sl.engine.addEntity(entity);
 	}
 
+	public void addScript(IScript script) {
+		new ItemWrapper(sl.getRoot()).addChild(entity).addScript(script);
+	}
 	public SceneLoader getScene() {
 		return this.sl;
-	}
-
-	protected void setEntity(Entity entity) {
-		this.entity = entity;
 	}
 
 	public Entity getEntity() {
