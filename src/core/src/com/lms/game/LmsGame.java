@@ -12,14 +12,17 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
+import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 import com.uwsoft.editor.renderer.utils.ItemWrapper;
 
 import net.lastman.network.core.GameClient;
+import net.lastman.network.core.UDPClient;
 
 public class LmsGame extends ApplicationAdapter {
+	
 	private SceneLoader sl;
 	private OrthographicCamera cam;
 	private Viewport vp;
@@ -107,8 +110,6 @@ public class LmsGame extends ApplicationAdapter {
 			}
 		}).start();
 
-		gc.sendMsg("L");
-
 		new Thread(new Runnable() {
 			public void run() {
 				while (true) {
@@ -121,7 +122,11 @@ public class LmsGame extends ApplicationAdapter {
 				}
 			}
 		}).start();
-
+		
+		// Connect to server
+		NetworkManage nm = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port));
+		Thread nmThread= new Thread(nm);
+		nmThread.start();
 	}
 
 	public void act() {

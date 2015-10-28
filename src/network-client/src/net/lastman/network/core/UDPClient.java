@@ -14,6 +14,11 @@ public class UDPClient implements ClientNetwork {
 	private InetAddress host;
 	private int port;
 	private String s;
+	private boolean isConn;
+	
+	public static final int CONN_OK = 1;
+	public static final int CONN_LOSE = 2;
+	public static final int CONN_TIMEOUT = 3;
 	
 	public UDPClient(String host, int port) {
 		this.port = port;
@@ -65,4 +70,8 @@ public class UDPClient implements ClientNetwork {
 		return sock;
 	}
 
+	@Override
+	public boolean isConnected() {
+		return isConn;
+	}
 }
