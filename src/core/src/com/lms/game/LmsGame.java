@@ -24,8 +24,8 @@ public class LmsGame extends ApplicationAdapter {
 	public void create() {
 		sl = new SceneLoader();
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		sl.loadScene("MainScene", vp);
-
+		sl.loadScene("StartScene", vp);
+		
 		me = new MainEntity(sl);
 		
 		cam = (OrthographicCamera) vp.getCamera();
