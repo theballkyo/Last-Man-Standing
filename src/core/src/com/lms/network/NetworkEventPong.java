@@ -1,5 +1,7 @@
 package com.lms.network;
 
+import java.net.DatagramPacket;
+
 public class NetworkEventPong extends NetworkEvent{
 
 	public static final Byte headerCode = 0x00;
@@ -20,7 +22,7 @@ public class NetworkEventPong extends NetworkEvent{
 	}
 
 	@Override
-	public void processServer(String data) {
+	public void processServer(String data, DatagramPacket incoming, String time) {
 		System.out.println("Sv say Ok");
 	}
 	

@@ -1,5 +1,7 @@
 package com.lms.network;
 
+import java.net.DatagramPacket;
+
 import com.lms.api.PlayerAPI;
 
 public class NetworkEventUpdate extends NetworkEvent{
@@ -26,7 +28,7 @@ public class NetworkEventUpdate extends NetworkEvent{
 	}
 
 	@Override
-	public void processServer(String data) {
+	public void processServer(String data, DatagramPacket incoming, String time) {
 		// TODO Auto-generated method stub
 		
 	}

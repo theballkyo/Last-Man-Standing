@@ -17,6 +17,7 @@ public class NetworkManage implements Runnable{
 	Viewport vp;
 	NetworkEventManage nem;
 	
+	private long lastRecv = 0;
 	public NetworkManage(ClientNetwork cn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.cn = cn;
 		this.sl = sl;
@@ -39,9 +40,14 @@ public class NetworkManage implements Runnable{
 		byte header = msg.getBytes()[0];
 		String data = new String(msg.getBytes(), 1, msg.length()-1);
 		
+		//Drop packet
+		if(Long.parseLong(data.split("!")[1]) < lastRecv) {
+			return;
+		}
+		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = nem.get(header);
 		if(event != null)
-			event.process(data);
+			event.process(data.split("!")[0]);
 	}
 	
 	public void addEvent() {
@@ -49,12 +55,20 @@ public class NetworkManage implements Runnable{
 	}
 	
 	public void sendMsg(String msg) {
-		cn.sendMsg(msg);
+		cn.sendMsg(msg + "!" + System.currentTimeMillis());
 	}
 	
-	public void sendJoin(String name, float x, float y) {
+	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Player Join...");
-		cn.sendMsg(NetworkEventJoin.createJoinMsg(name, x, y));
+		cn.sendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+	}
+	
+	public void sendMove(String name, float x, float y) {
+		cn.sendMsg(NetworkEventMove.createMoveMsg(name, x, y));
+	}
+	
+	public void rqList() {
+		cn.sendMsg(NetworkEventRqList.createRqListMsg());
 	}
 	
 	public void testPing() {

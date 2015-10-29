@@ -1,5 +1,7 @@
 package com.lms.network;
 
+import java.net.DatagramPacket;
+
 abstract public class NetworkEvent {
 	
 	NetworkManage nm;
@@ -13,6 +15,6 @@ abstract public class NetworkEvent {
 	
 	abstract public void process(String data);
 	
-	abstract public void processServer(String data);
+	abstract public void processServer(String data, DatagramPacket incoming, String time);
 	
 }

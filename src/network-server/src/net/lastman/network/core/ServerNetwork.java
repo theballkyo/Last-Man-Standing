@@ -10,5 +10,5 @@ public interface ServerNetwork {
 	public String readMsg(DatagramPacket incoming);
 	public void sendMsg(InetAddress Address, int port, String msg);
 	public DatagramSocket getSock();
-	public void broadcast(int id, String msg);
+	public void broadcast(String name, String msg);
 }

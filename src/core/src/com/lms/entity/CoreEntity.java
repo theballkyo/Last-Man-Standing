@@ -18,6 +18,7 @@ public abstract class CoreEntity {
 	abstract public float getX();
 	abstract public float getY();
 	abstract public void setAnimation(boolean play);
+	abstract public String getType();
 	abstract public boolean canAnimation();
 	
 	public CoreEntity(String entityName) {

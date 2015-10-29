@@ -70,5 +70,9 @@ public class SheepEntity extends CoreEntity{
 		return true;
 	}
 	
+	@Override
+	public String getType() {
+		return "sheep";
+	}
 		
 }

@@ -5,6 +5,11 @@ import java.util.HashMap;
 public class NetworkEventManage {
 	private HashMap<Byte, NetworkEvent> events;
 	
+	/**
+	 * NetworkManage nm use for Client side !
+	 * NetworkServerAbstract ns use for Server side !
+	 */
+	
 	NetworkManage nm;
 	NetworkServerAbstract ns;
 	public NetworkEventManage(NetworkManage nm) {
@@ -23,10 +28,11 @@ public class NetworkEventManage {
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(nm, ns));
 		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(nm, ns));
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong(nm, ns));
+		events.put(NetworkEventMove.headerCode, new NetworkEventMove(nm, ns));
+		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(nm, ns));
 	}
 	
 	public NetworkEvent get(Byte header) {
-		System.out.println(header);
 		return events.get(header);
 	}
 }

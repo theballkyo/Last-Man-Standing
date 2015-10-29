@@ -42,7 +42,7 @@ public class MainServer {
 		                System.out.println("Ending one thread");
 		                break;
 		            }
-		            server.broadcast(-1, line);
+		            server.broadcast(null, line);
 		        }
 			}
 		}).start();

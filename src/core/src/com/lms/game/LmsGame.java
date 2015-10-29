@@ -24,6 +24,7 @@ public class LmsGame extends ApplicationAdapter {
 	private MainEntity me;
 	private CoreEntity myEntity;
 
+	private Thread plThread;
 	@Override
 	public void create() {
 		sl = new SceneLoader();
@@ -35,8 +36,8 @@ public class LmsGame extends ApplicationAdapter {
 		//Load API
 		PlayerAPI.load(sl, me);
 		
-		PlayerAPI.add("GGWP", "sheep", 100f, 50f);
-		myEntity = PlayerAPI.get("GGWP");
+		PlayerAPI.add("GGWP4", "sheep", 100f, 50f);
+		myEntity = PlayerAPI.get("GGWP4");
 		myEntity.addScript(new Player(sl.world));
 		
 		cam = (OrthographicCamera) vp.getCamera();
@@ -46,22 +47,26 @@ public class LmsGame extends ApplicationAdapter {
 		Thread nmThread= new Thread(nm);
 		nmThread.start();
 		
-		nm.sendJoin(myEntity.getName(), myEntity.getX(), myEntity.getY());
+		nm.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		
-		new Thread(new Runnable(){
+		nm.rqList();
+		
+		plThread = new Thread(new Runnable() {
 			public void run() {
 				while(true) {
-				nm.sendMsg("test");
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					nm.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());	
+					
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
 				}
 			}
-		}).start();
+		});
 		
+		plThread.start();
 	}
 
 	public void act() {

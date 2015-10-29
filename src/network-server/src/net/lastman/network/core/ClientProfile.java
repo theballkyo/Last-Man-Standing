@@ -6,11 +6,11 @@ import java.net.InetAddress;
 public class ClientProfile {
 	
 	private String name;
-	private int id;
+	
 	private DatagramPacket dp;
 	
-	public ClientProfile(int id, DatagramPacket dp) {
-		this.id = id;
+	public ClientProfile(String name, DatagramPacket dp) {
+		this.name = name;
 		this.dp = dp;
 	}
 	

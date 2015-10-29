@@ -10,7 +10,7 @@ import com.uwsoft.editor.renderer.SceneLoader;
 
 public class PlayerAPI {
 	
-	private static HashMap<String, Object> playerList = new HashMap<String, Object>();;
+	private static HashMap<String, CoreEntity> playerList = new HashMap<String, CoreEntity>();
 	
 	private static SceneLoader sl;
 	private static MainEntity me;
@@ -21,6 +21,8 @@ public class PlayerAPI {
 	}
 	
 	public static void add(String name, String type, float x, float y) {
+		if(playerList.get(name) != null)
+			return;
 		CoreEntity pl = me.newEntity(type, name);
 		if(pl == null) {
 			Gdx.app.log("PlayerAPI", "Can't find entity type (" + type + ")");
@@ -30,6 +32,7 @@ public class PlayerAPI {
 		pl.setX(x);
 		pl.setY(y);
 		pl.setAnimation(true);
+		System.out.printf("Create: %s %s %.0f %.0f\n", name, type, x, y);
 		playerList.put(name, pl);
 	}
 	
@@ -60,5 +63,9 @@ public class PlayerAPI {
 	
 	public static void remove(String name) {
 		playerList.remove(name);
+	}
+	
+	public static HashMap<String, CoreEntity> getAll() {
+		return playerList;
 	}
 } 
