@@ -9,6 +9,7 @@ public class PlayerServerAPI {
 	private String type;
 	
 	private int hp;
+	public long lastConn;
 	
 	private static HashMap<String, PlayerServerAPI> playerList = new HashMap<String, PlayerServerAPI>();
 	
@@ -23,45 +24,38 @@ public class PlayerServerAPI {
 		playerList.put(name, new PlayerServerAPI(name, type , x, y));
 	}
 
+	public static void remove(String name) {
+		playerList.remove(name);
+	}
+	
 	public static void update(String name, float x, float y) {
 		PlayerServerAPI pl = playerList.get(name);
 		pl.x = x;
 		pl.y = y;
 	}
 	
+	public static void setLastConn(String name, long time) {
+		PlayerServerAPI pl = playerList.get(name);
+		pl.lastConn = time;
+	}
+	
+	public static long getLastConn(String name) {
+		return playerList.get(name).lastConn;
+	}
+	
 	public static HashMap<String, PlayerServerAPI> getAll() {
 		return playerList;
 	}
-	
+
 	public float getX() {
 		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
 	}
 
 	public float getY() {
 		return y;
 	}
 
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getType() {
 		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 }

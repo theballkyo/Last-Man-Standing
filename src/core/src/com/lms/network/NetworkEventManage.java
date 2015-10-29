@@ -30,6 +30,7 @@ public class NetworkEventManage {
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong(nm, ns));
 		events.put(NetworkEventMove.headerCode, new NetworkEventMove(nm, ns));
 		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(nm, ns));
+		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(nm, ns));
 	}
 	
 	public NetworkEvent get(Byte header) {

@@ -11,4 +11,5 @@ public class LmsConfig {
 	
 	public static int port = 20156;
 	
+	public static String playerName = "GG04";
 }

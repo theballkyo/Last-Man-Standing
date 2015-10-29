@@ -62,6 +62,7 @@ public class PlayerAPI {
 	}
 	
 	public static void remove(String name) {
+		sl.getEngine().removeEntity(playerList.get(name).getEntity());
 		playerList.remove(name);
 	}
 	

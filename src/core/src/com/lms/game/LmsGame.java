@@ -12,6 +12,7 @@ import com.lms.api.PlayerAPI;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
+import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import net.lastman.network.core.UDPClient;
@@ -25,6 +26,7 @@ public class LmsGame extends ApplicationAdapter {
 	private CoreEntity myEntity;
 
 	private Thread plThread;
+	
 	@Override
 	public void create() {
 		sl = new SceneLoader();
@@ -36,8 +38,8 @@ public class LmsGame extends ApplicationAdapter {
 		//Load API
 		PlayerAPI.load(sl, me);
 		
-		PlayerAPI.add("GGWP4", "sheep", 100f, 50f);
-		myEntity = PlayerAPI.get("GGWP4");
+		PlayerAPI.add(LmsConfig.playerName, "sheep", 100f, 50f);
+		myEntity = PlayerAPI.get(LmsConfig.playerName);
 		myEntity.addScript(new Player(sl.world));
 		
 		cam = (OrthographicCamera) vp.getCamera();
@@ -67,6 +69,28 @@ public class LmsGame extends ApplicationAdapter {
 		});
 		
 		plThread.start();
+		
+		while(!NetworkEventJoin.isJoin) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			nm.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+		}
+		
+		new Thread(new Runnable() {
+			public void run() {
+				while(true) {
+					nm.rqList();
+					try {
+						Thread.sleep(250);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 
 	public void act() {

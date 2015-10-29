@@ -8,8 +8,11 @@ import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.lms.api.PlayerServerAPI;
 import com.lms.network.NetworkEvent;
+import com.lms.network.NetworkEventDisconnect;
 import com.lms.network.NetworkEventManage;
+import com.lms.network.NetworkEventPong;
 import com.lms.network.NetworkServerAbstract;
 
 public class UDPServer implements NetworkServerAbstract, ServerNetwork{
@@ -27,13 +30,28 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	public void start() {
 		try {
 			sock = new DatagramSocket(port);
-			// buffer to receive incoming data
+			
+			new Thread(new Runnable() {
+				public void run() {
+					while(true) {
+						
+						checkClient();
+					
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}).start();
+			
 			while (true) {
 				byte[] buffer = new byte[65536];
 				final DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
 				
 				listener(incoming);
-				
 				// id+=1;
 			}
 		} catch (SocketException e1) {
@@ -42,17 +60,21 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		
 	}
 	
-	private void listener(DatagramPacket incoming) {
-		String msg = readMsg(incoming);
+	private void listener(final DatagramPacket incoming) {
+		final String msg = readMsg(incoming);
+		new Thread(new Runnable() {
+			public void run() {
+				Byte header = msg.getBytes()[0];
 
-		Byte header = msg.getBytes()[0];
-
-		String data = new String(msg.getBytes(), 1, msg.length()-1);
-
-		NetworkEvent event = nem.get(header);
-		String[] sData = data.split("!");
-		if(event != null)
-			event.processServer(sData[0], incoming, sData[1]);
+				String data = new String(msg.getBytes(), 1, msg.length()-1);
+				// System.out.println(data);
+				NetworkEvent event = nem.get(header);
+				String[] sData = data.split("!");
+				if(event != null)
+					event.processServer(sData[0], incoming, sData[1]);
+			}
+		}).start();
+		
 	}
 	
 	public String readMsg(DatagramPacket incoming) {
@@ -81,6 +103,13 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		sendMsg(Address, port, msg + "!" + time);
 	}
 	
+	public void broadcast(String msg) {
+		for(Entry<String, ClientProfile> entry : clientList.entrySet()) {
+			ClientProfile cp = entry.getValue();
+			sendMsg(cp.getAddress(), cp.getPort(), msg);
+		}
+	}
+	
 	public void broadcast(String name, String msg) {
 		for(Entry<String, ClientProfile> entry : clientList.entrySet()) {
 			if(entry.getKey().equals(name))
@@ -93,6 +122,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	public void broadcast(String name, String msg, String time) {
 		broadcast(name, msg + "!" + time);
 	}
+	
 	@Override
 	public DatagramSocket getSock() {
 		return null;
@@ -100,5 +130,26 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	
 	public void addClient(String name, DatagramPacket incoming) {
 		clientList.put(name, new ClientProfile(name, incoming));
+	}
+	
+	public void delClient(String name) {
+		clientList.remove(name);
+	}
+	
+	private synchronized void checkClient() {
+		broadcast(NetworkEventPong.getMsg());
+		
+		HashMap<String, PlayerServerAPI> pl = PlayerServerAPI.getAll();
+		for(Entry<String, PlayerServerAPI> p :pl.entrySet()) {
+			String name = p.getKey();
+			PlayerServerAPI dat = p.getValue();
+			if(dat.lastConn + 5000 < System.currentTimeMillis()) {
+				System.out.println("Player " + name + " time out.");
+				delClient(name);
+				PlayerServerAPI.remove(name);
+				broadcast(NetworkEventDisconnect.removeMsg(name));
+				break;
+			}
+		}
 	}
 }

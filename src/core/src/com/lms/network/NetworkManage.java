@@ -18,6 +18,7 @@ public class NetworkManage implements Runnable{
 	NetworkEventManage nem;
 	
 	private long lastRecv = 0;
+	
 	public NetworkManage(ClientNetwork cn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.cn = cn;
 		this.sl = sl;
@@ -39,15 +40,24 @@ public class NetworkManage implements Runnable{
 		String msg = cn.readMsg();
 		byte header = msg.getBytes()[0];
 		String data = new String(msg.getBytes(), 1, msg.length()-1);
-		
+		String[] dat = data.split("!");
+
 		//Drop packet
-		if(Long.parseLong(data.split("!")[1]) < lastRecv) {
-			return;
+		/*
+		if(dat.length > 1) {
+			if(Float.parseFloat(dat[1]) < lastRecv) {
+				System.out.println("Drop: " + data);
+				return;
+			}
 		}
+		*/
+		
 		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = nem.get(header);
 		if(event != null)
-			event.process(data.split("!")[0]);
+			event.process(dat[0]);
+		
+		
 	}
 	
 	public void addEvent() {
@@ -60,19 +70,19 @@ public class NetworkManage implements Runnable{
 	
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Player Join...");
-		cn.sendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+		this.sendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
 	}
 	
 	public void sendMove(String name, float x, float y) {
-		cn.sendMsg(NetworkEventMove.createMoveMsg(name, x, y));
+		this.sendMsg(NetworkEventMove.createMoveMsg(name, x, y));
 	}
 	
 	public void rqList() {
-		cn.sendMsg(NetworkEventRqList.createRqListMsg());
+		this.sendMsg(NetworkEventRqList.createRqListMsg());
 	}
 	
 	public void testPing() {
-		cn.sendMsg(NetworkEventPong.getMsg());
+		this.sendMsg(NetworkEventPong.getMsg());
 	}
 	
 }
