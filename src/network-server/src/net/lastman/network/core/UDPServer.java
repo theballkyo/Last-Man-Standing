@@ -9,21 +9,23 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.net.Socket;
+import com.lms.network.NetworkEvent;
+import com.lms.network.NetworkEventManage;
+import com.lms.network.NetworkServerAbstract;
 
-public class UDPServer implements ServerNetwork {
+public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	private DatagramSocket sock = null;
-
 	private int port;
 	private int id = 0;
-	
+	NetworkEventManage nem;
 	private HashMap<Integer, ClientProfile> clientList;
-	
+
 	public UDPServer(int port) {
 		this.port = port;
+		this.nem = new NetworkEventManage(this);
 		clientList = new HashMap<Integer, ClientProfile>();
 	}
-
-	@Override
+	
 	public void start() {
 		try {
 			sock = new DatagramSocket(port);
@@ -31,18 +33,16 @@ public class UDPServer implements ServerNetwork {
 			while (true) {
 				byte[] buffer = new byte[65536];
 				final DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
-	
 				// 2. Wait for an incoming data
-				System.out.println("Server socket created. Waiting for incoming data...");
-	
-				// communication loop
-				new Thread(new Runnable() {
-					public void run() {
-						id += 1;
-						clientList.put(id, new ClientProfile(id, incoming));
-						accept(incoming, id);
-					}
-				}).start();
+				// System.out.println("Server socket created. Waiting for incoming data...");
+				
+				//final String fristMsg = readMsg(incoming);
+				//System.out.println(
+				//		incoming.getAddress().getHostAddress() + " : " + incoming.getPort() + " - " + fristMsg + " : " + id);
+				
+				listener(incoming);
+				
+				id+=1;
 			}
 		} catch (SocketException e1) {
 			e1.printStackTrace();
@@ -50,20 +50,18 @@ public class UDPServer implements ServerNetwork {
 		
 	}
 	
-	private void accept(DatagramPacket incoming, int id) {
-		while (true) {
-			String s = readMsg(incoming);
-			// echo the details of incoming data - client ip :
-			// client port - client message
-			System.out.println(
-					incoming.getAddress().getHostAddress() + " : " + incoming.getPort() + " - " + s);
-
-			s = "OK : " + s;
-			sendMsg(incoming.getAddress(), incoming.getPort(), s);
-		}
+	private void listener(DatagramPacket incoming) {
+		String msg = readMsg(incoming);
+		System.out.println(msg);
+		Byte header = msg.getBytes()[0];
+		System.out.println(header.toString());
+		String data = new String(msg.getBytes(), 1, msg.length()-1);
+		
+		NetworkEvent event = nem.get(header);
+		if(event != null)
+			event.processServer(data);
 	}
 	
-	@Override
 	public String readMsg(DatagramPacket incoming) {
 		try {
 			sock.receive(incoming);
@@ -77,7 +75,6 @@ public class UDPServer implements ServerNetwork {
 		return null;
 	}
 
-	@Override
 	public void sendMsg(InetAddress Address, int port, String msg) {
 		try {
 			DatagramPacket dp = new DatagramPacket(msg.getBytes(), msg.getBytes().length, Address, port);
@@ -87,12 +84,6 @@ public class UDPServer implements ServerNetwork {
 		}
 	}
 
-	@Override
-	public DatagramSocket getSock() {
-		return sock;
-	}
-
-	@Override
 	public void broadcast(int id, String msg) {
 		for(Entry<Integer, ClientProfile> entry : clientList.entrySet()) {
 			if(entry.getKey() == id)
@@ -100,5 +91,11 @@ public class UDPServer implements ServerNetwork {
 			ClientProfile cp = entry.getValue();
 			sendMsg(cp.getAddress(), cp.getPort(), msg);
 		}
+	}
+
+	@Override
+	public DatagramSocket getSock() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

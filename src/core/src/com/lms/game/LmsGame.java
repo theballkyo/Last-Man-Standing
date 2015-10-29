@@ -4,8 +4,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lms.api.PlayerAPI;
+import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
 import com.lms.network.NetworkManage;
@@ -18,53 +22,54 @@ public class LmsGame extends ApplicationAdapter {
 	private OrthographicCamera cam;
 	private Viewport vp;
 	private MainEntity me;
-	private SheepEntity player;
+	private CoreEntity myEntity;
 
 	@Override
 	public void create() {
 		sl = new SceneLoader();
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		sl.loadScene("StartScene", vp);
+		sl.loadScene("MainScene", vp);
 		
 		me = new MainEntity(sl);
 		
+		//Load API
+		PlayerAPI.load(sl, me);
+		
+		PlayerAPI.add("GGWP", "sheep", 100f, 50f);
+		myEntity = PlayerAPI.get("GGWP");
+		myEntity.addScript(new Player(sl.world));
+		
 		cam = (OrthographicCamera) vp.getCamera();
-		// ItemWrapper root = new ItemWrapper(sl.getRoot());
-		
-		player = me.newEntity("sheep", "johns");
-		player.vo.x = 300f;
-		player.vo.y = 100f;
-		player.create();
-		player.addScript(new Player(sl.world));
-		System.out.println(player.getName());
-
-		
-		// root.getChild(player.getName()).addScript(new Player(sl.world));
-		
-		/*
-		 * SheepEntity john = me.create("sheep", "john"); john.vo.x = 400f;
-		 * john.create(sl.getRoot()); john.add();
-		 * 
-		 * SheepEntity carry = me.create("sheep", "carry");
-		 * carry.create(sl.getRoot()); carry.add();
-		 * 
-		 * ItemWrapper root2 = new ItemWrapper(sl.getRoot());
-		 * root2.getChild(john.getName()).addScript(new Player(sl.world));
-		 * root2.getChild(carry.getName()).addScript(new Player(sl.world));
-		 */
 		
 		// Connect to server
-		NetworkManage nm = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
+		final NetworkManage nm = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
 		Thread nmThread= new Thread(nm);
 		nmThread.start();
+		
+		nm.sendJoin(myEntity.getName(), myEntity.getX(), myEntity.getY());
+		
+		new Thread(new Runnable(){
+			public void run() {
+				while(true) {
+				nm.sendMsg("test");
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			}
+		}).start();
+		
 	}
 
 	public void act() {
 		// camera.position.x = deer.getCenterX();
 
-		cam.position.x = player.getX();
+		cam.position.x = myEntity.getX();
 		// if(Gdx.input.isKeyPressed(Keys.RIGHT)) cam.position.x += 1f;
-		cam.position.y = player.getY();
+		cam.position.y = myEntity.getY();
 
 		if (cam.position.y < Gdx.graphics.getHeight() / 2)
 			cam.position.y = Gdx.graphics.getHeight() / 2;

@@ -2,6 +2,7 @@ package com.lms.network;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
 import com.uwsoft.editor.renderer.SceneLoader;
@@ -14,20 +15,15 @@ public class NetworkManage implements Runnable{
 	SceneLoader sl;
 	MainEntity me;
 	Viewport vp;
-	private HashMap<Byte, NetworkEvent> events;
+	NetworkEventManage nem;
 	
 	public NetworkManage(ClientNetwork cn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.cn = cn;
 		this.sl = sl;
 		this.me = me;
 		this.vp = vp;
-		events = new HashMap<Byte, NetworkEvent>();
-		load();
-	}
-	
-	private void load() {
-		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(this));
-		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(this));
+		this.nem = new NetworkEventManage(this);
+		Gdx.app.log("Network", "Create object");
 	}
 	
 	@Override
@@ -41,9 +37,11 @@ public class NetworkManage implements Runnable{
 	private void listener() {
 		String msg = cn.readMsg();
 		byte header = msg.getBytes()[0];
-		String data = new String(msg.getBytes(), 1, msg.length());
+		String data = new String(msg.getBytes(), 1, msg.length()-1);
 		
-		events.get(header).process(data);
+		NetworkEvent event = nem.get(header);
+		if(event != null)
+			event.process(data);
 	}
 	
 	public void addEvent() {
@@ -52,6 +50,15 @@ public class NetworkManage implements Runnable{
 	
 	public void sendMsg(String msg) {
 		cn.sendMsg(msg);
+	}
+	
+	public void sendJoin(String name, float x, float y) {
+		Gdx.app.log("Network", "Player Join...");
+		cn.sendMsg(NetworkEventJoin.createJoinMsg(name, x, y));
+	}
+	
+	public void testPing() {
+		cn.sendMsg(NetworkEventPong.getMsg());
 	}
 	
 }

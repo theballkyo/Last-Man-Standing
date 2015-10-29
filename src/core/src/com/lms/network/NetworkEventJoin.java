@@ -6,22 +6,40 @@ import com.lms.entity.SheepEntity;
 
 public class NetworkEventJoin extends NetworkEvent{
 
-	public static final byte headerCode = 0x01;
+	/**
+	 * NetworkEventJoin
+	 *  
+	 */
 	
-	public NetworkEventJoin(NetworkManage nm) {
-		super(nm);
+	public static final byte headerCode = 1;
+	
+	public NetworkEventJoin(NetworkManage nm, NetworkServerAbstract ns) {
+		super(nm, ns);
 	}
 	
 	public byte headerCode() {
 		return NetworkEventJoin.headerCode;
 	}
 
+	/**
+	 * Data rule 
+	 * NAME:TYPE:X:Y
+	 * 
+	 */
 	@Override
 	public void process(String data) {
 		String[] dat = data.split(":");
-		SheepEntity player = nm.me.newEntity("sheep", dat[0]);
-		PlayerAPI.PlayerList.put(dat[0], player);
-		SheepEntity a =  (SheepEntity) PlayerAPI.PlayerList.get(dat[0]);
+		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
+	}
+	
+	public static String createJoinMsg(String name, float x, float y) {
+		return String.format("%c%s %.0f %.0f", headerCode, name, x, y);
+	}
+
+	@Override
+	public void processServer(String data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

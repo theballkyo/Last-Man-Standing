@@ -32,14 +32,6 @@ public class SheepEntity extends CoreEntity{
 		vo.playMode = 2;
 	}
 	
-	public void pause() {
-		animationState.paused = true;
-	}
-	
-	public void unpause() {
-		animationState.paused = false;
-	}
-	
 	public void create() {
 		entity = sl.entityFactory.createEntity(sl.getRoot(), vo);
 		
@@ -49,15 +41,33 @@ public class SheepEntity extends CoreEntity{
 		animationState = ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class);
 		tf = ComponentRetriever.get(getEntity(), TransformComponent.class);
 		
-		unpause();
+		setAnimation(true);
+	}
+	
+	public void setX(float x) {
+		tf.x = x;
+	}
+	
+	public void setY(float y) {
+		tf.y = y;
 	}
 	
 	public float getX() {
 		return tf.x;
 	}
-	
+
 	public float getY() {
 		return tf.y;
+	}
+
+	@Override
+	public void setAnimation(boolean play) {
+		animationState.paused = !play;
+	}
+
+	@Override
+	public boolean canAnimation() {
+		return true;
 	}
 	
 		

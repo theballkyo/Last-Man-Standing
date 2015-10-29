@@ -11,8 +11,14 @@ public abstract class CoreEntity {
 	protected SceneLoader sl;
 
 	protected String entityName;
-
+	
 	abstract public void create();
+	abstract public void setX(float x);
+	abstract public void setY(float y);
+	abstract public float getX();
+	abstract public float getY();
+	abstract public void setAnimation(boolean play);
+	abstract public boolean canAnimation();
 	
 	public CoreEntity(String entityName) {
 		this.entityName = entityName;

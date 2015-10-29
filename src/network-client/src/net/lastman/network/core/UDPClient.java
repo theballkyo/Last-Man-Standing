@@ -27,6 +27,7 @@ public class UDPClient implements ClientNetwork {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		start();
 	}
 
 	@Override

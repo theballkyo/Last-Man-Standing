@@ -10,6 +10,7 @@ import com.badlogic.gdx.backends.headless.HeadlessFiles;
 import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
 import com.badlogic.gdx.backends.headless.HeadlessNet;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
+import com.lms.game.LmsConfig;
 
 
 public class MainServer {
@@ -27,8 +28,9 @@ public class MainServer {
 		HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
 		ApplicationListener handlessApp = new HeadlessApplication(new ListenerServer()).getApplicationListener();
 
-		final GameServer gs = new GameServer();
-		gs.runSocket();
+		final UDPServer server = new UDPServer(LmsConfig.port);
+		
+		
 		new Thread(new Runnable(){
 			public void run() {
 				final Scanner in = new Scanner(System.in);
@@ -40,11 +42,13 @@ public class MainServer {
 		                System.out.println("Ending one thread");
 		                break;
 		            }
-		            gs.broadcast(line);
+		            server.broadcast(-1, line);
 		        }
 			}
 		}).start();
-		new UDPServer(7777);
+		System.out.println("Server is started.");
+		server.start();
+		// new UDPServer(7777);
 	}
 
 }
