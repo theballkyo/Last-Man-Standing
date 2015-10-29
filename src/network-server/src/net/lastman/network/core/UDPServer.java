@@ -70,8 +70,12 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 				// System.out.println(data);
 				NetworkEvent event = nem.get(header);
 				String[] sData = data.split("!");
-				if(event != null)
-					event.processServer(sData[0], incoming, sData[1]);
+				if(event != null) {
+					if(sData.length > 1)
+						event.processServer(sData[0], incoming, sData[1]);
+					else
+						event.processServer(sData[0], incoming, "0");
+				}
 			}
 		}).start();
 		
@@ -90,7 +94,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		return null;
 	}
 
-	public void sendMsg(InetAddress Address, int port, String msg) {
+	public synchronized void sendMsg(InetAddress Address, int port, String msg) {
 		try {
 			DatagramPacket dp = new DatagramPacket(msg.getBytes(), msg.getBytes().length, Address, port);
 			sock.send(dp);

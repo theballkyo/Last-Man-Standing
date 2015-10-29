@@ -26,7 +26,6 @@ public class NetworkEventRqList extends NetworkEvent{
 
 	@Override
 	public void processServer(String data, DatagramPacket incoming, String time) {
-		System.out.println("Server: RqList");
 		HashMap<String, PlayerServerAPI> pl = PlayerServerAPI.getAll();
 		for(Entry<String, PlayerServerAPI> p :pl.entrySet()) {
 			String name = p.getKey();

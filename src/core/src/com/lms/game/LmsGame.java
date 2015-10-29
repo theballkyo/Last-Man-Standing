@@ -94,10 +94,8 @@ public class LmsGame extends ApplicationAdapter {
 	}
 
 	public void act() {
-		// camera.position.x = deer.getCenterX();
 
 		cam.position.x = myEntity.getX();
-		// if(Gdx.input.isKeyPressed(Keys.RIGHT)) cam.position.x += 1f;
 		cam.position.y = myEntity.getY();
 
 		if (cam.position.y < Gdx.graphics.getHeight() / 2)
