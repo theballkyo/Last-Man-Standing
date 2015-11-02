@@ -21,8 +21,6 @@ public interface ClientNetwork {
 	 */
 	public void sendMsg(String msg);
 	
-	public DatagramSocket getSock();
-	
 	/**
 	 * Check client is connected to server
 	 * @return boolean isConnected
