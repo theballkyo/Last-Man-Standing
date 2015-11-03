@@ -3,6 +3,7 @@ package com.lms.game;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.api.PlayerAPI;
+import com.lms.api.PlayerServerAPI;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
@@ -60,7 +62,7 @@ public class LmsGame extends ApplicationAdapter {
 		PlayerAPI.add(LmsConfig.playerName, "sheep", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName);
 		myEntity.addScript(new Player(sl.world));
-		PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
+		// PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
 		cam = (OrthographicCamera) vp.getCamera();
 		
 		// Connect to server
@@ -79,7 +81,7 @@ public class LmsGame extends ApplicationAdapter {
 					UDPConn.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());	
 					
 					try {
-						Thread.sleep(1);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -100,6 +102,7 @@ public class LmsGame extends ApplicationAdapter {
 		}
 		
 		// Request player list
+		/*
 		new Thread(new Runnable() {
 			public void run() {
 				while(true) {
@@ -112,7 +115,7 @@ public class LmsGame extends ApplicationAdapter {
 				}
 			}
 		}).start();
-		
+		*/
 		// Ping
 		new Thread(new Runnable() {
 			public void run() {
@@ -149,6 +152,19 @@ public class LmsGame extends ApplicationAdapter {
 		batchFix.begin();
 		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5, Gdx.graphics.getHeight()-5);
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5, Gdx.graphics.getHeight()-25);
+		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight()-45);
+		int m = 1;
+		for(Entry<String, CoreEntity> p :PlayerAPI.getAll().entrySet()) {
+			
+			
+			font.draw(batchFix, 
+					String.format("%s Position %.0f:%.0f", p.getValue().getName(), p.getValue().getX(), 
+							p.getValue().getY()), 
+					5, 
+					Gdx.graphics.getHeight()-(45 +(m*20)));
+			m += 1;
+		}
+		
 		batchFix.end();
 	}
 

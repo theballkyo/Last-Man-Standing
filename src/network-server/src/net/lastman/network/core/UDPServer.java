@@ -11,13 +11,16 @@ import java.util.Map.Entry;
 import com.lms.api.PlayerServerAPI;
 import com.lms.network.NetworkEvent;
 import com.lms.network.NetworkEventDisconnect;
+import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkEventManage;
+import com.lms.network.NetworkEventMove;
 import com.lms.network.NetworkEventPong;
 import com.lms.network.NetworkServerAbstract;
 
 public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	private DatagramSocket sock = null;
 	private int port;
+	private Thread updatePl;
 	NetworkEventManage nem;
 	public HashMap<String, ClientProfile> clientList;
 
@@ -31,6 +34,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		try {
 			sock = new DatagramSocket(port);
 			
+			// Check client is connecting 
 			new Thread(new Runnable() {
 				public void run() {
 					while(true) {
@@ -40,13 +44,33 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 						try {
 							Thread.sleep(50);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
 				}
 			}).start();
 			
+			// Update player position to player
+			updatePl = new Thread(new Runnable() {
+				public void run() {
+					while(true) {
+						HashMap<String, PlayerServerAPI> pl = PlayerServerAPI.getAll();
+						for(Entry<String, PlayerServerAPI> p :pl.entrySet()) {
+							String name = p.getKey();
+							PlayerServerAPI dat = p.getValue();
+							broadcast(NetworkEventJoin.createJoinMsg(
+									name, dat.getType(), dat.getX(), dat.getY()) + "!" + System.currentTimeMillis());			
+						}
+						try {
+							Thread.sleep(0, 500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			updatePl.start();
+			// Wait for msg from client
 			while (true) {
 				byte[] buffer = new byte[65536];
 				final DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
@@ -54,6 +78,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 				listener(incoming);
 				// id+=1;
 			}
+			
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		}
@@ -107,14 +132,14 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		sendMsg(Address, port, msg + "!" + time);
 	}
 	
-	public void broadcast(String msg) {
+	public synchronized void broadcast(String msg) {
 		for(Entry<String, ClientProfile> entry : clientList.entrySet()) {
 			ClientProfile cp = entry.getValue();
 			sendMsg(cp.getAddress(), cp.getPort(), msg);
 		}
 	}
 	
-	public void broadcast(String name, String msg) {
+	public synchronized void broadcast(String name, String msg) {
 		for(Entry<String, ClientProfile> entry : clientList.entrySet()) {
 			if(entry.getKey().equals(name))
 				continue;
@@ -123,7 +148,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 		}
 	}
 	
-	public void broadcast(String name, String msg, String time) {
+	public synchronized void broadcast(String name, String msg, String time) {
 		broadcast(name, msg + "!" + time);
 	}
 	

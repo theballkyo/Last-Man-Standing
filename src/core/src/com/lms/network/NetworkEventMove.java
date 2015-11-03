@@ -41,7 +41,7 @@ public class NetworkEventMove extends NetworkEvent {
 	public void processServer(String data, DatagramPacket incoming, String time) {
 		String[] dat = data.split(":");
 		PlayerServerAPI.update(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2]));
-		ns.broadcast(dat[0], createMoveMsg(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2])), time);
+		// ns.broadcast(dat[0], createMoveMsg(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2])), time);
 	}
 
 	public static String createMoveMsg(String name, float x, float y) {

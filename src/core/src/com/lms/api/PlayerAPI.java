@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.entity.SheepEntity;
+import com.lms.game.LmsConfig;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 public class PlayerAPI {
@@ -21,9 +22,16 @@ public class PlayerAPI {
 	}
 	
 	public static void add(String name, String type, float x, float y) {
-		if(playerList.get(name) != null)
+		CoreEntity pl = playerList.get(name);
+		
+		if(pl != null) {
+			if (name.equals(LmsConfig.playerName))
+				return;
+			move(name, x, y);
 			return;
-		CoreEntity pl = me.newEntity(type, name);
+		}
+		
+		pl = me.newEntity(type, name);
 		if(pl == null) {
 			Gdx.app.log("PlayerAPI", "Can't find entity type (" + type + ")");
 			return;
