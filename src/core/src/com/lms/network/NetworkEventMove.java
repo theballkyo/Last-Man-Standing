@@ -29,7 +29,7 @@ public class NetworkEventMove extends NetworkEvent {
 
 	/**
 	 * Data rule
-	 * NAME:X:Y:ANIMATION!TIME
+	 * NAME:X:Y|NAME:X:Y|...!TIME
 	 */
 	@Override
 	public void process(String data) {
