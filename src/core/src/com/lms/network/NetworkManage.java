@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
+import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 import net.lastman.network.core.ClientNetwork;
@@ -66,19 +67,15 @@ public class NetworkManage implements Runnable{
 		byte header = msg.getBytes()[0];
 		String data = new String(msg.getBytes(), 1, msg.length()-1);
 		String[] dat = data.split("!");
-
-		//Drop packet
-		/*
-		if(dat.length > 1) {
-			if(Float.parseFloat(dat[1]) < lastRecv) {
-				System.out.println("Drop: " + data);
-				return;
-			}
-		}
-		*/
 		
 		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = udpNet.get(header);
+		if(dat.length > 1) {
+			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
+			LmsGame.sumPingTime += LmsGame.pingTime;
+			LmsGame.countPing += 1;
+			System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
+		}
 		if(event != null)
 			event.process(dat[0]);
 	}

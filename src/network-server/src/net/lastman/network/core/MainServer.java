@@ -17,6 +17,7 @@ public class MainServer {
 
 	public static void main(String[] args) {
 
+		/*
 		HeadlessNativesLoader.load();
 		MockGraphics mockGraphics = new MockGraphics();
 		Gdx.graphics = mockGraphics;
@@ -27,10 +28,10 @@ public class MainServer {
 
 		HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
 		ApplicationListener handlessApp = new HeadlessApplication(new ListenerServer()).getApplicationListener();
-
+		*/
 		final UDPServer server = new UDPServer(LmsConfig.port);
 		
-		
+		/*
 		new Thread(new Runnable(){
 			public void run() {
 				final Scanner in = new Scanner(System.in);
@@ -46,6 +47,7 @@ public class MainServer {
 		        }
 			}
 		}).start();
+		*/
 		System.out.println("Server is started.");
 		server.start();
 		// new UDPServer(7777);

@@ -1,9 +1,16 @@
 package com.lms.game;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -22,13 +29,18 @@ import net.lastman.network.core.UDPClient;
 public class LmsGame extends ApplicationAdapter {
 	
 	private SceneLoader sl;
+	private SpriteBatch batchFix;
 	private OrthographicCamera cam;
 	private Viewport vp;
 	private MainEntity me;
 	private CoreEntity myEntity;
-
+	private BitmapFont font;
 	private Thread plThread;
 	
+	public static float pingTime = 0;
+	public static float avgPingTime = 0;
+	public static float sumPingTime = 0;
+	public static int countPing = 0;
 	@Override
 	public void create() {
 		sl = new SceneLoader();
@@ -36,6 +48,10 @@ public class LmsGame extends ApplicationAdapter {
 		sl.loadScene("MainScene", vp);
 		
 		me = new MainEntity(sl);
+		
+		batchFix = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.RED);
 		
 		//Load API
 		PlayerAPI.load(sl, me);
@@ -63,7 +79,7 @@ public class LmsGame extends ApplicationAdapter {
 					UDPConn.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());	
 					
 					try {
-						Thread.sleep(5);
+						Thread.sleep(1);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -83,6 +99,7 @@ public class LmsGame extends ApplicationAdapter {
 			UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		}
 		
+		// Request player list
 		new Thread(new Runnable() {
 			public void run() {
 				while(true) {
@@ -90,6 +107,21 @@ public class LmsGame extends ApplicationAdapter {
 					try {
 						Thread.sleep(250);
 					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+		
+		// Ping
+		new Thread(new Runnable() {
+			public void run() {
+				while(true) {
+					ping();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -114,7 +146,10 @@ public class LmsGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		act();
 		sl.getEngine().update(Gdx.graphics.getDeltaTime());
-
+		batchFix.begin();
+		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5, Gdx.graphics.getHeight()-5);
+		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5, Gdx.graphics.getHeight()-25);
+		batchFix.end();
 	}
 
 	public void resize(int width, int height) {
@@ -130,5 +165,11 @@ public class LmsGame extends ApplicationAdapter {
 			cam.position.y = height / 2;
 		if (cam.position.x < width / 2)
 			cam.position.x = width / 2;
+	}
+	
+	private void ping() {
+		avgPingTime = sumPingTime / countPing;
+		countPing = 0;
+		sumPingTime = 0;
 	}
 }
