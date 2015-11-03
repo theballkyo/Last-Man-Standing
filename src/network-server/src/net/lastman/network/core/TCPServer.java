@@ -6,12 +6,14 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.lms.network.NetworkEvent;
+import com.lms.network.NetworkEventManage;
 import com.lms.network.TCPServerInterface;
 
 public class TCPServer extends Thread implements TCPServerInterface{
 	
 	private ServerSocket serverSocket;
-	   
+	private NetworkEventManage nem;   
 	private HashMap<Integer, Socket> clientList;
 	   
 	private int connectionId = 0;
@@ -28,6 +30,7 @@ public class TCPServer extends Thread implements TCPServerInterface{
 	public TCPServer(int port)
 	{
 		this.port = port;
+		this.nem = new NetworkEventManage(this);
 		try {
 		   serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
@@ -66,11 +69,13 @@ public class TCPServer extends Thread implements TCPServerInterface{
 	   }
 	   
 	   public void clientAccept(Socket client, int id) {
+		   String msg;
 		   while(true) {
 				try {
 					DataInputStream in =
 			                  new DataInputStream(client.getInputStream());
-					String msg = in.readUTF();
+					msg = in.readUTF();
+					process(client, msg);
 				} catch (IOException e) {
 					if(e.getMessage().contains("Connection reset")) {
 						System.out.println("Client: " + client.getInetAddress() + " has disconnected.");
@@ -78,7 +83,28 @@ public class TCPServer extends Thread implements TCPServerInterface{
 						break;
 					}
 				}
+				
+				
 			}
+	   }
+	   
+	   public void process(final Socket client, final String msg) {
+		   new Thread(new Runnable() {
+				public void run() {
+					Byte header = msg.getBytes()[0];
+
+					String data = new String(msg.getBytes(), 1, msg.length()-1);
+					// System.out.println(data);
+					NetworkEvent event = nem.get(header);
+					String[] sData = data.split("!");
+					if(event != null) {
+						if(sData.length > 1)
+							event.processServer(sData[0], client, sData[1]);
+						else
+							event.processServer(sData[0], client, "0");
+					}
+				}
+			}).start();
 	   }
 	   
 	   public String readMsg() {

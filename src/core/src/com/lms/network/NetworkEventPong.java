@@ -1,6 +1,7 @@
 package com.lms.network;
 
 import java.net.DatagramPacket;
+import java.net.Socket;
 
 import com.lms.api.PlayerServerAPI;
 import com.lms.game.LmsConfig;
@@ -9,9 +10,16 @@ public class NetworkEventPong extends NetworkEvent{
 
 	public static final Byte headerCode = 0x00;
 	
-	public NetworkEventPong(NetworkManage nm, NetworkServerAbstract ns) {
-		super(nm, ns);
-		System.out.println(headerCode);
+	public NetworkEventPong(NetworkServerAbstract ns) {
+		super(ns);
+	}
+	
+	public NetworkEventPong(NetworkManage nm) {
+		super(nm);
+	}
+	
+	public NetworkEventPong(TCPServerInterface tcp) {
+		super(tcp);
 	}
 
 	@Override
@@ -21,7 +29,6 @@ public class NetworkEventPong extends NetworkEvent{
 
 	@Override
 	public void process(String data) {
-		System.out.println(LmsConfig.playerName+" Okay");
 		nm.sendMsg(createPingMsg(LmsConfig.playerName));
 	}
 
@@ -36,5 +43,11 @@ public class NetworkEventPong extends NetworkEvent{
 	
 	public static String getMsg() {
 		return String.format("%caaa", headerCode);
+	}
+
+	@Override
+	public void processServer(String data, Socket client, String time) {
+		// TODO Auto-generated method stub
+		
 	}
 }

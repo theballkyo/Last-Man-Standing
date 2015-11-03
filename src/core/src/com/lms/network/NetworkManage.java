@@ -22,7 +22,8 @@ public class NetworkManage implements Runnable{
 	SceneLoader sl;
 	MainEntity me;
 	Viewport vp;
-	NetworkEventManage nem;
+	NetworkEventManage tcpNet;
+	NetworkEventManage udpNet;
 	Socket client;
 	
 	private long lastRecv = 0;
@@ -32,21 +33,14 @@ public class NetworkManage implements Runnable{
 		this.sl = sl;
 		this.me = me;
 		this.vp = vp;
-		this.nem = new NetworkEventManage(this);
+		this.tcpNet = new NetworkEventManage(this, NetworkEventManage.Type.TCP);
+		this.udpNet = new NetworkEventManage(this, NetworkEventManage.Type.UDP);
 		Gdx.app.log("Network", "Create object");
 	}
 	
 	@Override
 	public void run() {
 		cn.start();
-		
-		try {
-			client = new Socket(LmsConfig.host, LmsConfig.port);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		new Thread(new Runnable() {
 			public void run() {
@@ -84,19 +78,13 @@ public class NetworkManage implements Runnable{
 		*/
 		
 		lastRecv = System.currentTimeMillis();
-		NetworkEvent event = nem.get(header);
+		NetworkEvent event = udpNet.get(header);
 		if(event != null)
 			event.process(dat[0]);
 	}
 	
 	public void TCPListener() {
-		try {
-			InputStream inFromServer = client.getInputStream();
-			DataInputStream in = new DataInputStream(inFromServer);
-	        System.out.println("Server says " + in.readUTF());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void addEvent() {

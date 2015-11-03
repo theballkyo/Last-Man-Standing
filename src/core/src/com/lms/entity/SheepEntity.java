@@ -60,6 +60,14 @@ public class SheepEntity extends CoreEntity{
 		return tf.y;
 	}
 
+	public float getScaleX() {
+		return tf.scaleX;
+	}
+	
+	public void setScaleX(float x) {
+		tf.scaleX = x;
+	}
+	
 	@Override
 	public void setAnimation(boolean play) {
 		animationState.paused = !play;
@@ -73,6 +81,16 @@ public class SheepEntity extends CoreEntity{
 	@Override
 	public String getType() {
 		return "sheep";
+	}
+
+	@Override
+	public void setScaleY(float y) {
+		tf.scaleY = y;
+	}
+
+	@Override
+	public float getScaleY() {
+		return tf.scaleY;
 	}
 		
 }

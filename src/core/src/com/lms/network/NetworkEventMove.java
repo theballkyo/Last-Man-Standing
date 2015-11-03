@@ -1,6 +1,7 @@
 package com.lms.network;
 
 import java.net.DatagramPacket;
+import java.net.Socket;
 
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerServerAPI;
@@ -9,8 +10,16 @@ public class NetworkEventMove extends NetworkEvent {
 
 	public static final byte headerCode = 0x04;
 	
-	public NetworkEventMove(NetworkManage nm, NetworkServerAbstract ns) {
-		super(nm, ns);
+	public NetworkEventMove(NetworkServerAbstract ns) {
+		super(ns);
+	}
+	
+	public NetworkEventMove(NetworkManage nm) {
+		super(nm);
+	}
+	
+	public NetworkEventMove(TCPServerInterface tcp) {
+		super(tcp);
 	}
 	
 	@Override
@@ -37,5 +46,11 @@ public class NetworkEventMove extends NetworkEvent {
 
 	public static String createMoveMsg(String name, float x, float y) {
 		return String.format("%c%s:%.0f:%.0f", headerCode, name, x, y);
+	}
+
+	@Override
+	public void processServer(String data, Socket client, String time) {
+		// TODO Auto-generated method stub
+		
 	}
 }

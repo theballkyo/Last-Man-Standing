@@ -12,25 +12,64 @@ public class NetworkEventManage {
 	
 	NetworkManage nm;
 	NetworkServerAbstract ns;
-	public NetworkEventManage(NetworkManage nm) {
+	TCPServerInterface tcp;
+	
+	public static enum Type {
+		TCP,
+		UDP
+	}
+	
+	public NetworkEventManage(NetworkManage nm, Type type) {
 		this.nm = nm;
 		events = new HashMap<Byte, NetworkEvent>();
-		load();
+		switch(type) {
+			case TCP: TcpClientLoad();
+				break;
+			case UDP: UdpClientLoad();
+				break;
+		}
 	}
 
 	public NetworkEventManage(NetworkServerAbstract ns) {
 		this.ns = ns;
 		events = new HashMap<Byte, NetworkEvent>();
-		load();
+		UdpServerLoad();
 	}
 	
-	private void load() {
-		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(nm, ns));
-		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(nm, ns));
-		events.put(NetworkEventPong.headerCode, new NetworkEventPong(nm, ns));
-		events.put(NetworkEventMove.headerCode, new NetworkEventMove(nm, ns));
-		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(nm, ns));
-		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(nm, ns));
+	public NetworkEventManage(TCPServerInterface tcp) {
+		this.tcp = tcp;
+		events = new HashMap<Byte, NetworkEvent>();
+		TcpServerLoad();
+	}
+	
+	private void UdpClientLoad() {
+		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(nm));
+		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(nm));
+		events.put(NetworkEventPong.headerCode, new NetworkEventPong(nm));
+		events.put(NetworkEventMove.headerCode, new NetworkEventMove(nm));
+		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(nm));
+		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(nm));
+	}
+	
+	private void UdpServerLoad() {
+		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(ns));
+		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(ns));
+		events.put(NetworkEventPong.headerCode, new NetworkEventPong(ns));
+		events.put(NetworkEventMove.headerCode, new NetworkEventMove(ns));
+		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(ns));
+		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(ns));
+	}
+	
+	private void TcpClientLoad() {
+		
+	}
+
+	private void TcpServerLoad() {
+		
+	}
+	
+	private void add(Byte headerCode, NetworkEvent ne) {
+		events.put(headerCode, ne);
 	}
 	
 	public NetworkEvent get(Byte header) {

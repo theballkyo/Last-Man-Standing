@@ -15,8 +15,12 @@ public abstract class CoreEntity {
 	abstract public void create();
 	abstract public void setX(float x);
 	abstract public void setY(float y);
+	abstract public void setScaleX(float x);
+	abstract public void setScaleY(float y);
 	abstract public float getX();
 	abstract public float getY();
+	abstract public float getScaleX();
+	abstract public float getScaleY();
 	abstract public void setAnimation(boolean play);
 	abstract public String getType();
 	abstract public boolean canAnimation();

@@ -30,6 +30,8 @@ public class PlayerServerAPI {
 	
 	public static void update(String name, float x, float y) {
 		PlayerServerAPI pl = playerList.get(name);
+		if(pl == null)
+			return;
 		pl.x = x;
 		pl.y = y;
 	}

@@ -15,6 +15,8 @@ import com.lms.entity.SheepEntity;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
+
+import net.lastman.network.core.TCPClient;
 import net.lastman.network.core.UDPClient;
 
 public class LmsGame extends ApplicationAdapter {
@@ -38,25 +40,27 @@ public class LmsGame extends ApplicationAdapter {
 		//Load API
 		PlayerAPI.load(sl, me);
 		
+		
 		PlayerAPI.add(LmsConfig.playerName, "sheep", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName);
 		myEntity.addScript(new Player(sl.world));
-		
+		PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
 		cam = (OrthographicCamera) vp.getCamera();
 		
 		// Connect to server
-		final NetworkManage nm = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
-		Thread nmThread= new Thread(nm);
+		final NetworkManage UDPConn = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
+		// final NetworkManage TCPConn = new NetworkManage(new TCPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
+		Thread nmThread= new Thread(UDPConn);
 		nmThread.start();
 		
-		nm.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+		UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		
-		nm.rqList();
+		UDPConn.rqList();
 		
 		plThread = new Thread(new Runnable() {
 			public void run() {
 				while(true) {
-					nm.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());	
+					UDPConn.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());	
 					
 					try {
 						Thread.sleep(5);
@@ -76,13 +80,13 @@ public class LmsGame extends ApplicationAdapter {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			nm.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+			UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		}
 		
 		new Thread(new Runnable() {
 			public void run() {
 				while(true) {
-					nm.rqList();
+					UDPConn.rqList();
 					try {
 						Thread.sleep(250);
 					} catch (InterruptedException e) {

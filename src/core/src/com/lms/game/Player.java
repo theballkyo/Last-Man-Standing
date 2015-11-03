@@ -66,13 +66,13 @@ public class Player implements IScript{
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			transformComponent.x-=(speed.x - decreseX)*delta;
-			transformComponent.scaleX = -1f;
+			transformComponent.scaleX = -Math.abs(transformComponent.scaleX);
 			animation.paused = false;
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			transformComponent.x+=(speed.x - decreseX)*delta;
-			transformComponent.scaleX = 1f;
+			transformComponent.scaleX = Math.abs(transformComponent.scaleX);
 			animation.paused = false;
 		}
 		

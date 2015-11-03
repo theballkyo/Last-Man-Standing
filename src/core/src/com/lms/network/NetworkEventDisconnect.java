@@ -1,6 +1,7 @@
 package com.lms.network;
 
 import java.net.DatagramPacket;
+import java.net.Socket;
 
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerServerAPI;
@@ -14,8 +15,16 @@ public class NetworkEventDisconnect extends NetworkEvent{
 	
 	public static Byte headerCode = 0x06;
 	
-	public NetworkEventDisconnect(NetworkManage nm, NetworkServerAbstract ns) {
-		super(nm, ns);
+	public NetworkEventDisconnect(NetworkServerAbstract ns) {
+		super(ns);
+	}
+	
+	public NetworkEventDisconnect(NetworkManage nm) {
+		super(nm);
+	}
+	
+	public NetworkEventDisconnect(TCPServerInterface tcp) {
+		super(tcp);
 	}
 
 	@Override
@@ -41,5 +50,11 @@ public class NetworkEventDisconnect extends NetworkEvent{
 
 	public static String removeMsg(String name) {
 		return String.format("%c%s", headerCode, name);
+	}
+
+	@Override
+	public void processServer(String data, Socket client, String time) {
+		// TODO Auto-generated method stub
+		
 	}
 }

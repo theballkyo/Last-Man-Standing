@@ -42,6 +42,12 @@ public class PlayerAPI {
 			Gdx.app.log("PlayerAPI", "Can't find entity name (" + name + ")");
 			return;
 		}
+		if(pl.getX() > x) {
+			pl.setScaleX(-Math.abs(pl.getScaleX()));
+		} else if(pl.getX() < x) {
+			pl.setScaleX(Math.abs(pl.getScaleX()));
+		}
+		
 		pl.setX(x);
 		pl.setY(y);
 	}
@@ -68,5 +74,13 @@ public class PlayerAPI {
 	
 	public static HashMap<String, CoreEntity> getAll() {
 		return playerList;
+	}
+	
+	public static void setScale(String name, float f) {
+		CoreEntity pl = playerList.get(name);
+		if(pl == null) 
+			return;
+		pl.setScaleX(f);
+		pl.setScaleY(f);
 	}
 } 

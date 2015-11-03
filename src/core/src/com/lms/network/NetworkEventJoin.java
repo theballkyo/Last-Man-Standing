@@ -1,6 +1,7 @@
 package com.lms.network;
 
 import java.net.DatagramPacket;
+import java.net.Socket;
 
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerServerAPI;
@@ -18,8 +19,16 @@ public class NetworkEventJoin extends NetworkEvent{
 	public static boolean isJoin = false;
 	public static final byte headerCode = 0x01;
 	
-	public NetworkEventJoin(NetworkManage nm, NetworkServerAbstract ns) {
-		super(nm, ns);
+	public NetworkEventJoin(NetworkServerAbstract ns) {
+		super(ns);
+	}
+	
+	public NetworkEventJoin(NetworkManage nm) {
+		super(nm);
+	}
+	
+	public NetworkEventJoin(TCPServerInterface tcp) {
+		super(tcp);
 	}
 	
 	public byte headerCode() {
@@ -33,12 +42,10 @@ public class NetworkEventJoin extends NetworkEvent{
 	 */
 	@Override
 	public void process(String data) {
-		System.out.println("join: " + data);
 		if(data.equals("Ok")) {
 			NetworkEventJoin.isJoin = true;
 			return;
 		}
-		System.out.println(LmsConfig.playerName + " has join");
 		String[] dat = data.split(":");
 		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 	}
@@ -58,6 +65,12 @@ public class NetworkEventJoin extends NetworkEvent{
 		ns.broadcast(dat[0], createJoinMsg(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3])));
 		ns.sendMsg(incoming.getAddress(), incoming.getPort(), String.format("%cOk", headerCode));
 	
+	}
+
+	@Override
+	public void processServer(String data, Socket client, String time) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
