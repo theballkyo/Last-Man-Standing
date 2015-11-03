@@ -67,11 +67,6 @@ public class UDPClient implements ClientNetwork {
 	}
 
 	@Override
-	public DatagramSocket getSock() {
-		return sock;
-	}
-
-	@Override
 	public boolean isConnected() {
 		return isConn;
 	}

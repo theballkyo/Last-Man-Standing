@@ -1,10 +1,17 @@
 package com.lms.network;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
+import com.lms.game.LmsConfig;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 import net.lastman.network.core.ClientNetwork;
@@ -16,6 +23,7 @@ public class NetworkManage implements Runnable{
 	MainEntity me;
 	Viewport vp;
 	NetworkEventManage nem;
+	Socket client;
 	
 	private long lastRecv = 0;
 	
@@ -31,12 +39,35 @@ public class NetworkManage implements Runnable{
 	@Override
 	public void run() {
 		cn.start();
-		while(true) {
-			listener();
+		
+		try {
+			client = new Socket(LmsConfig.host, LmsConfig.port);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
+		new Thread(new Runnable() {
+			public void run() {
+				while(true) {
+					UDPListener();
+				}
+			}
+		}).start();
+		
+		new Thread(new Runnable() {
+			public void run() {
+				while(true) {
+					TCPListener();
+				}
+			}
+		}).start();
+		
 	}
 	
-	private void listener() {
+	private void UDPListener() {
+		
 		String msg = cn.readMsg();
 		byte header = msg.getBytes()[0];
 		String data = new String(msg.getBytes(), 1, msg.length()-1);
@@ -56,8 +87,16 @@ public class NetworkManage implements Runnable{
 		NetworkEvent event = nem.get(header);
 		if(event != null)
 			event.process(dat[0]);
-		
-		
+	}
+	
+	public void TCPListener() {
+		try {
+			InputStream inFromServer = client.getInputStream();
+			DataInputStream in = new DataInputStream(inFromServer);
+	        System.out.println("Server says " + in.readUTF());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addEvent() {
