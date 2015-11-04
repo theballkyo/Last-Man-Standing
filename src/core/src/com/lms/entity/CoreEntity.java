@@ -25,8 +25,9 @@ public abstract class CoreEntity {
 	abstract public String getType();
 	abstract public boolean canAnimation();
 	
-	public CoreEntity(String entityName) {
+	public CoreEntity(String entityName, SceneLoader sl) {
 		this.entityName = entityName;
+		this.sl = sl;
 	}
 
 	protected void add() {

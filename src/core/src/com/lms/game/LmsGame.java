@@ -65,7 +65,7 @@ public class LmsGame extends ApplicationAdapter {
 		PlayerAPI.load(sl, me);
 		
 		
-		PlayerAPI.add(LmsConfig.playerName, "sheep", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName);
 		myEntity.addScript(new Player(sl.world));
 		// PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
@@ -77,7 +77,7 @@ public class LmsGame extends ApplicationAdapter {
 		Thread nmThread= new Thread(UDPConn);
 		nmThread.start();
 		
-		UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+		// UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		
 		UDPConn.rqList();
 		
@@ -99,12 +99,12 @@ public class LmsGame extends ApplicationAdapter {
 		plThread.start();
 		
 		while(!NetworkEventJoin.isJoin) {
+			UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 			try {
-				Thread.sleep(10);
+				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		}
 		
 		// Request player list

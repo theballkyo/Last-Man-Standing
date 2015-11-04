@@ -19,12 +19,13 @@ public class MainEntity {
 	public MainEntity(SceneLoader sl) {
 		this.sl = sl;
 		ret.put("sheep", SheepEntity.class);
+		ret.put("figther", FighterEntity.class);
 	}
 	
-	public <T extends CoreEntity> T newEntity(String type, String name) {
+	public CoreEntity newEntity(String type, String name) {
 		
 		try {
-			return (T) ret.get(type).getDeclaredConstructor(String.class, SceneLoader.class).newInstance(name, sl);
+			return (CoreEntity) ret.get(type).getDeclaredConstructor(String.class, SceneLoader.class).newInstance(name, sl);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

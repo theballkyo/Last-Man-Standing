@@ -9,7 +9,9 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
+import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
+import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.scripts.IScript;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
@@ -19,7 +21,7 @@ public class Player implements IScript{
 	private Entity player;
 	private TransformComponent transformComponent;
 	private DimensionsComponent dimensionsComponent;
-	
+	private SpriteAnimationComponent sac;
 	private World world;
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
@@ -29,7 +31,7 @@ public class Player implements IScript{
 	private float decreseX;
 	
 	private boolean isJump = false;
-
+	private boolean isWalk = false;
 	public Player(World world) {
 		this.world = world;
 	}
@@ -41,7 +43,13 @@ public class Player implements IScript{
 		transformComponent = ComponentRetriever.get(entity, TransformComponent.class);
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
+		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
 		speed = new Vector2(500, 0);
+		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
+		sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
+		
+		sac.currentAnimation = "stand";
+		animation.set(sac);
 	}
 
 	public Entity getEntity() {
@@ -52,8 +60,9 @@ public class Player implements IScript{
 		
 		speed.y+=gravity*delta;
 		rayCast();
-		animation.paused = true;
 		
+		// animation.paused = true;
+		isWalk = false;
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump){
 			speed.y = jumpSpeed;
 			isJump = true;
@@ -67,13 +76,13 @@ public class Player implements IScript{
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			transformComponent.x-=(speed.x - decreseX)*delta;
 			transformComponent.scaleX = -Math.abs(transformComponent.scaleX);
-			animation.paused = false;
+			isWalk = true;
 		}
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			transformComponent.x+=(speed.x - decreseX)*delta;
 			transformComponent.scaleX = Math.abs(transformComponent.scaleX);
-			animation.paused = false;
+			isWalk = true;
 		}
 		
 		transformComponent.y += speed.y*delta;
@@ -81,6 +90,7 @@ public class Player implements IScript{
 		if(speed.y == 0) {
 			isJump = false;
 		}
+		
 		if(transformComponent.y < 7f){
 			speed.y = 0;
 			transformComponent.y = 7f;
@@ -91,6 +101,22 @@ public class Player implements IScript{
 			transformComponent.x = 0f;
 		}
 		
+		if (isWalk) {
+			
+			if (!sac.currentAnimation.equals("run")) {
+				System.out.println("Run");
+				sac.currentAnimation = "run";
+				animation.set(sac);
+				
+			}
+			
+		} else {
+			if (!sac.currentAnimation.equals("stand")) {
+				System.out.println("Stand");
+				sac.currentAnimation = "stand";
+				animation.set(sac);
+			}
+		}
 		
 	}
 	

@@ -1,125 +1,159 @@
 
 pack.png
-size: 2048,1024
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 1
   rotate: false
-  xy: 1536, 766
+  xy: 1924, 1903
   size: 105, 138
   orig: 105, 138
   offset: 0, 0
   index: -1
 10
   rotate: false
-  xy: 1286, 390
+  xy: 1838, 617
   size: 55, 54
   orig: 55, 54
   offset: 0, 0
   index: -1
 11
   rotate: false
-  xy: 1286, 446
+  xy: 1838, 746
   size: 185, 93
   orig: 185, 93
   offset: 0, 0
   index: -1
 12
   rotate: false
-  xy: 2, 80
+  xy: 1286, 95
   size: 364, 140
   orig: 364, 140
   offset: 0, 0
   index: -1
 13
   rotate: false
-  xy: 509, 63
+  xy: 1924, 1745
   size: 59, 62
   orig: 59, 62
   offset: 0, 0
   index: -1
 14
   rotate: false
-  xy: 1536, 732
+  xy: 404, 5
   size: 77, 32
   orig: 77, 32
   offset: 0, 0
   index: -1
 15
   rotate: false
-  xy: 1950, 951
+  xy: 1838, 673
   size: 71, 71
   orig: 71, 71
   offset: 0, 0
   index: -1
 16
   rotate: false
-  xy: 1536, 943
+  xy: 1286, 14
   size: 412, 79
   orig: 412, 79
   offset: 0, 0
   index: -1
 2
   rotate: false
-  xy: 1286, 726
+  xy: 1588, 543
   size: 248, 296
   orig: 248, 296
   offset: 0, 0
   index: -1
 3
   rotate: false
-  xy: 1286, 541
+  xy: 1588, 358
   size: 228, 183
   orig: 228, 183
   offset: 0, 0
   index: -1
 4
   rotate: false
-  xy: 2, 43
+  xy: 263, 2
   size: 139, 35
   orig: 139, 35
   offset: 0, 0
   index: -1
 5
   rotate: false
-  xy: 1797, 906
+  xy: 1652, 101
   size: 93, 35
   orig: 93, 35
   offset: 0, 0
   index: -1
 6
   rotate: false
-  xy: 368, 2
+  xy: 1652, 138
   size: 139, 123
   orig: 139, 123
   offset: 0, 0
   index: -1
 7
   rotate: false
-  xy: 598, 128
+  xy: 1924, 1809
   size: 93, 92
   orig: 93, 92
   offset: 0, 0
   index: -1
 8
   rotate: false
-  xy: 368, 127
+  xy: 1588, 263
   size: 228, 93
   orig: 228, 93
   offset: 0, 0
   index: -1
+8ca94fea1255413c67c940a220643f9flarge
+  rotate: false
+  xy: 2, 841
+  size: 1920, 1200
+  orig: 1920, 1200
+  offset: 0, 0
+  index: -1
 9
   rotate: false
-  xy: 1536, 906
+  xy: 2, 2
   size: 259, 35
   orig: 259, 35
   offset: 0, 0
   index: -1
 bg
   rotate: false
-  xy: 2, 222
+  xy: 2, 39
   size: 1282, 800
   orig: 1282, 800
+  offset: 0, 0
+  index: -1
+buttonpress
+  rotate: false
+  xy: 1286, 539
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+fightButton
+  rotate: false
+  xy: 1286, 237
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+
+pack2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+rrrr2011-03-31StemCellsRadiationSymbolWEBbrickpreview
+  rotate: false
+  xy: 2, 2
+  size: 940, 636
+  orig: 940, 636
   offset: 0, 0
   index: -1

@@ -3,34 +3,35 @@ package com.lms.entity;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
-import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
-public class SheepEntity extends CoreEntity{
-	
-	public SpriteAnimationVO vo;
+public class FighterEntity extends CoreEntity {
+
+public SpriteAnimationVO vo;
 	
 	private SpriteAnimationStateComponent animationState;
 	private TransformComponent tf;
 	
-	public SheepEntity(String entityName, SceneLoader sl){
+	public FighterEntity(String entityName, SceneLoader sl) {
 		super(entityName, sl);
 		vo = new SpriteAnimationVO();
-
+		
 		init();
 	}
-	
+
 	private void init() {
-		vo.animationName = "sheep";
+		vo.animationName = "player";
 		vo.x = 200f;
 		vo.y = 500f;
 		vo.layerName = entityName;
 		vo.itemIdentifier = entityName;
 		vo.itemName = entityName;
 		vo.playMode = 2;
+		vo.scaleY = 1f;
 	}
 	
+	@Override
 	public void create() {
 		entity = sl.entityFactory.createEntity(sl.getRoot(), vo);
 		
@@ -40,10 +41,9 @@ public class SheepEntity extends CoreEntity{
 		animationState = ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class);
 		tf = ComponentRetriever.get(getEntity(), TransformComponent.class);
 		
-		setAnimation(true);
-		// System.out.println(animationState.set(range, fps, playMode););
+		setAnimation(true);	
 	}
-	
+
 	public void setX(float x) {
 		tf.x = x;
 	}
@@ -92,5 +92,6 @@ public class SheepEntity extends CoreEntity{
 	public float getScaleY() {
 		return tf.scaleY;
 	}
-		
+
+
 }

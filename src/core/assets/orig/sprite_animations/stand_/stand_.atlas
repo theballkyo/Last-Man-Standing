@@ -1,0 +1,55 @@
+
+stand_.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+stand
+  rotate: false
+  xy: 2, 659
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 2, 440
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 1
+stand
+  rotate: false
+  xy: 132, 659
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 2
+stand
+  rotate: false
+  xy: 2, 221
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 3
+stand
+  rotate: false
+  xy: 132, 440
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 4
+stand
+  rotate: false
+  xy: 262, 659
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 5
+stand
+  rotate: false
+  xy: 2, 2
+  size: 128, 217
+  orig: 128, 217
+  offset: 0, 0
+  index: 6

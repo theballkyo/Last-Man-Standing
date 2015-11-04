@@ -183,6 +183,12 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 				PlayerServerAPI.remove(name);
 				broadcast(NetworkEventDisconnect.removeMsg(name));
 				break;
+			} else if (dat.lastConn > System.currentTimeMillis()) {
+				System.out.println("Player " + name + " time out.");
+				delClient(name);
+				PlayerServerAPI.remove(name);
+				broadcast(NetworkEventDisconnect.removeMsg(name));
+				break;
 			}
 		}
 	}
