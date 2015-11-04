@@ -80,7 +80,7 @@ public SpriteAnimationVO vo;
 	
 	@Override
 	public String getType() {
-		return "sheep";
+		return "figther";
 	}
 
 	@Override

@@ -79,7 +79,7 @@ public class LmsGame extends ApplicationAdapter {
 		
 		// UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 		
-		UDPConn.rqList();
+		// UDPConn.rqList();
 		
 		plThread = new Thread(new Runnable() {
 			public void run() {
