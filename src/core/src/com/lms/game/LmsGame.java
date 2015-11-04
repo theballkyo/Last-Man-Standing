@@ -14,6 +14,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -28,6 +31,10 @@ import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent.ButtonListener;
+<<<<<<< HEAD
+=======
+import com.uwsoft.editor.renderer.scene2d.ButtonClickListener;
+>>>>>>> origin/dev1.0
 
 import net.lastman.network.core.TCPClient;
 import net.lastman.network.core.UDPClient;
@@ -42,9 +49,10 @@ public class LmsGame extends ApplicationAdapter {
 	private CoreEntity myEntity;
 	private BitmapFont font;
 	private Thread plThread;
-	
+	private Skin skin;
 	private ShapeRenderer shapes;
 	
+	private int scene = 0;
 	public static float pingTime = 0;
 	public static float avgPingTime = 0;
 	public static float sumPingTime = 0;
@@ -58,6 +66,7 @@ public class LmsGame extends ApplicationAdapter {
 		
 		me = new MainEntity(sl);
 		
+		skin = new Skin();
 		batchFix = new SpriteBatch();
 		font = new BitmapFont();
 		shapes = new ShapeRenderer();
@@ -66,6 +75,28 @@ public class LmsGame extends ApplicationAdapter {
 		//Load API
 		PlayerAPI.load(sl, me);
 		
+		sl.addComponentsByTagName("button", ButtonComponent.class);
+		
+		sl.entityFactory.getEntityByUniqueId(40).getComponent(ButtonComponent.class).addListener(new ButtonListener() {
+			
+			@Override
+			public void touchUp() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void touchDown() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void clicked() {
+				System.out.println("Clicked !");
+				scene = 1;
+			}
+		});
 		
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName);
@@ -81,10 +112,6 @@ public class LmsGame extends ApplicationAdapter {
 		// final NetworkManage TCPConn = new NetworkManage(new TCPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
 		Thread nmThread= new Thread(UDPConn);
 		nmThread.start();
-		
-		// UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
-		
-		// UDPConn.rqList();
 		
 		plThread = new Thread(new Runnable() {
 			public void run() {
@@ -111,22 +138,7 @@ public class LmsGame extends ApplicationAdapter {
 				e.printStackTrace();
 			}
 		}
-		
-		// Request player list
-		/*
-		new Thread(new Runnable() {
-			public void run() {
-				while(true) {
-					UDPConn.rqList();
-					try {
-						Thread.sleep(250);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
-		*/
+
 		// Ping
 		new Thread(new Runnable() {
 			public void run() {
@@ -160,6 +172,16 @@ public class LmsGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		act();
 		sl.getEngine().update(Gdx.graphics.getDeltaTime());
+		
+		if (scene == 1 && !sl.getSceneVO().sceneName.equals("MainScene")) {
+			PlayerAPI.remove(LmsConfig.playerName);
+			sl.loadScene("MainScene", vp);
+			
+			PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+			myEntity = PlayerAPI.get(LmsConfig.playerName);
+			myEntity.addScript(new Player(sl.world));
+		}
+		
 		batchFix.begin();
 		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5, Gdx.graphics.getHeight()-5);
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5, Gdx.graphics.getHeight()-25);
@@ -181,10 +203,10 @@ public class LmsGame extends ApplicationAdapter {
 		    shapes.circle(p.getValue().getX(), p.getValue().getY(),50f);
 			
 		}
-		
 		batchFix.end();
 		
 	    shapes.end();
+	    
 	}
 
 	public void resize(int width, int height) {
