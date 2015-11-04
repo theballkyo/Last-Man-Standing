@@ -26,6 +26,8 @@ import com.lms.entity.SheepEntity;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.components.additional.ButtonComponent;
+import com.uwsoft.editor.renderer.components.additional.ButtonComponent.ButtonListener;
 
 import net.lastman.network.core.TCPClient;
 import net.lastman.network.core.UDPClient;
@@ -52,7 +54,7 @@ public class LmsGame extends ApplicationAdapter {
 	public void create() {
 		sl = new SceneLoader();
 		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		sl.loadScene("MainScene", vp);
+		sl.loadScene("StartScene", vp);
 		
 		me = new MainEntity(sl);
 		
@@ -68,6 +70,9 @@ public class LmsGame extends ApplicationAdapter {
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName);
 		myEntity.addScript(new Player(sl.world));
+		
+		sl.getEntityFactory().getEntityByUniqueId(40);
+		
 		// PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
 		cam = (OrthographicCamera) vp.getCamera();
 		
