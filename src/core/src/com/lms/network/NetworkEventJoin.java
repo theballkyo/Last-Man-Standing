@@ -47,7 +47,6 @@ public class NetworkEventJoin extends NetworkEvent{
 			return;
 		}
 		String[] dat = data.split(":");
-		System.out.println(data);
 		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 	}
 	
