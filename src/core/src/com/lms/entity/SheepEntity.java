@@ -21,8 +21,7 @@ public class SheepEntity extends CoreEntity{
 		this.entityName = entityName;
 		
 		init();
-		
-		sl.getEntityFactory().getEntityByUniqueId(id);
+
 	}
 	
 	private void init() {
