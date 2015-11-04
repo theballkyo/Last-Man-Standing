@@ -1,23 +1,16 @@
 package com.lms.network;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
-import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 import net.lastman.network.core.ClientNetwork;
 
-public class NetworkManage implements Runnable{
+public class NetworkManage implements Runnable {
 
 	ClientNetwork cn;
 	SceneLoader sl;
@@ -26,9 +19,9 @@ public class NetworkManage implements Runnable{
 	NetworkEventManage tcpNet;
 	NetworkEventManage udpNet;
 	Socket client;
-	
+
 	private long lastRecv = 0;
-	
+
 	public NetworkManage(ClientNetwork cn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.cn = cn;
 		this.sl = sl;
@@ -38,75 +31,78 @@ public class NetworkManage implements Runnable{
 		this.udpNet = new NetworkEventManage(this, NetworkEventManage.Type.UDP);
 		Gdx.app.log("Network", "Create object");
 	}
-	
+
 	@Override
 	public void run() {
 		cn.start();
-		
+
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
-				while(true) {
+				while (true) {
 					UDPListener();
 				}
 			}
 		}).start();
-		
+
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
-				while(true) {
+				while (true) {
 					TCPListener();
 				}
 			}
 		}).start();
-		
+
 	}
-	
+
 	private void UDPListener() {
-		
+
 		String msg = cn.readMsg();
 		byte header = msg.getBytes()[0];
-		String data = new String(msg.getBytes(), 1, msg.length()-1);
+		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
-		
+
 		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = udpNet.get(header);
-		if(dat.length > 1) {
+		if (dat.length > 1) {
 			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
 			LmsGame.sumPingTime += LmsGame.pingTime;
 			LmsGame.countPing += 1;
 			// System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
 		}
-		if(event != null)
+		if (event != null) {
 			event.process(dat[0]);
+		}
 	}
-	
+
 	public void TCPListener() {
-		
+
 	}
-	
+
 	public void addEvent() {
-		
+
 	}
-	
+
 	public void sendMsg(String msg) {
 		cn.sendMsg(msg + "!" + System.currentTimeMillis());
 	}
-	
+
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Player Join...");
 		this.sendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
 	}
-	
+
 	public void sendMove(String name, float x, float y) {
 		this.sendMsg(NetworkEventMove.createMoveMsg(name, x, y));
 	}
-	
+
 	public void rqList() {
 		this.sendMsg(NetworkEventRqList.createRqListMsg());
 	}
-	
+
 	public void testPing() {
 		this.sendMsg(NetworkEventPong.getMsg());
 	}
-	
+
 }

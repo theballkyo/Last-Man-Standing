@@ -16,7 +16,7 @@ import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.scripts.IScript;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
-public class Player implements IScript{
+public class Player implements IScript {
 
 	private Entity player;
 	private TransformComponent transformComponent;
@@ -26,12 +26,13 @@ public class Player implements IScript{
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
 	private float gravity = -1200f;
-	
+
 	private final float jumpSpeed = 600f;
 	private float decreseX;
-	
+
 	private boolean isJump = false;
 	private boolean isWalk = false;
+
 	public Player(World world) {
 		this.world = world;
 	}
@@ -39,7 +40,7 @@ public class Player implements IScript{
 	@Override
 	public void init(Entity entity) {
 		player = entity;
-		Gdx.app.log("E name", ""+player.getId());
+		Gdx.app.log("E name", "" + player.getId());
 		transformComponent = ComponentRetriever.get(entity, TransformComponent.class);
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
@@ -47,7 +48,7 @@ public class Player implements IScript{
 		speed = new Vector2(500, 0);
 		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
 		sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
-		
+
 		sac.currentAnimation = "stand";
 		animation.set(sac);
 	}
@@ -55,61 +56,63 @@ public class Player implements IScript{
 	public Entity getEntity() {
 		return player;
 	}
+
 	@Override
 	public void act(float delta) {
-		
-		speed.y+=gravity*delta;
+
+		speed.y += gravity * delta;
 		rayCast();
-		
+
 		// animation.paused = true;
 		isWalk = false;
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump){
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump) {
 			speed.y = jumpSpeed;
 			isJump = true;
 		}
-		
-		if(isJump)
+
+		if (isJump) {
 			decreseX = speed.x * 0.4f;
-		else
+		} else {
 			decreseX = 0;
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-			transformComponent.x-=(speed.x - decreseX)*delta;
+		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			transformComponent.x -= (speed.x - decreseX) * delta;
 			transformComponent.scaleX = -Math.abs(transformComponent.scaleX);
 			isWalk = true;
 		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			transformComponent.x+=(speed.x - decreseX)*delta;
+
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			transformComponent.x += (speed.x - decreseX) * delta;
 			transformComponent.scaleX = Math.abs(transformComponent.scaleX);
 			isWalk = true;
 		}
-		
-		transformComponent.y += speed.y*delta;
-		
-		if(speed.y == 0) {
+
+		transformComponent.y += speed.y * delta;
+
+		if (speed.y == 0) {
 			isJump = false;
 		}
-		
-		if(transformComponent.y < 7f){
+
+		if (transformComponent.y < 7f) {
 			speed.y = 0;
 			transformComponent.y = 7f;
 			isJump = false;
 		}
-		
-		if(transformComponent.x < 0f) {
+
+		if (transformComponent.x < 0f) {
 			transformComponent.x = 0f;
 		}
-		
+
 		if (isWalk) {
-			
+
 			if (!sac.currentAnimation.equals("run")) {
 				System.out.println("Run");
 				sac.currentAnimation = "run";
 				animation.set(sac);
-				
+
 			}
-			
+
 		} else {
 			if (!sac.currentAnimation.equals("stand")) {
 				System.out.println("Stand");
@@ -117,50 +120,55 @@ public class Player implements IScript{
 				animation.set(sac);
 			}
 		}
-		
+
 	}
-	
+
 	private void rayCast() {
 
-		float rayGap = dimensionsComponent.height/2;
-		
-		float raySize = -(speed.y)*Gdx.graphics.getDeltaTime();
-		
-		if(speed.y > 0) return;
-		
-		Vector2 rayFrom = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y+rayGap)*PhysicsBodyLoader.getScale());
-		Vector2 rayTo = new Vector2((transformComponent.x+dimensionsComponent.width/2)*PhysicsBodyLoader.getScale(), (transformComponent.y - raySize)*PhysicsBodyLoader.getScale());
+		float rayGap = dimensionsComponent.height / 2;
+
+		float raySize = -(speed.y) * Gdx.graphics.getDeltaTime();
+
+		if (speed.y > 0) {
+			return;
+		}
+
+		Vector2 rayFrom = new Vector2(
+				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+				(transformComponent.y + rayGap) * PhysicsBodyLoader.getScale());
+		Vector2 rayTo = new Vector2(
+				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
+				(transformComponent.y - raySize) * PhysicsBodyLoader.getScale());
 		rayFrom.y -= 2.2f;
-		world.rayCast(new RayCastCallback(){
+		world.rayCast(new RayCastCallback() {
 
 			@Override
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-				
+
 				speed.y = 0;
-				
+
 				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
-			
+
 				return 0;
 			}
 		}, rayFrom, rayTo);
 	}
 
-
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	public float getx(){
+
+	public float getx() {
 		return transformComponent.x;
 	}
-	
-	public float gety(){
+
+	public float gety() {
 		return transformComponent.y;
 	}
-	
-	public float getScaleX(){
+
+	public float getScaleX() {
 		return transformComponent.scaleX;
 	}
 }

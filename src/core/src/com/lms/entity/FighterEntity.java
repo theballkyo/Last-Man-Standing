@@ -8,15 +8,12 @@ import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
 public class FighterEntity extends CoreEntity {
 
-public SpriteAnimationVO vo;
-	
-	private SpriteAnimationStateComponent animationState;
-	private TransformComponent tf;
-	
+	public SpriteAnimationVO vo;
+
 	public FighterEntity(String entityName, SceneLoader sl) {
 		super(entityName, sl);
 		vo = new SpriteAnimationVO();
-		
+
 		init();
 	}
 
@@ -30,68 +27,20 @@ public SpriteAnimationVO vo;
 		vo.playMode = 2;
 		vo.scaleY = 1f;
 	}
-	
+
 	@Override
 	public void create() {
 		entity = sl.entityFactory.createEntity(sl.getRoot(), vo);
-		
+
 		// Add entity to scene
 		add();
-		
-		animationState = ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class);
-		tf = ComponentRetriever.get(getEntity(), TransformComponent.class);
-		
-		setAnimation(true);	
+
+		setAnimation(true);
 	}
 
-	public void setX(float x) {
-		tf.x = x;
-	}
-	
-	public void setY(float y) {
-		tf.y = y;
-	}
-	
-	public float getX() {
-		return tf.x;
-	}
-
-	public float getY() {
-		return tf.y;
-	}
-
-	public float getScaleX() {
-		return tf.scaleX;
-	}
-	
-	public void setScaleX(float x) {
-		tf.scaleX = x;
-	}
-	
-	@Override
-	public void setAnimation(boolean play) {
-		animationState.paused = !play;
-	}
-
-	@Override
-	public boolean canAnimation() {
-		return true;
-	}
-	
 	@Override
 	public String getType() {
 		return "figther";
 	}
-
-	@Override
-	public void setScaleY(float y) {
-		tf.scaleY = y;
-	}
-
-	@Override
-	public float getScaleY() {
-		return tf.scaleY;
-	}
-
 
 }

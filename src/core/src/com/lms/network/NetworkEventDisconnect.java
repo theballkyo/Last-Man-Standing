@@ -6,23 +6,23 @@ import java.net.Socket;
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerServerAPI;
 
-public class NetworkEventDisconnect extends NetworkEvent{
+public class NetworkEventDisconnect extends NetworkEvent {
 
 	/**
 	 * Remove player on player is disconnected
-	 * 
+	 *
 	 */
-	
+
 	public static Byte headerCode = 0x06;
-	
+
 	public NetworkEventDisconnect(NetworkServerAbstract ns) {
 		super(ns);
 	}
-	
+
 	public NetworkEventDisconnect(NetworkManage nm) {
 		super(nm);
 	}
-	
+
 	public NetworkEventDisconnect(TCPServerInterface tcp) {
 		super(tcp);
 	}
@@ -33,8 +33,7 @@ public class NetworkEventDisconnect extends NetworkEvent{
 	}
 
 	/**
-	 * Data rule
-	 * NAME
+	 * Data rule NAME
 	 */
 	@Override
 	public void process(String data) {
@@ -55,6 +54,6 @@ public class NetworkEventDisconnect extends NetworkEvent{
 	@Override
 	public void processServer(String data, Socket client, String time) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

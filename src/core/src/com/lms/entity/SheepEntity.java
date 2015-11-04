@@ -1,26 +1,19 @@
 package com.lms.entity;
 
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.components.TransformComponent;
-import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
-import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
-import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
-public class SheepEntity extends CoreEntity{
-	
+public class SheepEntity extends CoreEntity {
+
 	public SpriteAnimationVO vo;
-	
-	private SpriteAnimationStateComponent animationState;
-	private TransformComponent tf;
-	
-	public SheepEntity(String entityName, SceneLoader sl){
+
+	public SheepEntity(String entityName, SceneLoader sl) {
 		super(entityName, sl);
 		vo = new SpriteAnimationVO();
 
 		init();
 	}
-	
+
 	private void init() {
 		vo.animationName = "sheep";
 		vo.x = 200f;
@@ -30,67 +23,19 @@ public class SheepEntity extends CoreEntity{
 		vo.itemName = entityName;
 		vo.playMode = 2;
 	}
-	
+
+	@Override
 	public void create() {
 		entity = sl.entityFactory.createEntity(sl.getRoot(), vo);
-		
-		// Add entity to scene
+
 		add();
-		
-		animationState = ComponentRetriever.get(getEntity(), SpriteAnimationStateComponent.class);
-		tf = ComponentRetriever.get(getEntity(), TransformComponent.class);
-		
+
 		setAnimation(true);
-		// System.out.println(animationState.set(range, fps, playMode););
-	}
-	
-	public void setX(float x) {
-		tf.x = x;
-	}
-	
-	public void setY(float y) {
-		tf.y = y;
-	}
-	
-	public float getX() {
-		return tf.x;
 	}
 
-	public float getY() {
-		return tf.y;
-	}
-
-	public float getScaleX() {
-		return tf.scaleX;
-	}
-	
-	public void setScaleX(float x) {
-		tf.scaleX = x;
-	}
-	
-	@Override
-	public void setAnimation(boolean play) {
-		animationState.paused = !play;
-	}
-
-	@Override
-	public boolean canAnimation() {
-		return true;
-	}
-	
 	@Override
 	public String getType() {
 		return "sheep";
 	}
 
-	@Override
-	public void setScaleY(float y) {
-		tf.scaleY = y;
-	}
-
-	@Override
-	public float getScaleY() {
-		return tf.scaleY;
-	}
-		
 }
