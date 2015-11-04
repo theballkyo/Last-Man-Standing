@@ -3,6 +3,7 @@ package com.lms.entity;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
+import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
@@ -20,6 +21,8 @@ public class SheepEntity extends CoreEntity{
 		this.entityName = entityName;
 		
 		init();
+		
+		sl.getEntityFactory().getEntityByUniqueId(id);
 	}
 	
 	private void init() {
@@ -42,6 +45,7 @@ public class SheepEntity extends CoreEntity{
 		tf = ComponentRetriever.get(getEntity(), TransformComponent.class);
 		
 		setAnimation(true);
+		// System.out.println(animationState.set(range, fps, playMode););
 	}
 	
 	public void setX(float x) {

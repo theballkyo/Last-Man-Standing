@@ -74,7 +74,7 @@ public class NetworkManage implements Runnable{
 			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
 			LmsGame.sumPingTime += LmsGame.pingTime;
 			LmsGame.countPing += 1;
-			System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
+			// System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
 		}
 		if(event != null)
 			event.process(dat[0]);

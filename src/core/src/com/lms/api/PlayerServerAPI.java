@@ -38,6 +38,8 @@ public class PlayerServerAPI {
 	
 	public static void setLastConn(String name, long time) {
 		PlayerServerAPI pl = playerList.get(name);
+		if (pl == null)
+			return;
 		pl.lastConn = time;
 	}
 	

@@ -31,6 +31,9 @@ public class MainServer {
 		*/
 		final UDPServer server = new UDPServer(LmsConfig.port);
 		
+		if (args.length > 1) {
+			server.setDelay(Integer.parseInt(args[0]));
+		}
 		/*
 		new Thread(new Runnable(){
 			public void run() {

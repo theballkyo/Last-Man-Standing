@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -39,10 +41,13 @@ public class LmsGame extends ApplicationAdapter {
 	private BitmapFont font;
 	private Thread plThread;
 	
+	private ShapeRenderer shapes;
+	
 	public static float pingTime = 0;
 	public static float avgPingTime = 0;
 	public static float sumPingTime = 0;
 	public static int countPing = 0;
+	
 	@Override
 	public void create() {
 		sl = new SceneLoader();
@@ -53,6 +58,7 @@ public class LmsGame extends ApplicationAdapter {
 		
 		batchFix = new SpriteBatch();
 		font = new BitmapFont();
+		shapes = new ShapeRenderer();
 		font.setColor(Color.RED);
 		
 		//Load API
@@ -154,8 +160,11 @@ public class LmsGame extends ApplicationAdapter {
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5, Gdx.graphics.getHeight()-25);
 		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight()-45);
 		int m = 1;
+		
+		shapes.setProjectionMatrix(sl.getBatch().getProjectionMatrix());
+		shapes.begin(ShapeType.Line);
+	    shapes.setColor(1, 0, 0, 1);
 		for(Entry<String, CoreEntity> p :PlayerAPI.getAll().entrySet()) {
-			
 			
 			font.draw(batchFix, 
 					String.format("%s Position %.0f:%.0f", p.getValue().getName(), p.getValue().getX(), 
@@ -163,9 +172,14 @@ public class LmsGame extends ApplicationAdapter {
 					5, 
 					Gdx.graphics.getHeight()-(45 +(m*20)));
 			m += 1;
+			
+		    shapes.circle(p.getValue().getX(), p.getValue().getY(),50f);
+			
 		}
 		
 		batchFix.end();
+		
+	    shapes.end();
 	}
 
 	public void resize(int width, int height) {

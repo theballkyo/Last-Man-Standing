@@ -42,6 +42,7 @@ public class PlayerAPI {
 		pl.setAnimation(true);
 		System.out.printf("Create: %s %s %.0f %.0f\n", name, type, x, y);
 		playerList.put(name, pl);
+		
 	}
 	
 	public static void move(String name, float x, float y) {

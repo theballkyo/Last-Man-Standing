@@ -23,11 +23,16 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 	private Thread updatePl;
 	NetworkEventManage nem;
 	public HashMap<String, ClientProfile> clientList;
-
+	
+	private int delayUpdate = 10;
 	public UDPServer(int port) {
 		this.port = port;
 		this.nem = new NetworkEventManage(this);
 		clientList = new HashMap<String, ClientProfile>();
+	}
+	
+	public void setDelay(int ms) {
+		delayUpdate = ms;
 	}
 	
 	public void start() {
@@ -62,7 +67,7 @@ public class UDPServer implements NetworkServerAbstract, ServerNetwork{
 									name, dat.getType(), dat.getX(), dat.getY()) + "!" + System.currentTimeMillis());			
 						}
 						try {
-							Thread.sleep(0, 500);
+							Thread.sleep(delayUpdate);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
