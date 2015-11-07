@@ -18,7 +18,7 @@ public abstract class CoreEntity {
 	protected SpriteAnimationStateComponent animationState;
 	protected TransformComponent tf;
 	protected DimensionsComponent dc;
-	
+
 	protected String entityName;
 
 	protected Vector2 position;
@@ -70,11 +70,11 @@ public abstract class CoreEntity {
 	public float getWidth() {
 		return dc.width;
 	}
-	
+
 	public float getHeight() {
 		return dc.height;
 	}
-	
+
 	public void setScaleX(float x) {
 		tf.scaleX = x;
 	}

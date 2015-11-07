@@ -9,7 +9,9 @@ public class LmsConfig {
 
 	public static String host = "127.0.0.1";
 
-	public static int port = 20156;
+	public static int UDPport = 20156;
+
+	public static int TCPport = 20157;
 
 	public static String playerName = "Dev" + System.currentTimeMillis();
 }

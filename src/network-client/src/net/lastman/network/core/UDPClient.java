@@ -27,14 +27,13 @@ public class UDPClient implements ClientNetwork {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		start();
 	}
 
 	@Override
 	public void start() {
-		System.out.println("Start connecting ...");
 		try {
 			sock = new DatagramSocket();
+			System.out.println("UDP client is started..");
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}

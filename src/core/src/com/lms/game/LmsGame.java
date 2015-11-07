@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,6 +26,7 @@ import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent.ButtonListener;
 
+import net.lastman.network.core.TCPClient;
 import net.lastman.network.core.UDPClient;
 
 public class LmsGame extends ApplicationAdapter {
@@ -140,19 +140,19 @@ public class LmsGame extends ApplicationAdapter {
 		for (Entry<String, CoreEntity> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getValue().scene.equals(sl.getSceneVO().sceneName)) {
 				CoreEntity pl = p.getValue();
-				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.getX(),
-						pl.getY()), 5, Gdx.graphics.getHeight() - (45 + (m * 20)));
+				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.getX(), pl.getY()), 5,
+						Gdx.graphics.getHeight() - (45 + (m * 20)));
 				m += 1;
 				Vector2 v = new Vector2(pl.getX(), pl.getY());
 				Rectangle r = new Rectangle(v.x, v.y, pl.getWidth(), pl.getHeight());
-				
+
 				shapes.identity();
 				shapes.translate(pl.getX(), -pl.getX(), 0.f);
-				
+
 				shapes.rotate(0.f, 0.f, 1.f, 45.f);
-				
+
 				shapes.rect(pl.getX(), pl.getY(), 100, 200);
-				
+
 			}
 
 		}
@@ -198,17 +198,23 @@ public class LmsGame extends ApplicationAdapter {
 
 	private void connToServer() {
 		// Connect to server
-		final NetworkManage UDPConn = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
-		// final NetworkManage TCPConn = new NetworkManage(new
-		// TCPClient(LmsConfig.host, LmsConfig.port), sl, me, vp);
-		Thread nmThread = new Thread(UDPConn);
-		nmThread.start();
+		final NetworkManage networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
+				new TCPClient(LmsConfig.host, LmsConfig.TCPport), sl, me, vp);
 
+		Thread nmThread = new Thread(networkManage);
+		nmThread.start();
+		
+		try {
+			nmThread.join();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
 		plThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
-					UDPConn.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
+					networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
 
 					try {
 						Thread.sleep(10);
@@ -222,14 +228,14 @@ public class LmsGame extends ApplicationAdapter {
 
 		plThread.start();
 
-		while (!NetworkEventJoin.isJoin) {
-			UDPConn.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+		do {
+			networkManage.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 			try {
-				Thread.sleep(250);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		} while (!NetworkEventJoin.isJoin);
 
 		// Ping
 		new Thread(new Runnable() {

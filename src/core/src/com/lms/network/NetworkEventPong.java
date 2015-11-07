@@ -29,7 +29,7 @@ public class NetworkEventPong extends NetworkEvent {
 
 	@Override
 	public void process(String data) {
-		nm.sendMsg(createPingMsg(LmsConfig.playerName));
+		nm.TCPsendMsg(createPingMsg(LmsConfig.playerName));
 	}
 
 	@Override

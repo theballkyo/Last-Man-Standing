@@ -21,7 +21,8 @@ public class TCPClient implements ClientNetwork{
 	@Override
 	public void start() {
 		try {
-			Socket client = new Socket(host, port);
+			client = new Socket(host, port);
+			System.out.println("TCP client started ...");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -49,6 +50,7 @@ public class TCPClient implements ClientNetwork{
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
 			out.writeUTF(msg);
+			System.out.println(out.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
