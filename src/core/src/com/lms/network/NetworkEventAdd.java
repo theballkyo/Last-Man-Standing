@@ -9,7 +9,7 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventAdd extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	@Override
 	public void process(String data, UDPClient UDPcn) {
 		// TODO Auto-generated method stub

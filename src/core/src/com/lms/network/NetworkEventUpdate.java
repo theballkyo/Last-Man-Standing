@@ -1,6 +1,5 @@
 package com.lms.network;
 
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Map.Entry;
@@ -15,7 +14,7 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventUpdate extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	/**
 	 * Data rule NAME:X:Y:ANIMATION
 	 *
@@ -41,12 +40,12 @@ public class NetworkEventUpdate extends NetworkEvent {
 
 	@Override
 	public void processServer(String data, Socket client, String time, TCPServerInterface tcp) {
-		for (Entry<String, PlayerData> p: PlayerServerAPI.getAll().entrySet()) {
+		for (Entry<String, PlayerData> p : PlayerServerAPI.getAll().entrySet()) {
 			String name = p.getKey();
 			String type = p.getValue().getType();
 			float x = p.getValue().pos.x;
 			float y = p.getValue().pos.y;
-			
+
 			tcp.sendMsg(client, NetworkEventJoin.createJoinMsg(name, type, x, y));
 		}
 	}

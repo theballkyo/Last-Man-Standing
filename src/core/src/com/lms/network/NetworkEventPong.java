@@ -1,6 +1,5 @@
 package com.lms.network;
 
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -13,7 +12,7 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventPong extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	public static String createPingMsg(String name) {
 		return String.format("%c%s", headerCode, name);
 	}

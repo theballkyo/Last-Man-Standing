@@ -7,6 +7,7 @@ public interface TCPServerInterface {
 	public void sendMsg(int clientId, String msg);
 
 	public void sendMsg(Socket client, String msg);
+
 	public void broadcast(String msg);
 
 	public void broadcast(int clientId, String msg);

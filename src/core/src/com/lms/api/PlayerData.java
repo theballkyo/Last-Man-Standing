@@ -6,19 +6,27 @@ import java.net.Socket;
 
 import com.badlogic.gdx.math.Vector2;
 import com.lms.entity.CoreEntity;
+import com.lms.game.LmsConfig;
+import com.lms.game.LmsConfig.GameType;
 
 public class PlayerData {
-	
+
 	private float hp;
-	
+
 	public Vector2 pos;
-	
+	public Vector2 scale;
+
+	public float speedRun;
+	public float speedJump;
+
 	public long lastUdpConn;
 	public long lastTcpConn;
-	
+
 	private String name;
 	private String type;
 
+	public String scene = "MainScene";
+	
 	/* For TCP */
 	private Socket client;
 	private int clientId;
@@ -26,22 +34,23 @@ public class PlayerData {
 	private DatagramPacket udp;
 	private InetAddress udpAddress;
 	private int udpPort;
-	
+
 	// Entity player - for client
 	private CoreEntity entity;
 
 	public PlayerData(String name, String type, float x, float y) {
 		this.name = name;
 		this.type = type;
-		this.pos = new Vector2(x, y);
+		pos = new Vector2(x, y);
+		scale = new Vector2(1, 1);
 	}
-	
+
 	public void setCoreEntity(CoreEntity entity) {
 		this.entity = entity;
 	}
-	
+
 	public CoreEntity getCoreEntity() {
-		return this.entity;
+		return entity;
 	}
 
 	public void setTcp(Socket client) {
@@ -56,7 +65,7 @@ public class PlayerData {
 		this.udpAddress = udpAddress;
 		this.udpPort = udpPort;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -72,16 +81,41 @@ public class PlayerData {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public InetAddress getUdpAddress() {
 		return udpAddress;
 	}
-	
+
 	public int getUdpPort() {
 		return udpPort;
 	}
-	
+
 	public Socket getTcpSocket() {
 		return client;
+	}
+
+	/**
+	 *
+	 * Update data to CoreEntity
+	 *
+	 * Client use only !
+	 */
+	public void updateEntity() {
+		if (LmsConfig.gameType == GameType.Server) {
+			return;
+		}
+
+		if (entity == null) {
+			entity = PlayerAPI.me.newEntity(type, name);
+			entity.create();
+			speedRun = entity.getSpeedRun();
+			speedJump = entity.getSpeedJump();
+		}
+
+		entity.setX(pos.x);
+		entity.setY(pos.y);
+
+		entity.setScaleX(scale.x);
+		entity.setScaleY(scale.y);
 	}
 }

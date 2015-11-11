@@ -1,6 +1,5 @@
 package com.lms.network;
 
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Map.Entry;
@@ -16,7 +15,7 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventJoin extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	/**
 	 * NetworkEventJoin
 	 *
@@ -25,6 +24,7 @@ public class NetworkEventJoin extends NetworkEvent {
 
 	public static boolean tcpJoin = false;
 	public static boolean udpJoin = false;
+
 	/**
 	 * Data rule NAME:TYPE:X:Y
 	 *
@@ -36,7 +36,6 @@ public class NetworkEventJoin extends NetworkEvent {
 			return;
 		}
 		String[] dat = data.split(":");
-		// PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 	}
 
 	@Override
@@ -47,15 +46,16 @@ public class NetworkEventJoin extends NetworkEvent {
 		}
 		String[] dat = data.split(":");
 		System.out.println(data);
-		if (dat[0].equals(LmsConfig.playerName))
+		if (dat[0].equals(LmsConfig.playerName)) {
 			return;
+		}
 		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 	}
 
 	@Override
 	public void processServer(String data, InetAddress address, int port, String time, UDPServerInterface udp) {
 		String[] dat = data.split(":");
-		
+
 		String name = dat[0];
 		String type = dat[1];
 		float x = Float.parseFloat(dat[2]);
@@ -64,8 +64,9 @@ public class NetworkEventJoin extends NetworkEvent {
 		PlayerServerAPI.add(name, type, x, y);
 		PlayerServerAPI.setUdpLastConn(name, System.currentTimeMillis());
 		PlayerServerAPI.setUdpClient(name, address, port);
-//		udp.addClient(dat[0], incoming);
-//		udp.broadcast(dat[0], createJoinMsg(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3])));
+		// udp.addClient(dat[0], incoming);
+		// udp.broadcast(dat[0], createJoinMsg(dat[0], dat[1],
+		// Float.parseFloat(dat[2]), Float.parseFloat(dat[3])));
 		udp.sendMsg(address, port, String.format("%cOk", headerCode));
 	}
 
@@ -77,14 +78,14 @@ public class NetworkEventJoin extends NetworkEvent {
 		String type = dat[1];
 		float x = Float.parseFloat(dat[2]);
 		float y = Float.parseFloat(dat[3]);
-		
+
 		PlayerServerAPI.add(name, type, x, y);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
 		tcp.broadcast(createJoinMsg(name, type, x, y));
 		tcp.sendMsg(client, String.format("%cOk", headerCode));
-		
-		for(Entry<String, PlayerData> e: PlayerServerAPI.getAll().entrySet()) {
+
+		for (Entry<String, PlayerData> e : PlayerServerAPI.getAll().entrySet()) {
 			name = e.getValue().getName();
 			type = e.getValue().getType();
 			x = e.getValue().pos.x;

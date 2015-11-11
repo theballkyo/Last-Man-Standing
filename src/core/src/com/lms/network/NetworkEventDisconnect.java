@@ -1,6 +1,5 @@
 package com.lms.network;
 
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -17,6 +16,7 @@ public class NetworkEventDisconnect extends NetworkEvent {
 	 *
 	 */
 	public static byte headerCode;
+
 	/**
 	 * Data rule NAME
 	 */

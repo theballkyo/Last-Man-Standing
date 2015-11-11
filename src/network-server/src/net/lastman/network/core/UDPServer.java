@@ -28,7 +28,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	NetworkEventManage nem;
 	public HashMap<String, ClientProfile> clientList;
 
-	private int delayUpdate = 10;
+	private int delayUpdate = 15;
 
 	public UDPServer(int port) {
 		this.port = port;
@@ -84,7 +84,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 						checkClient();
 
 						try {
-							Thread.sleep(50);
+							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -104,7 +104,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	@Override
 	public void start() {
 		sv.start();
-		ping.start();
+		// ping.start();
 		updatePl.start();
 
 	}
@@ -152,11 +152,13 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	}
 
 	@Override
-	public synchronized void sendMsg(InetAddress Address, int port, String msg) {
+	public void sendMsg(InetAddress Address, int port, String msg) {
 		try {
 			DatagramPacket dp = new DatagramPacket(msg.getBytes(), msg.getBytes().length, Address, port);
 			sock.send(dp);
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
@@ -175,7 +177,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	}
 
 	@Override
-	public synchronized void broadcast(String name, String msg) {
+	public void broadcast(String name, String msg) {
 		for (Entry<String, PlayerData> entry : PlayerServerAPI.getAll().entrySet()) {
 			if (entry.getKey().equals(name)) {
 				continue;
@@ -186,7 +188,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	}
 
 	@Override
-	public synchronized void broadcast(String name, String msg, String time) {
+	public void broadcast(String name, String msg, String time) {
 		broadcast(name, msg + "!" + time);
 	}
 

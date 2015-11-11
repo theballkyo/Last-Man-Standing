@@ -29,7 +29,7 @@ public class NetworkManage implements Runnable {
 		this.sl = sl;
 		this.me = me;
 		this.vp = vp;
-		this.nem = new NetworkEventManage();
+		nem = new NetworkEventManage();
 		// Gdx.app.log("Network", "Create object");
 	}
 
@@ -70,7 +70,6 @@ public class NetworkManage implements Runnable {
 			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
 			LmsGame.sumPingTime += LmsGame.pingTime;
 			LmsGame.countPing += 1;
-			// System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
 		}
 		if (event != null) {
 			event.process(dat[0], UDPcn);
@@ -104,24 +103,32 @@ public class NetworkManage implements Runnable {
 	}
 
 	public void TCPsendMsg(String msg) {
+		if (!TCPcn.isConnected()) {
+			Gdx.app.error("TCP", "Not connected...");
+			return;
+		}
 		TCPcn.sendMsg(msg + "!" + System.currentTimeMillis());
 	}
 
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Send packet Player join ...");
-		this.TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
-		this.UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+		TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+		UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
 	}
 
 	public void sendMove(String name, float x, float y) {
-		this.UDPsendMsg(NetworkEventMove.createMoveMsg(name, x, y));
+		UDPsendMsg(NetworkEventMove.createMoveMsg(name, x, y));
 	}
 
 	public void updateList() {
-		this.TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
-	}
-	public void testPing() {
-		this.TCPsendMsg(NetworkEventPong.getMsg());
+		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}
 
+	public void testPing() {
+		TCPsendMsg(NetworkEventPong.getMsg());
+	}
+
+	public boolean isConn() {
+		return TCPcn.isConnected() && UDPcn.isConnected();
+	}
 }

@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.api.PlayerAPI;
+import com.lms.api.PlayerData;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.network.NetworkEventJoin;
@@ -87,7 +88,7 @@ public class LmsGame extends ApplicationAdapter {
 		});
 
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
-		myEntity = PlayerAPI.get(LmsConfig.playerName);
+		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world));
 		// PlayerAPI.setScale(LmsConfig.playerName, 1.5f);
 		cam = (OrthographicCamera) vp.getCamera();
@@ -114,15 +115,50 @@ public class LmsGame extends ApplicationAdapter {
 		act();
 		sl.getEngine().update(Gdx.graphics.getDeltaTime());
 
+		if (scene == 0 && !sl.getSceneVO().sceneName.equals("StartScene")) {
+			// sl.engine.removeAllEntities();
+			sl.loadScene("StartScene", vp);
+
+			sl.addComponentsByTagName("button", ButtonComponent.class);
+
+			sl.entityFactory.getEntityByUniqueId(40).getComponent(ButtonComponent.class)
+					.addListener(new ButtonListener() {
+
+						@Override
+						public void touchUp() {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void touchDown() {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void clicked() {
+							System.out.println("Clicked !");
+							scene = 1;
+						}
+					});
+
+			PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
+			myEntity.addScript(new Player(sl.world));
+		}
 		if (scene == 1 && !sl.getSceneVO().sceneName.equals("MainScene")) {
 			PlayerAPI.remove(LmsConfig.playerName);
 			sl.engine.removeAllEntities();
 			sl.loadScene("MainScene", vp);
 
-			connToServer();
+			if (!connToServer()) {
+				scene = 0;
+				return;
+			}
 
 			PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
-			myEntity = PlayerAPI.get(LmsConfig.playerName);
+			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 			myEntity.addScript(new Player(sl.world));
 		}
 
@@ -130,22 +166,26 @@ public class LmsGame extends ApplicationAdapter {
 		
 		shapes.setProjectionMatrix(sl.getBatch().getProjectionMatrix());
 		shapes.begin(ShapeType.Line);
-		batchFix.begin();
+		
+		sl.getBatch().begin();
 		shapes.setColor(1, 0, 0, 1);
-		for (Entry<String, CoreEntity> p : PlayerAPI.getAll().entrySet()) {
-			if (p.getValue().scene.equals(sl.getSceneVO().sceneName)) {
-				CoreEntity pl = p.getValue();
-				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.getX(), pl.getY()), 5,
+		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
+			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
+				PlayerData pl = p.getValue();
+				batchFix.begin();
+				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.pos.x, pl.pos.y), 5,
 						Gdx.graphics.getHeight() - (45 + (m * 20)));
+				batchFix.end();
 				m += 1;
-				Vector2 v = new Vector2(pl.getX(), pl.getY());
-				Rectangle r = new Rectangle(v.x, v.y, pl.getWidth(), pl.getHeight());
+				Vector2 v = new Vector2(pl.pos.x, pl.pos.y);
+				Rectangle r = new Rectangle(v.x, v.y, pl.getCoreEntity().getWidth(), pl.getCoreEntity().getHeight());
 
 				shapes.rect(r.x, r.y, r.width, r.height);
+				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
 			}
 
-		}
-		batchFix.end();
+		} 
+		sl.getBatch().end();
 		
 
 		shapes.end();
@@ -160,14 +200,16 @@ public class LmsGame extends ApplicationAdapter {
 			tc.y = v.y;
 
 		}
-		
+
 		batchFix.begin();
-		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5,
+		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.6f ms.", pingTime / 1000.0, avgPingTime), 5,
 				Gdx.graphics.getHeight() - 5);
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5,
 				Gdx.graphics.getHeight() - 25);
 		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight() - 45);
 		batchFix.end();
+		
+		updatePlayer();
 	}
 
 	@Override
@@ -188,13 +230,18 @@ public class LmsGame extends ApplicationAdapter {
 		}
 	}
 
+	/**
+	 *
+	 * Set avg ping time (ms).
+	 *
+	 */
 	private void ping() {
-		avgPingTime = sumPingTime / countPing;
+		avgPingTime = (sumPingTime / countPing) / 1000.0f;
 		countPing = 0;
 		sumPingTime = 0;
 	}
 
-	private void connToServer() {
+	private boolean connToServer() {
 		// Connect to server
 		final NetworkManage networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
 				new TCPClient(LmsConfig.host, LmsConfig.TCPport), sl, me, vp);
@@ -214,16 +261,15 @@ public class LmsGame extends ApplicationAdapter {
 				while (true) {
 					networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
 					try {
-						Thread.sleep(10);
+						Thread.sleep(5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
 				}
 			}
 		});
 
-		
+		int tryConnTime = 0;
 
 		do {
 			networkManage.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
@@ -232,12 +278,18 @@ public class LmsGame extends ApplicationAdapter {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			tryConnTime += 1;
+
+			if (tryConnTime >= 3 || !networkManage.isConn()) {
+				Gdx.app.error("Connection", "No network connect");
+				return false;
+			}
 		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
-		
+
 		networkManage.updateList();
-		
+
 		plThread.start();
-		
+
 		// Ping
 		new Thread(new Runnable() {
 			@Override
@@ -252,6 +304,18 @@ public class LmsGame extends ApplicationAdapter {
 				}
 			}
 		}).start();
+
+		return true;
 	}
 
+	private void updatePlayer() {
+		for(Entry<String, PlayerData> p: PlayerAPI.getAll().entrySet()) {
+			if (p.getKey().equals(LmsConfig.playerName)) {
+				p.getValue().pos.x = myEntity.getX();
+				p.getValue().pos.y = myEntity.getY();
+				continue;
+			}
+			p.getValue().updateEntity();
+		}
+	}
 }

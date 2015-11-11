@@ -23,6 +23,9 @@ public abstract class CoreEntity {
 
 	protected Vector2 position;
 
+	protected float speedRun = 100;
+	protected float speedJump = 100;
+
 	abstract public void create();
 
 	abstract public String getType();
@@ -96,18 +99,34 @@ public abstract class CoreEntity {
 	}
 
 	public SceneLoader getScene() {
-		return this.sl;
+		return sl;
 	}
 
 	public Entity getEntity() {
-		return this.entity;
+		return entity;
 	}
 
 	public String getName() {
-		return this.entityName;
+		return entityName;
 	}
 
 	public Vector2 getPosition() {
 		return position;
+	}
+
+	public float getSpeedRun() {
+		return speedRun;
+	}
+
+	public void setSpeedRun(float speedRun) {
+		this.speedRun = speedRun;
+	}
+
+	public float getSpeedJump() {
+		return speedJump;
+	}
+
+	public void setSpeedJump(float speedJump) {
+		this.speedJump = speedJump;
 	}
 }

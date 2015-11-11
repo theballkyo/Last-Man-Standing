@@ -7,6 +7,12 @@ public class LmsConfig {
 	public static final int width = 800;
 	public static final int height = 600;
 
+	public enum GameType {
+		Client, Server
+	}
+
+	public static GameType gameType = GameType.Client;
+
 	public static String host = "127.0.0.1";
 
 	public static int UDPport = 20156;
