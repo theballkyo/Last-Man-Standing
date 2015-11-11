@@ -48,7 +48,7 @@ public class PlayerAPI {
 	public static void move(String name, float x, float y) {
 		CoreEntity pl = playerList.get(name);
 		if (pl == null) {
-			Gdx.app.log("PlayerAPI", "Can't find entity name (" + name + ")");
+			Gdx.app.log("PlayerAPI - Move", "Can't find entity name (" + name + ")");
 			return;
 		}
 		if (pl.getX() > x) {

@@ -1,6 +1,7 @@
 package com.lms.network;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class NetworkEventManage {
 	private HashMap<Byte, NetworkEvent> events;
@@ -10,63 +11,27 @@ public class NetworkEventManage {
 	 * Server side !
 	 */
 
-	NetworkManage nm;
-	NetworkServerAbstract ns;
-	TCPServerInterface tcp;
-
-	public static enum Type {
-		TCP, UDP
-	}
-
-	public NetworkEventManage(NetworkManage nm, Type type) {
-		this.nm = nm;
+	public NetworkEventManage() {
 		events = new HashMap<Byte, NetworkEvent>();
-		switch (type) {
-		case TCP:
-			TcpClientLoad();
-			break;
-		case UDP:
-			UdpClientLoad();
-			break;
-		}
+		init();
+		// loads();
 	}
 
-	public NetworkEventManage(NetworkServerAbstract ns) {
-		this.ns = ns;
-		events = new HashMap<Byte, NetworkEvent>();
-		UdpServerLoad();
-	}
-
-	public NetworkEventManage(TCPServerInterface tcp) {
-		this.tcp = tcp;
-		events = new HashMap<Byte, NetworkEvent>();
-		TcpServerLoad();
-	}
-
-	private void UdpClientLoad() {
-		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(nm));
-		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(nm));
-		events.put(NetworkEventPong.headerCode, new NetworkEventPong(nm));
-		events.put(NetworkEventMove.headerCode, new NetworkEventMove(nm));
-		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(nm));
-		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(nm));
-	}
-
-	private void UdpServerLoad() {
-		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin(ns));
-		events.put(NetworkEventUpdate.headerCode, new NetworkEventJoin(ns));
-		events.put(NetworkEventPong.headerCode, new NetworkEventPong(ns));
-		events.put(NetworkEventMove.headerCode, new NetworkEventMove(ns));
-		events.put(NetworkEventRqList.headerCode, new NetworkEventRqList(ns));
-		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect(ns));
-	}
-
-	private void TcpClientLoad() {
-
-	}
-
-	private void TcpServerLoad() {
-
+	private void init() {
+		
+		NetworkEventJoin.headerCode = 0x01;
+		NetworkEventDisconnect.headerCode = 0x02;
+		NetworkEventPong.headerCode = 0x03;
+		NetworkEventMove.headerCode = 0x04;
+		NetworkEventAdd.headerCode = 0x05;
+		NetworkEventUpdate.headerCode = 0x06;
+		
+		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
+		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
+		events.put(NetworkEventPong.headerCode, new NetworkEventPong());
+		events.put(NetworkEventMove.headerCode, new NetworkEventMove());
+		events.put(NetworkEventAdd.headerCode, new NetworkEventAdd());
+		events.put(NetworkEventUpdate.headerCode, new NetworkEventUpdate());
 	}
 
 	private void add(Byte headerCode, NetworkEvent ne) {

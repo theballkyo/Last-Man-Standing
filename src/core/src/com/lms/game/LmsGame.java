@@ -126,16 +126,11 @@ public class LmsGame extends ApplicationAdapter {
 			myEntity.addScript(new Player(sl.world));
 		}
 
-		batchFix.begin();
-		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5,
-				Gdx.graphics.getHeight() - 5);
-		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5,
-				Gdx.graphics.getHeight() - 25);
-		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight() - 45);
 		int m = 1;
-
+		
 		shapes.setProjectionMatrix(sl.getBatch().getProjectionMatrix());
 		shapes.begin(ShapeType.Line);
+		batchFix.begin();
 		shapes.setColor(1, 0, 0, 1);
 		for (Entry<String, CoreEntity> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getValue().scene.equals(sl.getSceneVO().sceneName)) {
@@ -146,17 +141,12 @@ public class LmsGame extends ApplicationAdapter {
 				Vector2 v = new Vector2(pl.getX(), pl.getY());
 				Rectangle r = new Rectangle(v.x, v.y, pl.getWidth(), pl.getHeight());
 
-				shapes.identity();
-				shapes.translate(pl.getX(), -pl.getX(), 0.f);
-
-				shapes.rotate(0.f, 0.f, 1.f, 45.f);
-
-				shapes.rect(pl.getX(), pl.getY(), 100, 200);
-
+				shapes.rect(r.x, r.y, r.width, r.height);
 			}
 
 		}
 		batchFix.end();
+		
 
 		shapes.end();
 
@@ -170,6 +160,14 @@ public class LmsGame extends ApplicationAdapter {
 			tc.y = v.y;
 
 		}
+		
+		batchFix.begin();
+		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.2f ms.", pingTime, avgPingTime), 5,
+				Gdx.graphics.getHeight() - 5);
+		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5,
+				Gdx.graphics.getHeight() - 25);
+		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight() - 45);
+		batchFix.end();
 	}
 
 	@Override
@@ -203,19 +201,18 @@ public class LmsGame extends ApplicationAdapter {
 
 		Thread nmThread = new Thread(networkManage);
 		nmThread.start();
-		
+
 		try {
 			nmThread.join();
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		plThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
 					networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
-
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
@@ -226,7 +223,7 @@ public class LmsGame extends ApplicationAdapter {
 			}
 		});
 
-		plThread.start();
+		
 
 		do {
 			networkManage.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
@@ -235,8 +232,12 @@ public class LmsGame extends ApplicationAdapter {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} while (!NetworkEventJoin.isJoin);
-
+		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
+		
+		networkManage.updateList();
+		
+		plThread.start();
+		
 		// Ping
 		new Thread(new Runnable() {
 			@Override
@@ -246,7 +247,6 @@ public class LmsGame extends ApplicationAdapter {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

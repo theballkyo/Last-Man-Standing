@@ -1,32 +1,21 @@
 package com.lms.network;
 
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
+
+import net.lastman.network.core.TCPClient;
+import net.lastman.network.core.UDPClient;
 
 abstract public class NetworkEvent {
+	
+	abstract public void process(String data, UDPClient UDPcn);
 
-	NetworkManage nm;
-	NetworkServerAbstract ns;
-	TCPServerInterface tcp;
+	abstract public void process(String data, TCPClient TCPcn);
 
-	public NetworkEvent(NetworkServerAbstract ns) {
-		this.ns = ns;
-	}
+	abstract public void processServer(String data, InetAddress address, int port, String time, UDPServerInterface udp);
 
-	public NetworkEvent(NetworkManage nm) {
-		this.nm = nm;
-	}
-
-	public NetworkEvent(TCPServerInterface tcp) {
-		this.tcp = tcp;
-	}
-
-	abstract public byte headerCode();
-
-	abstract public void process(String data);
-
-	abstract public void processServer(String data, DatagramPacket incoming, String time);
-
-	abstract public void processServer(String data, Socket client, String time);
+	abstract public void processServer(String data, Socket client, String time, TCPServerInterface tcp);
 
 }

@@ -13,11 +13,11 @@ public class MainServer {
 		if (args.length > 1) {
 			UDPserver.setDelay(Integer.parseInt(args[0]));
 		}
-
-		System.out.println("UDP Server is started. - port=" + LmsConfig.UDPport);
 		UDPserver.start();
-		System.out.println("TCP Server is started. - port=" + LmsConfig.TCPport);
+		System.out.println("UDP Server is started. - port=" + LmsConfig.UDPport);
 		TCPserver.start();
+		System.out.println("TCP Server is started. - port=" + LmsConfig.TCPport);
+		
 	}
 
 }

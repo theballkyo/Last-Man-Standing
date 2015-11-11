@@ -8,29 +8,28 @@ import com.lms.entity.MainEntity;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.SceneLoader;
 
-import net.lastman.network.core.ClientNetwork;
+import net.lastman.network.core.TCPClient;
+import net.lastman.network.core.UDPClient;
 
 public class NetworkManage implements Runnable {
 
-	ClientNetwork UDPcn;
-	ClientNetwork TCPcn;
+	UDPClient UDPcn;
+	TCPClient TCPcn;
 	SceneLoader sl;
 	MainEntity me;
 	Viewport vp;
-	NetworkEventManage tcpNet;
-	NetworkEventManage udpNet;
+	NetworkEventManage nem;
 	Socket client;
 
 	private long lastRecv = 0;
 
-	public NetworkManage(ClientNetwork UDPcn, ClientNetwork TCPcn, SceneLoader sl, MainEntity me, Viewport vp) {
+	public NetworkManage(UDPClient UDPcn, TCPClient TCPcn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.UDPcn = UDPcn;
 		this.TCPcn = TCPcn;
 		this.sl = sl;
 		this.me = me;
 		this.vp = vp;
-		this.tcpNet = new NetworkEventManage(this, NetworkEventManage.Type.TCP);
-		this.udpNet = new NetworkEventManage(this, NetworkEventManage.Type.UDP);
+		this.nem = new NetworkEventManage();
 		// Gdx.app.log("Network", "Create object");
 	}
 
@@ -38,7 +37,7 @@ public class NetworkManage implements Runnable {
 	public void run() {
 		UDPcn.start();
 		TCPcn.start();
-		
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -60,14 +59,13 @@ public class NetworkManage implements Runnable {
 	}
 
 	private void UDPListener() {
-
 		String msg = UDPcn.readMsg();
 		byte header = msg.getBytes()[0];
 		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
 
 		lastRecv = System.currentTimeMillis();
-		NetworkEvent event = udpNet.get(header);
+		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
 			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
 			LmsGame.sumPingTime += LmsGame.pingTime;
@@ -75,12 +73,26 @@ public class NetworkManage implements Runnable {
 			// System.out.println(dat[0] + " | Ping: " + LmsGame.pingTime);
 		}
 		if (event != null) {
-			event.process(dat[0]);
+			event.process(dat[0], UDPcn);
 		}
 	}
 
 	public void TCPListener() {
+		String msg = TCPcn.readMsg();
+		byte header = msg.getBytes()[0];
+		String data = new String(msg.getBytes(), 1, msg.length() - 1);
+		String[] dat = data.split("!");
 
+		lastRecv = System.currentTimeMillis();
+		NetworkEvent event = nem.get(header);
+		if (dat.length > 1) {
+			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
+			LmsGame.sumPingTime += LmsGame.pingTime;
+			LmsGame.countPing += 1;
+		}
+		if (event != null) {
+			event.process(dat[0], TCPcn);
+		}
 	}
 
 	public void addEvent() {
@@ -98,17 +110,16 @@ public class NetworkManage implements Runnable {
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Send packet Player join ...");
 		this.TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+		this.UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
 	}
 
 	public void sendMove(String name, float x, float y) {
 		this.UDPsendMsg(NetworkEventMove.createMoveMsg(name, x, y));
 	}
 
-	/*
-	 * public void rqList() {
-	 * this.sendMsg(NetworkEventRqList.createRqListMsg()); }
-	 */
-
+	public void updateList() {
+		this.TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
+	}
 	public void testPing() {
 		this.TCPsendMsg(NetworkEventPong.getMsg());
 	}

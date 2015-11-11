@@ -50,7 +50,6 @@ public class TCPClient implements ClientNetwork{
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
 			out.writeUTF(msg);
-			System.out.println(out.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
