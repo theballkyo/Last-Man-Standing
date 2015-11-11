@@ -22,15 +22,14 @@ public class FighterEntity extends CoreEntity {
 		vo.itemIdentifier = entityName;
 		vo.itemName = entityName;
 		vo.playMode = 2;
-		vo.scaleY = 0.5f;
-		vo.scaleX = 0.5f;
+		vo.scaleY = 1f;
+		vo.scaleX = 1f;
 	}
 
 	@Override
 	public void create() {
 		entity = sl.entityFactory.createEntity(sl.getRoot(), vo);
 
-		// Add entity to scene
 		add();
 
 		setAnimation(true);
