@@ -6,154 +6,322 @@ filter: Linear,Linear
 repeat: none
 1
   rotate: false
-  xy: 1924, 1903
+  xy: 1922, 1908
   size: 105, 138
   orig: 105, 138
   offset: 0, 0
   index: -1
 10
   rotate: false
-  xy: 1838, 617
+  xy: 1922, 890
   size: 55, 54
   orig: 55, 54
   offset: 0, 0
   index: -1
 11
   rotate: false
-  xy: 1838, 746
+  xy: 1174, 149
   size: 185, 93
   orig: 185, 93
   offset: 0, 0
   index: -1
 12
   rotate: false
-  xy: 1286, 95
+  xy: 2, 66
   size: 364, 140
   orig: 364, 140
   offset: 0, 0
   index: -1
 13
   rotate: false
-  xy: 1924, 1745
+  xy: 263, 2
   size: 59, 62
   orig: 59, 62
   offset: 0, 0
   index: -1
 14
   rotate: false
-  xy: 404, 5
+  xy: 1361, 143
   size: 77, 32
   orig: 77, 32
   offset: 0, 0
   index: -1
 15
   rotate: false
-  xy: 1838, 673
+  xy: 1922, 1079
   size: 71, 71
   orig: 71, 71
   offset: 0, 0
   index: -1
 16
   rotate: false
-  xy: 1286, 14
+  xy: 368, 127
   size: 412, 79
   orig: 412, 79
   offset: 0, 0
   index: -1
-2
-  rotate: false
-  xy: 1588, 543
-  size: 248, 296
-  orig: 248, 296
-  offset: 0, 0
-  index: -1
 3
   rotate: false
-  xy: 1588, 358
+  xy: 944, 59
   size: 228, 183
   orig: 228, 183
   offset: 0, 0
   index: -1
 4
   rotate: false
-  xy: 263, 2
+  xy: 1496, 207
   size: 139, 35
   orig: 139, 35
   offset: 0, 0
   index: -1
 5
   rotate: false
-  xy: 1652, 101
+  xy: 1496, 170
   size: 93, 35
   orig: 93, 35
   offset: 0, 0
   index: -1
 6
   rotate: false
-  xy: 1652, 138
+  xy: 368, 2
   size: 139, 123
   orig: 139, 123
   offset: 0, 0
   index: -1
 7
   rotate: false
-  xy: 1924, 1809
+  xy: 1922, 1600
   size: 93, 92
   orig: 93, 92
   offset: 0, 0
   index: -1
 8
   rotate: false
-  xy: 1588, 263
+  xy: 509, 32
   size: 228, 93
   orig: 228, 93
   offset: 0, 0
   index: -1
 8ca94fea1255413c67c940a220643f9flarge
   rotate: false
-  xy: 2, 841
-  size: 1920, 1200
-  orig: 1920, 1200
+  xy: 944, 244
+  size: 804, 600
+  orig: 804, 600
   offset: 0, 0
   index: -1
 9
   rotate: false
-  xy: 2, 2
+  xy: 2, 29
   size: 259, 35
   orig: 259, 35
   offset: 0, 0
   index: -1
+Bush (1)
+  rotate: false
+  xy: 1174, 82
+  size: 133, 65
+  orig: 133, 65
+  offset: 0, 0
+  index: -1
+Bush (2)
+  rotate: false
+  xy: 1361, 177
+  size: 133, 65
+  orig: 133, 65
+  offset: 0, 0
+  index: -1
+Bush (3)
+  rotate: false
+  xy: 1963, 217
+  size: 73, 47
+  orig: 73, 47
+  offset: 0, 0
+  index: -1
+Bush (4)
+  rotate: false
+  xy: 1361, 95
+  size: 73, 46
+  orig: 73, 46
+  offset: 0, 0
+  index: -1
+Cactus (1)
+  rotate: false
+  xy: 1922, 1795
+  size: 108, 111
+  orig: 108, 111
+  offset: 0, 0
+  index: -1
+Cactus (2)
+  rotate: false
+  xy: 1174, 35
+  size: 70, 45
+  orig: 70, 45
+  offset: 0, 0
+  index: -1
+Cactus (3)
+  rotate: false
+  xy: 1922, 1502
+  size: 86, 96
+  orig: 86, 96
+  offset: 0, 0
+  index: -1
+Crate
+  rotate: false
+  xy: 1922, 1152
+  size: 77, 77
+  orig: 77, 77
+  offset: 0, 0
+  index: -1
+Grass (1)
+  rotate: false
+  xy: 1755, 214
+  size: 102, 50
+  orig: 102, 50
+  offset: 0, 0
+  index: -1
+Grass (2)
+  rotate: false
+  xy: 1859, 214
+  size: 102, 50
+  orig: 102, 50
+  offset: 0, 0
+  index: -1
+ItemCrate
+  rotate: false
+  xy: 1922, 1231
+  size: 77, 90
+  orig: 77, 90
+  offset: 0, 0
+  index: -1
+Mushroom1
+  rotate: false
+  xy: 874, 112
+  size: 49, 41
+  orig: 49, 41
+  offset: 0, 0
+  index: -1
+Mushroom2
+  rotate: false
+  xy: 1309, 106
+  size: 50, 41
+  orig: 50, 41
+  offset: 0, 0
+  index: -1
+Sign
+  rotate: false
+  xy: 1922, 1412
+  size: 85, 88
+  orig: 85, 88
+  offset: 0, 0
+  index: -1
+Sign1
+  rotate: false
+  xy: 1922, 1012
+  size: 63, 65
+  orig: 63, 65
+  offset: 0, 0
+  index: -1
+Sign2
+  rotate: false
+  xy: 1922, 946
+  size: 62, 64
+  orig: 62, 64
+  offset: 0, 0
+  index: -1
+SignArrow
+  rotate: false
+  xy: 1922, 1323
+  size: 84, 87
+  orig: 84, 87
+  offset: 0, 0
+  index: -1
+Skeleton
+  rotate: false
+  xy: 782, 155
+  size: 150, 51
+  orig: 150, 51
+  offset: 0, 0
+  index: -1
+Stone
+  rotate: false
+  xy: 782, 99
+  size: 90, 54
+  orig: 90, 54
+  offset: 0, 0
+  index: -1
+StoneBlock
+  rotate: false
+  xy: 1922, 1694
+  size: 101, 99
+  orig: 101, 99
+  offset: 0, 0
+  index: -1
+Tree1
+  rotate: false
+  xy: 1637, 198
+  size: 116, 44
+  orig: 116, 44
+  offset: 0, 0
+  index: -1
+Tree2
+  rotate: false
+  xy: 1750, 543
+  size: 282, 301
+  orig: 282, 301
+  offset: 0, 0
+  index: -1
+Tree3
+  rotate: false
+  xy: 1750, 266
+  size: 282, 275
+  orig: 282, 275
+  offset: 0, 0
+  index: -1
 bg
   rotate: false
-  xy: 2, 39
-  size: 1282, 800
-  orig: 1282, 800
+  xy: 2, 846
+  size: 1918, 1200
+  orig: 1918, 1200
+  offset: 0, 0
+  index: -1
+rrrr2011-03-31StemCellsRadiationSymbolWEBbrickpreview
+  rotate: false
+  xy: 2, 208
+  size: 940, 636
+  orig: 940, 636
+  offset: 0, 0
+  index: -1
+
+pack2.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2
+  rotate: false
+  xy: 921, 6
+  size: 248, 296
+  orig: 248, 296
+  offset: 0, 0
+  index: -1
+Tree
+  rotate: false
+  xy: 606, 42
+  size: 313, 260
+  orig: 313, 260
   offset: 0, 0
   index: -1
 buttonpress
   rotate: false
-  xy: 1286, 539
+  xy: 2, 2
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 fightButton
   rotate: false
-  xy: 1286, 237
+  xy: 304, 2
   size: 300, 300
   orig: 300, 300
-  offset: 0, 0
-  index: -1
-
-pack2.png
-size: 1024,1024
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-rrrr2011-03-31StemCellsRadiationSymbolWEBbrickpreview
-  rotate: false
-  xy: 2, 2
-  size: 940, 636
-  orig: 940, 636
   offset: 0, 0
   index: -1

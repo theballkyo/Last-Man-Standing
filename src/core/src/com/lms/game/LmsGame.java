@@ -195,7 +195,7 @@ public class LmsGame extends ApplicationAdapter {
 		shapes.end();
 
 		if (sl.getSceneVO().sceneName.equals("MainScene")) {
-			TransformComponent tc = sl.entityFactory.getEntityByUniqueId(44).getComponent(TransformComponent.class);
+			TransformComponent tc = sl.entityFactory.getEntityByUniqueId(24).getComponent(TransformComponent.class);
 			DimensionsComponent dc = myEntity.getEntity().getComponent(DimensionsComponent.class);
 			Rectangle r = new Rectangle(myEntity.getX(), myEntity.getY(), dc.width, dc.height);
 			Vector2 v = new Vector2();
