@@ -21,6 +21,7 @@ import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
+import com.lms.script.Player;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
@@ -167,11 +168,14 @@ public class LmsGame extends ApplicationAdapter {
 		shapes.setProjectionMatrix(sl.getBatch().getProjectionMatrix());
 		shapes.begin(ShapeType.Line);
 		
-		sl.getBatch().begin();
+		
 		shapes.setColor(1, 0, 0, 1);
 		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
 				PlayerData pl = p.getValue();
+				sl.getBatch().begin();
+				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
+				sl.getBatch().end();
 				batchFix.begin();
 				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.pos.x, pl.pos.y), 5,
 						Gdx.graphics.getHeight() - (45 + (m * 20)));
@@ -181,11 +185,11 @@ public class LmsGame extends ApplicationAdapter {
 				Rectangle r = new Rectangle(v.x, v.y, pl.getCoreEntity().getWidth(), pl.getCoreEntity().getHeight());
 
 				shapes.rect(r.x, r.y, r.width, r.height);
-				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
+				
 			}
 
 		} 
-		sl.getBatch().end();
+		
 		
 
 		shapes.end();

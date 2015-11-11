@@ -1,4 +1,4 @@
-package com.lms.game;
+package com.lms.script;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
