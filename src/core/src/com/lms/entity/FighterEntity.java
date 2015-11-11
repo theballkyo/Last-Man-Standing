@@ -22,7 +22,8 @@ public class FighterEntity extends CoreEntity {
 		vo.itemIdentifier = entityName;
 		vo.itemName = entityName;
 		vo.playMode = 2;
-		vo.scaleY = 1f;
+		vo.scaleY = 0.5f;
+		vo.scaleX = 0.5f;
 	}
 
 	@Override

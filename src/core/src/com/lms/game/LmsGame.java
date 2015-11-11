@@ -194,17 +194,6 @@ public class LmsGame extends ApplicationAdapter {
 
 		shapes.end();
 
-		if (sl.getSceneVO().sceneName.equals("MainScene")) {
-			TransformComponent tc = sl.entityFactory.getEntityByUniqueId(24).getComponent(TransformComponent.class);
-			DimensionsComponent dc = myEntity.getEntity().getComponent(DimensionsComponent.class);
-			Rectangle r = new Rectangle(myEntity.getX(), myEntity.getY(), dc.width, dc.height);
-			Vector2 v = new Vector2();
-			r.getCenter(v);
-			tc.x = v.x;
-			tc.y = v.y;
-
-		}
-
 		batchFix.begin();
 		font.draw(batchFix, String.format("Ping %.2f ms. | avg %.6f ms.", pingTime / 1000.0, avgPingTime), 5,
 				Gdx.graphics.getHeight() - 5);
