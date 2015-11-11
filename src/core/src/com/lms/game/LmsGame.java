@@ -185,7 +185,6 @@ public class LmsGame extends ApplicationAdapter {
 				Rectangle r = new Rectangle(v.x, v.y, pl.getCoreEntity().getWidth(), pl.getCoreEntity().getHeight());
 
 				shapes.rect(r.x, r.y, r.width, r.height);
-				
 			}
 
 		} 

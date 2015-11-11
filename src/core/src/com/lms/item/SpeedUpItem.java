@@ -5,8 +5,8 @@ import com.lms.game.LmsConfig;
 
 public class SpeedUpItem extends Item {
 
-	public SpeedUpItem(long expire) {
-		super(expire);
+	public SpeedUpItem(long expire, int timeout) {
+		super(expire, timeout);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,6 +26,12 @@ public class SpeedUpItem extends Item {
 					PlayerAPI.get(LmsConfig.playerName).speedRun -= 500;
 				}
 			).start();
+	}
+
+	@Override
+	public void onTimeout() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
