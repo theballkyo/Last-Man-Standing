@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -13,6 +14,9 @@ public class TCPClient implements ClientNetwork{
 	private Socket client;
 	private String host;
 	private int port;
+	
+	private boolean isConn = false;
+	
 	public TCPClient(String host, int port) {
 		this.host = host;
 		this.port = port;
@@ -21,13 +25,16 @@ public class TCPClient implements ClientNetwork{
 	@Override
 	public void start() {
 		try {
-			Socket client = new Socket(host, port);
+			client = new Socket(host, port);
+			System.out.println("TCP client started ...");
+			isConn = true;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+			isConn = false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			isConn = false;
 		}
-		
 	}
 
 	@Override
@@ -58,8 +65,7 @@ public class TCPClient implements ClientNetwork{
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
+		return isConn;
 	}
 
 }

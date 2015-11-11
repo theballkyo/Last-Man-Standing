@@ -3,7 +3,7 @@ package com.lms.network;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-public interface NetworkServerAbstract {
+public interface UDPServerInterface {
 
 	/**
 	 * Use for UDPServer

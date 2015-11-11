@@ -14,7 +14,7 @@ public class UDPClient implements ClientNetwork {
 	private InetAddress host;
 	private int port;
 	private String s;
-	private boolean isConn;
+	private boolean isConn = false;
 	
 	public static final int CONN_OK = 1;
 	public static final int CONN_LOSE = 2;
@@ -27,16 +27,17 @@ public class UDPClient implements ClientNetwork {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		start();
 	}
 
 	@Override
 	public void start() {
-		System.out.println("Start connecting ...");
 		try {
 			sock = new DatagramSocket();
+			System.out.println("UDP client is started..");
+			isConn = true;
 		} catch (SocketException e) {
 			e.printStackTrace();
+			isConn = false;
 		}
 	}
 

@@ -1,10 +1,7 @@
 package com.lms.entity;
 
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.components.TransformComponent;
-import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
-import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 
 public class FighterEntity extends CoreEntity {
 
