@@ -89,6 +89,14 @@ public class PlayerServerAPI {
 		pl.setTcp(client);
 	}
 
+	public static String getName(Socket client) {
+		for (Entry<String, PlayerData> p : playerList.entrySet()) {
+			if (p.getValue().getTcpSocket() == client) {
+				return p.getKey();
+			}
+		}
+		return "";
+	}
 	public static long getTcpLastConn(String name) {
 		return playerList.get(name).lastTcpConn;
 	}

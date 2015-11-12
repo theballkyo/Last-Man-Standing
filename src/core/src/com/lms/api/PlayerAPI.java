@@ -37,7 +37,6 @@ public class PlayerAPI {
 			try {
 				CoreEntity ce = me.newEntity(type, name);
 				ce.create();
-				// Set CoreEntity to playerData
 				pd.setCoreEntity(ce);
 			} catch (NullPointerException e) {
 				Gdx.app.log("PlayerAPI", "Can't find entity type (" + type + ")");

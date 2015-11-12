@@ -29,12 +29,14 @@ public class Player implements IScript {
 
 	private final float jumpSpeed = 600f;
 	private float decreseX;
-
+	private float maxWidth;
+	
 	private boolean isJump = false;
 	private boolean isWalk = false;
 
-	public Player(World world) {
+	public Player(World world, float maxWidth) {
 		this.world = world;
+		this.maxWidth = maxWidth;
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class Player implements IScript {
 
 		sac.currentAnimation = "stand";
 		animation.set(sac);
+		maxWidth -= dimensionsComponent.width;
 	}
 
 	public Entity getEntity() {
@@ -103,7 +106,10 @@ public class Player implements IScript {
 		if (transformComponent.x < 0f) {
 			transformComponent.x = 0f;
 		}
-
+		
+		if (transformComponent.x > maxWidth) {
+			transformComponent.x = maxWidth;
+		}
 		if (isWalk) {
 
 			if (!sac.currentAnimation.equals("run")) {

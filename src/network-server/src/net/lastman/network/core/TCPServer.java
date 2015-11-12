@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import com.lms.api.PlayerData;
 import com.lms.api.PlayerServerAPI;
 import com.lms.network.NetworkEvent;
+import com.lms.network.NetworkEventDisconnect;
 import com.lms.network.NetworkEventManage;
 import com.lms.network.TCPServerInterface;
 
@@ -87,6 +88,7 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 			} catch (IOException e) {
 				if (e.getMessage().contains("Connection reset")) {
 					System.out.println("Client: " + client.getInetAddress() + " has disconnected.");
+					broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
 					PlayerServerAPI.remove(client);
 					break;
 				}

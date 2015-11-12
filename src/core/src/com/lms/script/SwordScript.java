@@ -1,6 +1,8 @@
 package com.lms.script;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.lms.entity.CoreEntity;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.scripts.IScript;
@@ -12,8 +14,8 @@ public class SwordScript implements IScript {
 	
 	private TransformComponent tf;
 	
-	public SwordScript(CoreEntity player) {
-		this.player = player;
+	public SwordScript() {
+
 	}
 	
 	@Override
@@ -24,8 +26,9 @@ public class SwordScript implements IScript {
 
 	@Override
 	public void act(float delta) {
-		// TODO Auto-generated method stub
-		
+		if (Gdx.input.isKeyJustPressed(Keys.C)) {
+			
+		}
 	}
 
 	@Override

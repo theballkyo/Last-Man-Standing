@@ -31,6 +31,8 @@ public class NetworkManage implements Runnable {
 		this.vp = vp;
 		nem = new NetworkEventManage();
 		// Gdx.app.log("Network", "Create object");
+		
+		NetworkPing.start();
 	}
 
 	@Override
@@ -67,9 +69,7 @@ public class NetworkManage implements Runnable {
 		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
-			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
-			LmsGame.sumPingTime += LmsGame.pingTime;
-			LmsGame.countPing += 1;
+			NetworkPing.addPingTime(System.currentTimeMillis() - Long.parseLong(dat[1]));
 		}
 		if (event != null) {
 			event.process(dat[0], UDPcn);
@@ -85,9 +85,7 @@ public class NetworkManage implements Runnable {
 		lastRecv = System.currentTimeMillis();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
-			LmsGame.pingTime = System.currentTimeMillis() - Long.parseLong(dat[1]);
-			LmsGame.sumPingTime += LmsGame.pingTime;
-			LmsGame.countPing += 1;
+			
 		}
 		if (event != null) {
 			event.process(dat[0], TCPcn);
