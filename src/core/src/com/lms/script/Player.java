@@ -48,9 +48,11 @@ public class Player implements IScript {
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
 		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
 		speed = new Vector2(500, 0);
+
 		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
 		sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
 
+		FrameRange f = new FrameRange();
 		sac.currentAnimation = "stand";
 		animation.set(sac);
 		maxWidth -= dimensionsComponent.width;

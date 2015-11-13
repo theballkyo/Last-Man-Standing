@@ -6,21 +6,21 @@ filter: Linear,Linear
 repeat: none
 1
   rotate: false
-  xy: 1922, 1908
+  xy: 1922, 1833
   size: 105, 138
   orig: 105, 138
   offset: 0, 0
   index: -1
 10
   rotate: false
-  xy: 1922, 890
+  xy: 1922, 1058
   size: 55, 54
   orig: 55, 54
   offset: 0, 0
   index: -1
 11
   rotate: false
-  xy: 1174, 149
+  xy: 509, 32
   size: 185, 93
   orig: 185, 93
   offset: 0, 0
@@ -41,14 +41,14 @@ repeat: none
   index: -1
 14
   rotate: false
-  xy: 1361, 143
+  xy: 1436, 210
   size: 77, 32
   orig: 77, 32
   offset: 0, 0
   index: -1
 15
   rotate: false
-  xy: 1922, 1079
+  xy: 1922, 1161
   size: 71, 71
   orig: 71, 71
   offset: 0, 0
@@ -60,23 +60,30 @@ repeat: none
   orig: 412, 79
   offset: 0, 0
   index: -1
+2
+  rotate: false
+  xy: 1750, 548
+  size: 248, 296
+  orig: 248, 296
+  offset: 0, 0
+  index: -1
 3
   rotate: false
-  xy: 944, 59
+  xy: 1750, 363
   size: 228, 183
   orig: 228, 183
   offset: 0, 0
   index: -1
 4
   rotate: false
-  xy: 1496, 207
+  xy: 1096, 207
   size: 139, 35
   orig: 139, 35
   offset: 0, 0
   index: -1
 5
   rotate: false
-  xy: 1496, 170
+  xy: 1341, 207
   size: 93, 35
   orig: 93, 35
   offset: 0, 0
@@ -90,14 +97,14 @@ repeat: none
   index: -1
 7
   rotate: false
-  xy: 1922, 1600
+  xy: 1922, 1422
   size: 93, 92
   orig: 93, 92
   offset: 0, 0
   index: -1
 8
   rotate: false
-  xy: 509, 32
+  xy: 1750, 268
   size: 228, 93
   orig: 228, 93
   offset: 0, 0
@@ -118,163 +125,93 @@ repeat: none
   index: -1
 Bush (1)
   rotate: false
-  xy: 1174, 82
-  size: 133, 65
-  orig: 133, 65
+  xy: 782, 118
+  size: 145, 88
+  orig: 145, 88
   offset: 0, 0
   index: -1
 Bush (2)
   rotate: false
-  xy: 1361, 177
-  size: 133, 65
-  orig: 133, 65
-  offset: 0, 0
-  index: -1
-Bush (3)
-  rotate: false
-  xy: 1963, 217
-  size: 73, 47
-  orig: 73, 47
-  offset: 0, 0
-  index: -1
-Bush (4)
-  rotate: false
-  xy: 1361, 95
-  size: 73, 46
-  orig: 73, 46
+  xy: 929, 115
+  size: 131, 74
+  orig: 131, 74
   offset: 0, 0
   index: -1
 Cactus (1)
   rotate: false
-  xy: 1922, 1795
+  xy: 1922, 1720
   size: 108, 111
   orig: 108, 111
   offset: 0, 0
   index: -1
 Cactus (2)
   rotate: false
-  xy: 1174, 35
+  xy: 1922, 1114
   size: 70, 45
   orig: 70, 45
   offset: 0, 0
   index: -1
 Cactus (3)
   rotate: false
-  xy: 1922, 1502
+  xy: 1922, 1324
   size: 86, 96
   orig: 86, 96
   offset: 0, 0
   index: -1
 Crate
   rotate: false
-  xy: 1922, 1152
-  size: 77, 77
-  orig: 77, 77
+  xy: 1922, 1617
+  size: 101, 101
+  orig: 101, 101
   offset: 0, 0
   index: -1
 Grass (1)
   rotate: false
-  xy: 1755, 214
+  xy: 782, 66
   size: 102, 50
   orig: 102, 50
   offset: 0, 0
   index: -1
 Grass (2)
   rotate: false
-  xy: 1859, 214
+  xy: 1237, 192
   size: 102, 50
   orig: 102, 50
   offset: 0, 0
   index: -1
-ItemCrate
-  rotate: false
-  xy: 1922, 1231
-  size: 77, 90
-  orig: 77, 90
-  offset: 0, 0
-  index: -1
-Mushroom1
-  rotate: false
-  xy: 874, 112
-  size: 49, 41
-  orig: 49, 41
-  offset: 0, 0
-  index: -1
-Mushroom2
-  rotate: false
-  xy: 1309, 106
-  size: 50, 41
-  orig: 50, 41
-  offset: 0, 0
-  index: -1
 Sign
   rotate: false
-  xy: 1922, 1412
+  xy: 1922, 1234
   size: 85, 88
   orig: 85, 88
   offset: 0, 0
   index: -1
-Sign1
-  rotate: false
-  xy: 1922, 1012
-  size: 63, 65
-  orig: 63, 65
-  offset: 0, 0
-  index: -1
-Sign2
-  rotate: false
-  xy: 1922, 946
-  size: 62, 64
-  orig: 62, 64
-  offset: 0, 0
-  index: -1
 SignArrow
   rotate: false
-  xy: 1922, 1323
+  xy: 696, 38
   size: 84, 87
   orig: 84, 87
   offset: 0, 0
   index: -1
 Skeleton
   rotate: false
-  xy: 782, 155
+  xy: 944, 191
   size: 150, 51
   orig: 150, 51
   offset: 0, 0
   index: -1
 Stone
   rotate: false
-  xy: 782, 99
-  size: 90, 54
-  orig: 90, 54
+  xy: 1922, 1973
+  size: 124, 73
+  orig: 124, 73
   offset: 0, 0
   index: -1
 StoneBlock
   rotate: false
-  xy: 1922, 1694
+  xy: 1922, 1516
   size: 101, 99
   orig: 101, 99
-  offset: 0, 0
-  index: -1
-Tree1
-  rotate: false
-  xy: 1637, 198
-  size: 116, 44
-  orig: 116, 44
-  offset: 0, 0
-  index: -1
-Tree2
-  rotate: false
-  xy: 1750, 543
-  size: 282, 301
-  orig: 282, 301
-  offset: 0, 0
-  index: -1
-Tree3
-  rotate: false
-  xy: 1750, 266
-  size: 282, 275
-  orig: 282, 275
   offset: 0, 0
   index: -1
 bg
@@ -293,17 +230,10 @@ rrrr2011-03-31StemCellsRadiationSymbolWEBbrickpreview
   index: -1
 
 pack2.png
-size: 2048,512
+size: 1024,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-2
-  rotate: false
-  xy: 921, 6
-  size: 248, 296
-  orig: 248, 296
-  offset: 0, 0
-  index: -1
 Tree
   rotate: false
   xy: 606, 42
