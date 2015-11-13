@@ -54,6 +54,7 @@ public class PlayerServerAPI {
 
 		pl.pos.x = x;
 		pl.pos.y = y;
+		// pl.getCoreEntity().setAnimation(isAnimation);
 	}
 
 	public static void setTcpLastConn(String name, long time) {

@@ -1,6 +1,7 @@
 package com.lms.object;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -30,16 +31,25 @@ public class BulletObject {
 		Iterator<BulletObject> iter = bullets.iterator();
 		
 		while(iter.hasNext()) {
-			BulletObject r = iter.next();
-			if (r.r.x < 0 || r.r.x > maxWidth) {
-				iter.remove();
+			try {
+				BulletObject r = iter.next();
+				if (r.r.x < 0 || r.r.x > maxWidth) {
+					iter.remove();
+				}
+				r.r.x += (delta * 1000) * r.side;
+				System.out.println(r.r.x + ":" + r.r.y);
+				shapes.begin(ShapeType.Filled);
+				shapes.setColor(1, 0, 0, 1);
+				shapes.rect(r.r.x, r.r.y, r.r.width, r.r.height);
+				shapes.end();
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+				break;
 			}
-			r.r.x += (delta * 1000) * r.side;
-			System.out.println(r.r.x + ":" + r.r.y);
-			shapes.begin(ShapeType.Filled);
-			shapes.setColor(1, 0, 0, 1);
-			shapes.rect(r.r.x, r.r.y, r.r.width, r.r.height);
-			shapes.end();
 		}
+	}
+	
+	public static void add(BulletObject b) {
+		bullets.add(b);
 	}
 }

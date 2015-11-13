@@ -34,7 +34,7 @@ public class NetworkEventUpdate extends NetworkEvent {
 	@Override
 	public void processServer(String data, InetAddress address, int port, String time, UDPServerInterface udp) {
 		String[] dat = data.split(":");
-		PlayerAPI.move(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2]));
+		// PlayerAPI.move(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2]));
 
 	}
 

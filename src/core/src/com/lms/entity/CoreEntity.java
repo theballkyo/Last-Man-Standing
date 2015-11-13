@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
+import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
 import com.uwsoft.editor.renderer.scripts.IScript;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
@@ -16,6 +17,7 @@ public abstract class CoreEntity {
 	protected SceneLoader sl;
 
 	protected SpriteAnimationStateComponent animationState;
+	protected SpriteAnimationComponent sac;
 	protected TransformComponent tf;
 	protected DimensionsComponent dc;
 
@@ -42,6 +44,7 @@ public abstract class CoreEntity {
 		sl.engine.addEntity(entity);
 
 		animationState = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
+		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
 		tf = ComponentRetriever.get(entity, TransformComponent.class);
 		dc = ComponentRetriever.get(entity, DimensionsComponent.class);
 	}
@@ -128,5 +131,26 @@ public abstract class CoreEntity {
 
 	public void setSpeedJump(float speedJump) {
 		this.speedJump = speedJump;
+	}
+	
+	public boolean isWalk() {
+		if (sac == null)
+			return false;
+		return sac.currentAnimation.equals("run");
+	}
+	
+	public void setWalk(boolean r) {
+		if (r) {
+			if (sac.currentAnimation.equals("run"))
+				return;
+			sac.currentAnimation = "run";
+		}
+		else {
+			if (sac.currentAnimation.equals("stand"))
+				return;
+			sac.currentAnimation = "stand";
+		}
+		
+		animationState.set(sac);
 	}
 }

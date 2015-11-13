@@ -3,6 +3,7 @@ package com.lms.api;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.lms.entity.CoreEntity;
@@ -24,9 +25,12 @@ public class PlayerData {
 
 	private String name;
 	private String type;
-
-	public String scene = "MainScene";
+	private String currentAnimation;
 	
+	public String scene = "MainScene";
+
+	private boolean isWalk;
+	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
 	private int clientId;
@@ -111,11 +115,45 @@ public class PlayerData {
 			speedRun = entity.getSpeedRun();
 			speedJump = entity.getSpeedJump();
 		}
-
+		if (entity.getX() != pos.x) {
+			entity.setWalk(true);
+			tWalk = 0;
+		}
+		if (entity.getX() == pos.x) {
+			tWalk += 1;
+			if (tWalk > 3) {
+				entity.setWalk(false);
+			}
+		}
+		
+		if (entity.getX() > pos.x) {
+			scale.x = (-Math.abs(scale.x));
+		} else if (entity.getX() < pos.x) {
+			scale.x = Math.abs(scale.x);
+		}
+		
 		entity.setX(pos.x);
 		entity.setY(pos.y);
 
 		entity.setScaleX(scale.x);
 		entity.setScaleY(scale.y);
+		
+		
+	}
+
+	public String getCurrentAnimation() {
+		return currentAnimation;
+	}
+
+	public void setCurrentAnimation(String currentAnimation) {
+		this.currentAnimation = currentAnimation;
+	}
+	
+	public boolean isWalk() {
+		return isWalk;
+	}
+	
+	public void setWalk(boolean r) {
+		isWalk = r;
 	}
 }

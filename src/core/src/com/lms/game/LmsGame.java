@@ -43,7 +43,7 @@ public class LmsGame extends ApplicationAdapter {
 	private BitmapFont font;
 	private Thread plThread;
 	private ShapeRenderer shapes;
-
+	public static NetworkManage networkManage;
 	private SceneManage sm;
 	private int scene = 0;
 	

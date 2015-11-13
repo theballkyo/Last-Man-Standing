@@ -1,5 +1,6 @@
 package com.lms.scene;
 
+import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
@@ -17,10 +18,12 @@ import com.lms.api.PlayerData;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
+import com.lms.game.LmsGame;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.lms.network.NetworkPing;
 import com.lms.object.BulletObject;
+import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.BulletScript;
 import com.lms.script.Player;
 import com.uwsoft.editor.renderer.SceneLoader;
@@ -49,6 +52,7 @@ public class GameScene extends Scene {
 		
 		sl.loadScene("MainScene", vp);
 		
+		PlayerAPI.removeAll();
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 1900f));
@@ -58,22 +62,25 @@ public class GameScene extends Scene {
 	}
 	
 	public void render() {
-		int m = 1;
-
 		updatePlayer();
+		int m = 1;
+		
 		act();
 
 		BulletObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);
 		if (LmsConfig.debug) {
 			debug();
 		}
+		
+		if (!LmsGame.networkManage.isConn()) {
+			sm.setScene(SceneName.StartScene);
+		}
 	}
 	private boolean connToServer() {
 		// Connect to server
-		final NetworkManage networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
+		LmsGame.networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
 				new TCPClient(LmsConfig.host, LmsConfig.TCPport), sl, new MainEntity(sl), vp);
-
-		Thread nmThread = new Thread(networkManage);
+		Thread nmThread = new Thread(LmsGame.networkManage);
 		nmThread.start();
 
 		try {
@@ -82,24 +89,10 @@ public class GameScene extends Scene {
 			e1.printStackTrace();
 		}
 
-		plThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
-					try {
-						Thread.sleep(5);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-
 		int tryConnTime = 0;
 
 		do {
-			networkManage.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
+			LmsGame.networkManage.sendJoin(myEntity.getName(), myEntity.getType(), myEntity.getX(), myEntity.getY());
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -107,17 +100,28 @@ public class GameScene extends Scene {
 			}
 			tryConnTime += 1;
 
-			if (tryConnTime >= 3 || !networkManage.isConn()) {
+			if (tryConnTime >= 3 || !LmsGame.networkManage.isConn()) {
 				Gdx.app.error("Connection", "No network connect");
 				return false;
 			}
 		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
 
-		networkManage.updateList();
+		LmsGame.networkManage.updateList();
 
-		plThread.start();
-
+		new Thread(() -> {
+			while(true) {
+				LmsGame.networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
 		return true;
+		
 	}
 
 	private void updatePlayer() {
@@ -149,8 +153,9 @@ public class GameScene extends Scene {
 	}
 	
 	private void debug() {
+		DecimalFormat numFormat = new DecimalFormat("###,###,###,###");
 		batchFix.begin();
-		font.draw(batchFix, NetworkPing.getString(), 5,
+		font.draw(batchFix, NetworkPing.getString() + " : Total bytes recev " + numFormat.format(NetworkManage.getByteRecv()), 5,
 				Gdx.graphics.getHeight() - 5);
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5,
 				Gdx.graphics.getHeight() - 25);

@@ -3,6 +3,7 @@ package com.lms.network;
 import java.net.Socket;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsGame;
@@ -21,6 +22,8 @@ public class NetworkManage implements Runnable {
 	NetworkEventManage nem;
 	Socket client;
 
+	private static long byteRecv = 0;
+	
 	private long lastRecv = 0;
 
 	public NetworkManage(UDPClient UDPcn, TCPClient TCPcn, SceneLoader sl, MainEntity me, Viewport vp) {
@@ -66,7 +69,7 @@ public class NetworkManage implements Runnable {
 		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
 
-		lastRecv = System.currentTimeMillis();
+		byteRecv += msg.length();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
 			NetworkPing.addPingTime(System.currentTimeMillis() - Long.parseLong(dat[1]));
@@ -82,7 +85,7 @@ public class NetworkManage implements Runnable {
 		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
 
-		lastRecv = System.currentTimeMillis();
+		byteRecv += msg.length();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
 			
@@ -97,7 +100,9 @@ public class NetworkManage implements Runnable {
 	}
 
 	public void UDPsendMsg(String msg) {
-		UDPcn.sendMsg(msg + "!" + System.currentTimeMillis());
+		new Thread(() -> {
+			UDPcn.sendMsg(msg + "!" + System.currentTimeMillis());
+		}).start();
 	}
 
 	public void TCPsendMsg(String msg) {
@@ -118,6 +123,10 @@ public class NetworkManage implements Runnable {
 		UDPsendMsg(NetworkEventMove.createMoveMsg(name, x, y));
 	}
 
+	public void sendBullet(String name, Rectangle r, int side) {
+		UDPsendMsg(NetworkEventBullet.createMsg(name, r, side));
+	}
+	
 	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}
@@ -128,5 +137,9 @@ public class NetworkManage implements Runnable {
 
 	public boolean isConn() {
 		return TCPcn.isConnected() && UDPcn.isConnected();
+	}
+	
+	public static long getByteRecv() {
+		return byteRecv;
 	}
 }

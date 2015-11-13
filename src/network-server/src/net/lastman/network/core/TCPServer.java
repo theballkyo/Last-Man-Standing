@@ -130,6 +130,8 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 	}
 	
 	public void sendMsg(Socket client, String msg) {
+		if (client == null)
+			return;
 		try {
 			DataOutputStream out = new DataOutputStream(client.getOutputStream());
 			out.writeUTF(msg);

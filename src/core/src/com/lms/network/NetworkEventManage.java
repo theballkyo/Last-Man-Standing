@@ -24,13 +24,15 @@ public class NetworkEventManage {
 		NetworkEventMove.headerCode = 0x04;
 		NetworkEventAdd.headerCode = 0x05;
 		NetworkEventUpdate.headerCode = 0x06;
-
+		NetworkEventBullet.headerCode = 0x07;
+		
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
 		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong());
 		events.put(NetworkEventMove.headerCode, new NetworkEventMove());
 		events.put(NetworkEventAdd.headerCode, new NetworkEventAdd());
 		events.put(NetworkEventUpdate.headerCode, new NetworkEventUpdate());
+		events.put(NetworkEventBullet.headerCode, new NetworkEventBullet());
 	}
 
 	private void add(Byte headerCode, NetworkEvent ne) {

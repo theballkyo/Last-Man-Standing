@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lms.game.LmsConfig;
+import com.lms.game.LmsGame;
 import com.lms.object.BulletObject;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.TransformComponent;
@@ -44,7 +46,9 @@ public class BulletScript implements IScript {
 	public void act(float delta) {
 		if (Gdx.input.isKeyJustPressed(Keys.C)) {
 			System.out.println("Ok c");
-			bullets.add(new BulletObject(new Rectangle(tf.x, tf.y, 50, 50), tf.scaleX));
+			Rectangle r = new Rectangle(tf.x, tf.y, 50, 50);
+			bullets.add(new BulletObject(r, tf.scaleX));
+			LmsGame.networkManage.sendBullet(LmsConfig.playerName, r, (int) tf.scaleX);
 		}
 	}
 

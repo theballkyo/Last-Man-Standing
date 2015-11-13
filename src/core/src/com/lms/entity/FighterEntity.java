@@ -1,6 +1,7 @@
 package com.lms.entity;
 
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
 public class FighterEntity extends CoreEntity {
@@ -12,6 +13,7 @@ public class FighterEntity extends CoreEntity {
 		vo = new SpriteAnimationVO();
 
 		init();
+
 	}
 
 	private void init() {
@@ -33,6 +35,11 @@ public class FighterEntity extends CoreEntity {
 		add();
 
 		setAnimation(true);
+		
+		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
+		sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
+		sac.currentAnimation = "stand";
+		this.animationState.set(sac);
 	}
 
 	@Override

@@ -1,12 +1,18 @@
 package com.lms.api;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
+import com.lms.object.BulletObject;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 public class PlayerAPI {
@@ -62,6 +68,7 @@ public class PlayerAPI {
 
 		if (pd == null) {
 			Gdx.app.log("PlayerAPI - Move", "Can't find entity name (" + name + ")");
+			return;
 		}
 
 		if (pd.pos.x > x) {
@@ -134,5 +141,12 @@ public class PlayerAPI {
 		}
 		pl.setScaleX(f);
 		pl.setScaleY(f);
+	}
+	
+	public static void removeAll() {
+		for(Entry<String, PlayerData> p: players.entrySet()) {
+			sl.getEngine().removeEntity(players.get(p.getKey()).getCoreEntity().getEntity());
+		}
+		players.clear();
 	}
 }

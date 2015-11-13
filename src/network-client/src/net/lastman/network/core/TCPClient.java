@@ -44,6 +44,7 @@ public class TCPClient implements ClientNetwork{
 			DataInputStream msg = new DataInputStream(msgServer);
 			return msg.readUTF();
 		} catch (IOException e) {
+			isConn = false;
 			e.printStackTrace();
 		}
         

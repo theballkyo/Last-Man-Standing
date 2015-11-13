@@ -14,7 +14,7 @@ public class NetworkEventMove extends NetworkEvent {
 	public static byte headerCode;
 
 	/**
-	 * Data rule NAME:X:Y|NAME:X:Y|...!TIME
+	 * Data rule NAME:X:Y:isAnimation|NAME:X:Y:isAnimation|...!TIME
 	 */
 
 	public static String createMoveMsg(String name, float x, float y) {
@@ -24,6 +24,7 @@ public class NetworkEventMove extends NetworkEvent {
 	@Override
 	public void process(String data, UDPClient UDPcn) {
 		String[] dat = data.split(":");
+		// System.out.println(dat[0]+":"+Boolean.parseBoolean(dat[3]));
 		PlayerAPI.move(dat[0], Float.parseFloat(dat[1]), Float.parseFloat(dat[2]));
 
 	}

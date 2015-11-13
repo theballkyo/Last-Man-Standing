@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -28,7 +29,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	NetworkEventManage nem;
 	public HashMap<String, ClientProfile> clientList;
 
-	private int delayUpdate = 15;
+	private int delayUpdate = 10;
 
 	public UDPServer(int port) {
 		this.port = port;
@@ -60,11 +61,15 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 					while (!Thread.currentThread().isInterrupted()) {
 						HashMap<String, PlayerData> pl = PlayerServerAPI.getAll();
 						
-						for (Entry<String, PlayerData> p : pl.entrySet()) {
-							String name = p.getKey();
-							PlayerData dat = p.getValue();
-							broadcast(name, NetworkEventMove.createMoveMsg(name, dat.pos.x, dat.pos.y) + "!"
-									+ System.currentTimeMillis());
+						try {
+							for (Entry<String, PlayerData> p : pl.entrySet()) {
+								String name = p.getKey();
+								PlayerData dat = p.getValue();
+								broadcast(name, NetworkEventMove.createMoveMsg(name, dat.pos.x, dat.pos.y) + "!"
+										+ System.currentTimeMillis());
+							}
+						} catch (ConcurrentModificationException e) {
+							break;
 						}
 						try {
 							Thread.sleep(delayUpdate);
@@ -183,6 +188,9 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 				continue;
 			}
 			PlayerData cp = entry.getValue();
+			// Check player address
+			if (cp.getUdpAddress() == null || cp.getUdpPort() == 0)
+				continue;
 			sendMsg(cp.getUdpAddress(), cp.getUdpPort(), msg);
 		}
 	}
