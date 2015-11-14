@@ -4,7 +4,7 @@ public class JumpBuff extends Buff {
 
 	public JumpBuff(String playerName, long duration) {
 		super(playerName, duration);
-		buffCode = 0x02;
+		buffCode = 0x01;
 	}
 
 	@Override

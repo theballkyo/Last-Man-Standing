@@ -9,7 +9,7 @@ public abstract class Buff {
 	protected String playerName;
 	
 	protected byte buffCode;
-	
+
 	public Buff(String playerName, long duration) {
 		this.playerName = playerName;
 		this.duration = duration;

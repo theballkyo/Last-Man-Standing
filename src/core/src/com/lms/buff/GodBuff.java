@@ -6,7 +6,7 @@ public class GodBuff extends Buff {
 
 	public GodBuff(String playerName, long duration) {
 		super(playerName, duration);
-		buffCode = 0x01;
+		buffCode = 0x02;
 	}
 
 	@Override
