@@ -64,7 +64,7 @@ public class StartScene extends Scene{
 
 		PlayerAPI.removeAll();
 		
-		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "ninja", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 960f));
 		myEntity.addScript(new SwordScript());

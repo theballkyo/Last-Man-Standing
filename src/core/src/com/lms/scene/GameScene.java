@@ -53,7 +53,7 @@ public class GameScene extends Scene {
 		sl.loadScene("MainScene", vp);
 		
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "ninja", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 1900f));
 		myEntity.addScript(new BulletScript(1, sl));

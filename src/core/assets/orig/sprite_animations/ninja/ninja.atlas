@@ -1,0 +1,160 @@
+
+ninja.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ninja0000
+  rotate: false
+  xy: 575, 482
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0001
+  rotate: false
+  xy: 766, 719
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0009
+  rotate: false
+  xy: 766, 719
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0002
+  rotate: false
+  xy: 384, 8
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0008
+  rotate: false
+  xy: 384, 8
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0003
+  rotate: false
+  xy: 575, 251
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0007
+  rotate: false
+  xy: 575, 251
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0004
+  rotate: false
+  xy: 757, 482
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0006
+  rotate: false
+  xy: 757, 482
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0005
+  rotate: false
+  xy: 757, 251
+  size: 180, 229
+  orig: 180, 229
+  offset: 0, 0
+  index: -1
+ninja0010
+  rotate: false
+  xy: 2, 713
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0011
+  rotate: false
+  xy: 2, 476
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0012
+  rotate: false
+  xy: 193, 713
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0013
+  rotate: false
+  xy: 2, 239
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0014
+  rotate: false
+  xy: 193, 476
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0015
+  rotate: false
+  xy: 384, 713
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0016
+  rotate: false
+  xy: 2, 2
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0017
+  rotate: false
+  xy: 193, 239
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0018
+  rotate: false
+  xy: 384, 476
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0019
+  rotate: false
+  xy: 575, 713
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0020
+  rotate: false
+  xy: 193, 2
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1
+ninja0021
+  rotate: false
+  xy: 384, 239
+  size: 189, 235
+  orig: 189, 235
+  offset: 0, 0
+  index: -1

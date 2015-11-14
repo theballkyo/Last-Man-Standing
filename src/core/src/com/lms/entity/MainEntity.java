@@ -16,6 +16,7 @@ public class MainEntity {
 		this.sl = sl;
 		ret.put("sheep", SheepEntity.class);
 		ret.put("figther", FighterEntity.class);
+		ret.put("ninja", NinjaEntity.class);
 	}
 
 	public CoreEntity newEntity(String type, String name) {

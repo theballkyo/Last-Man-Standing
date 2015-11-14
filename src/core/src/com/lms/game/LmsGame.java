@@ -62,9 +62,6 @@ public class LmsGame extends ApplicationAdapter {
 		font.setColor(Color.WHITE);
 
 		cam = (OrthographicCamera) vp.getCamera();
-		
-		//Thread t1 = new Thread();
-		
 
 		
 		// Load API
