@@ -2,7 +2,7 @@ package com.lms.game;
 
 public class LmsConfig {
 
-	public static final String version = "1.0 Dev";
+	public static final String version = "0.9 Private test";
 	public static final String title = "Last Man Standing - Developer Test.";
 	public static final int width = 800;
 	public static final int height = 600;

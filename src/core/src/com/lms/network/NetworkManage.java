@@ -115,8 +115,8 @@ public class NetworkManage implements Runnable {
 
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Send packet Player join ...");
-		TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
-		UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y));
+		TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+		UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
 	}
 
 	public void sendMove(String name, float x, float y) {
@@ -124,7 +124,11 @@ public class NetworkManage implements Runnable {
 	}
 
 	public void sendBullet(String name, Rectangle r, int side) {
-		UDPsendMsg(NetworkEventBullet.createMsg(name, r, side));
+		TCPsendMsg(NetworkEventBullet.createMsg(name, r, side));
+	}
+	
+	public void sendDead(String playerKill, String playerDead) {
+		TCPsendMsg(NetworkEventDead.createMsg(playerKill, playerDead));
 	}
 	
 	public void updateList() {

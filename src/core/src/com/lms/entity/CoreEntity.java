@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
+import com.uwsoft.editor.renderer.components.TintComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
@@ -20,7 +21,8 @@ public abstract class CoreEntity {
 	protected SpriteAnimationComponent sac;
 	protected TransformComponent tf;
 	protected DimensionsComponent dc;
-
+	public TintComponent tc;
+	
 	protected String entityName;
 
 	protected Vector2 position;
@@ -47,6 +49,7 @@ public abstract class CoreEntity {
 		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
 		tf = ComponentRetriever.get(entity, TransformComponent.class);
 		dc = ComponentRetriever.get(entity, DimensionsComponent.class);
+		tc = ComponentRetriever.get(entity, TintComponent.class);
 	}
 
 	public void addScript(IScript script) {

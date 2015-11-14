@@ -149,4 +149,33 @@ public class PlayerAPI {
 		}
 		players.clear();
 	}
+	
+	public static void dead(String name) {
+		PlayerData pd = players.get(name);
+
+		if (pd == null || pd.isGod()) {
+			return;
+		}
+		
+		pd.pos.x = 100;
+		pd.pos.y = 300;
+		
+		pd.setGodMode(2000);
+		pd.updateEntity();
+		
+	}
+	
+	public static void addKill(String name) {
+		PlayerData p = players.get(name);
+		if (p == null)
+			return;
+		p.addKill();
+	}
+	
+	public static void setKill(String name, int kill) {
+		PlayerData p = players.get(name);
+		if (p == null)
+			return;
+		p.setKill(kill);
+	}
 }

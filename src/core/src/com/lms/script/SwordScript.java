@@ -26,7 +26,7 @@ public class SwordScript implements IScript {
 
 	@Override
 	public void act(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.C)) {
+		if (Gdx.input.isKeyJustPressed(Keys.X)) {
 			
 		}
 	}

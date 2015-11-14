@@ -23,6 +23,7 @@ import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.lms.network.NetworkPing;
 import com.lms.object.BulletObject;
+import com.lms.object.CoreObject;
 import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.BulletScript;
 import com.lms.script.Player;
@@ -63,11 +64,10 @@ public class GameScene extends Scene {
 	
 	public void render() {
 		updatePlayer();
-		int m = 1;
 		
 		act();
 
-		BulletObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);
+		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);
 		if (LmsConfig.debug) {
 			debug();
 		}
@@ -172,7 +172,7 @@ public class GameScene extends Scene {
 				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
 				sl.getBatch().end();
 				batchFix.begin();
-				font.draw(batchFix, String.format("%s Position %.0f:%.0f", pl.getName(), pl.pos.x, pl.pos.y), 5,
+				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y, pl.getKill()), 5,
 						Gdx.graphics.getHeight() - (45 + (m * 20)));
 				batchFix.end();
 				m += 1;
