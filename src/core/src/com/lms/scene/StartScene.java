@@ -1,5 +1,8 @@
 package com.lms.scene;
 
+import java.util.Random;
+
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -29,6 +32,9 @@ public class StartScene extends Scene {
 	private FreeTypeFontGenerator generator;
 	private FreeTypeFontParameter parameter;
 	private String name = "";
+
+	private boolean isChange = false;
+	private String[] entityList;
 
 	public StartScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
@@ -63,22 +69,33 @@ public class StartScene extends Scene {
 
 			@Override
 			public void clicked() {
-				System.out.println("dd !");
+				// System.out.println("dd !");
+				//isChange = true;
 				play = true;
 			}
 		});
-
-		PlayerAPI.removeAll();
-
-		PlayerAPI.add(LmsConfig.playerName, "ninja", 100f, 50f);
+		entityList = new String[]{"ninja", "figther"};
+		
+		PlayerAPI.removeAll();	
+		PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-		myEntity.addScript(new Player(sl.world, 960f));
+		myEntity.addScript(new Player(sl.world, 960f, false));
 		//myEntity.addScript(new SwordScript());
 		//myEntity.addScript(new BulletScript(0, sl));
 	}
 
 	@Override
 	public void render() {
+		
+		if (isChange) {
+			myEntity.setX(-999);
+			myEntity.setY(-999);
+			PlayerAPI.removeAll();
+			PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);
+			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
+			myEntity.addScript(new Player(sl.world, 960f, false));
+			isChange = false;
+		}
 		batchFix.begin();
 		if (name.length() < 12) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
@@ -168,6 +185,8 @@ public class StartScene extends Scene {
 			return;
 		}
 		act();
+		
+		
 	}
 
 	@Override

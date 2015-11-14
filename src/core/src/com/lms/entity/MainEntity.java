@@ -19,6 +19,9 @@ public class MainEntity {
 		ret.put("ninja", NinjaEntity.class);
 	}
 
+	public void add(String type, Class<?> c) {
+		ret.put(type, c);
+	}
 	public CoreEntity newEntity(String type, String name) {
 
 		try {

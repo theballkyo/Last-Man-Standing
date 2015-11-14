@@ -3,10 +3,12 @@ package com.lms.api;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.lms.buff.Buff;
 import com.lms.entity.CoreEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
@@ -17,7 +19,8 @@ public class PlayerData {
 
 	public Vector2 pos;
 	public Vector2 scale;
-
+	public Vector2 speed;
+	
 	private int kill;
 
 	public float speedRun;
@@ -26,12 +29,15 @@ public class PlayerData {
 	public long lastUdpConn;
 	public long lastTcpConn;
 
+	private long id;
+	
 	private String name;
 	private String type;
 	private String currentAnimation;
 
 	public String scene = "MainScene";
 
+	private ArrayList<Buff> buffs;
 	private boolean isWalk;
 	private boolean isGod;
 	private int tWalk = 0;
@@ -51,10 +57,13 @@ public class PlayerData {
 		this.type = type;
 		pos = new Vector2(x, y);
 		scale = new Vector2(1, 1);
+		buffs = new ArrayList<>();
+		speed = new Vector2();
 	}
 
 	public void setCoreEntity(CoreEntity entity) {
 		this.entity = entity;
+		speed = entity.speed;
 	}
 
 	public CoreEntity getCoreEntity() {
@@ -116,8 +125,7 @@ public class PlayerData {
 		if (entity == null) {
 			entity = PlayerAPI.me.newEntity(type, name);
 			entity.create();
-			speedRun = entity.getSpeedRun();
-			speedJump = entity.getSpeedJump();
+			speed = entity.speed;
 		}
 		if (entity.getX() != pos.x) {
 			entity.setWalk(true);
@@ -194,5 +202,19 @@ public class PlayerData {
 
 	public void addKill() {
 		kill += 1;
+	}
+	
+	public void addBuff(Buff buff) {
+		buffs.add(buff);
+	}
+	
+	public ArrayList<Buff> getAllBuff() {
+		return buffs;
+	}
+	
+	public long getId() {
+		if (entity == null)
+			return -1;
+		return entity.getEntity().getId();
 	}
 }

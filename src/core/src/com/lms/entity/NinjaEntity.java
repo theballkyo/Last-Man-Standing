@@ -26,6 +26,8 @@ public class NinjaEntity extends CoreEntity {
 		vo.playMode = 2;
 		vo.scaleY = 1f;
 		vo.scaleX = 1f;
+		
+		speed.x = 700;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.lms.api.PlayerAPI;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
+import com.uwsoft.editor.renderer.components.ScriptComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
@@ -35,10 +36,11 @@ public class Player implements IScript {
 
 	private boolean isJump = false;
 	private boolean isWalk = false;
-
-	public Player(World world, float maxWidth) {
+	private boolean isPlay;
+	public Player(World world, float maxWidth, boolean isPlay) {
 		this.world = world;
 		this.maxWidth = maxWidth;
+		this.isPlay = isPlay;
 	}
 
 	@Override
@@ -49,11 +51,7 @@ public class Player implements IScript {
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
 		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
-		speed = new Vector2(500, 0);
-
-		// sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
-		// sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
-
+		speed = PlayerAPI.get(player.getId()).speed;
 		sac.currentAnimation = "stand";
 		animation.set(sac);
 		maxWidth -= dimensionsComponent.width;
@@ -65,13 +63,12 @@ public class Player implements IScript {
 
 	@Override
 	public void act(float delta) {
-
 		speed.y += gravity * delta;
 		rayCast();
 
 		// animation.paused = true;
 		isWalk = false;
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump) {
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump && speed.y >= 0) {
 			speed.y = jumpSpeed;
 			isJump = true;
 		}
@@ -95,29 +92,18 @@ public class Player implements IScript {
 		}
 
 		transformComponent.y += speed.y * delta;
-
-		if (speed.y == 0) {
-			isJump = false;
+		if (!isPlay) {
+			if (transformComponent.y < 0) {
+				transformComponent.y = 1;
+				isJump = false;
+				speed.y = 0;
+			}
+		} else {
+			if (transformComponent.y + dimensionsComponent.height < 0) {
+				LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
+				PlayerAPI.dead(LmsConfig.playerName);
+			}
 		}
-
-		/*
-		 * if (transformComponent.y < 7f) { speed.y = 0; transformComponent.y =
-		 * 7f; isJump = false; }
-		 */
-		if (transformComponent.y < 0) {
-			transformComponent.y = 1;
-			isJump = false;
-			speed.y = 0;
-		}
-		if (transformComponent.y + dimensionsComponent.height < 0) {
-			LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
-			PlayerAPI.dead(LmsConfig.playerName);
-		}
-
-		if (transformComponent.x < 0f) {
-			transformComponent.x = 0f;
-		}
-
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}
@@ -161,7 +147,7 @@ public class Player implements IScript {
 			public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 
 				speed.y = 0;
-
+				isJump = false;
 				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
 
 				return 0;
@@ -171,8 +157,7 @@ public class Player implements IScript {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public float getx() {

@@ -9,6 +9,7 @@ import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.components.ScriptComponent;
 
 public class PlayerAPI {
 
@@ -109,13 +110,13 @@ public class PlayerAPI {
 		return players.get(name);
 	}
 
-	/*
-	 * public static CoreEntity get(String name) { CoreEntity obj =
-	 * playerList.get(name);
-	 *
-	 * return obj; }
-	 */
-
+	public static PlayerData get(long id) {
+		for (Entry<String, PlayerData> p : players.entrySet()) {
+			if (p.getValue().getId() != -1)
+				return p.getValue();
+		}
+		return null;
+	}
 	public static void remove(String name) {
 		try {
 			sl.getEngine().removeEntity(players.get(name).getCoreEntity().getEntity());
@@ -125,6 +126,10 @@ public class PlayerAPI {
 		}
 	}
 
+	public static void removeScript(String name) {
+		players.get(name).getCoreEntity().removeScript();
+	}
+	
 	public static HashMap<String, PlayerData> getAll() {
 		return players;
 	}
@@ -140,7 +145,8 @@ public class PlayerAPI {
 
 	public static void removeAll() {
 		for (Entry<String, PlayerData> p : players.entrySet()) {
-			sl.getEngine().removeEntity(players.get(p.getKey()).getCoreEntity().getEntity());
+			System.out.println("Remove: " + p.getKey());
+			remove(p.getKey());
 		}
 		players.clear();
 	}

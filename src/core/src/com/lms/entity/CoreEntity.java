@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
+import com.uwsoft.editor.renderer.components.ScriptComponent;
 import com.uwsoft.editor.renderer.components.TintComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
@@ -27,8 +28,7 @@ public abstract class CoreEntity {
 
 	protected Vector2 position;
 
-	protected float speedRun = 100;
-	protected float speedJump = 100;
+	public Vector2 speed;
 
 	abstract public void create();
 
@@ -39,6 +39,7 @@ public abstract class CoreEntity {
 	public CoreEntity(String entityName, SceneLoader sl) {
 		this.entityName = entityName;
 		this.sl = sl;
+		speed = new Vector2();
 	}
 
 	protected void add() {
@@ -56,6 +57,9 @@ public abstract class CoreEntity {
 		new ItemWrapper(sl.getRoot()).addChild(entity).addScript(script);
 	}
 
+	public void removeScript() {
+		entity.remove(ScriptComponent.class);
+	}
 	public void setX(float x) {
 		tf.x = x;
 	}
@@ -118,22 +122,6 @@ public abstract class CoreEntity {
 
 	public Vector2 getPosition() {
 		return position;
-	}
-
-	public float getSpeedRun() {
-		return speedRun;
-	}
-
-	public void setSpeedRun(float speedRun) {
-		this.speedRun = speedRun;
-	}
-
-	public float getSpeedJump() {
-		return speedJump;
-	}
-
-	public void setSpeedJump(float speedJump) {
-		this.speedJump = speedJump;
 	}
 
 	public boolean isWalk() {

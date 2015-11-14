@@ -15,6 +15,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerData;
+import com.lms.buff.CoreBuff;
+import com.lms.buff.GodBuff;
+import com.lms.buff.SpeedBuff;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
@@ -38,7 +41,7 @@ public class GameScene extends Scene {
 	private ShapeRenderer shapes;
 	private BitmapFont font;
 	private SpriteBatch batchFix;
-
+	
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
@@ -54,18 +57,19 @@ public class GameScene extends Scene {
 		sl.loadScene("MainScene", vp);
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "ninja", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-		myEntity.addScript(new Player(sl.world, 1900f));
+		myEntity.addScript(new Player(sl.world, 1900f, true));
 		myEntity.addScript(new BulletScript(1, sl));
 		connToServer();
-
+		CoreBuff.add(LmsConfig.playerName, new SpeedBuff(LmsConfig.playerName, 2000, 300));
+		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
 	}
 
 	@Override
 	public void render() {
 		updatePlayer();
-
+		CoreBuff.update();
 		act();
 
 		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);

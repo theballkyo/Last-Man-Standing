@@ -1,6 +1,7 @@
 package com.lms.entity;
 
 import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
 public class SheepEntity extends CoreEntity {
@@ -31,6 +32,11 @@ public class SheepEntity extends CoreEntity {
 		add();
 
 		setAnimation(true);
+
+		//sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 9));
+		//sac.frameRangeMap.put("run", new FrameRange("run", 10, 21));
+		//sac.currentAnimation = "stand";
+		//animationState.set(sac);
 	}
 
 	@Override
