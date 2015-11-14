@@ -10,16 +10,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 public class CoreObject {
 
 	private static ShapeRenderer shapes;
-	
+
 	static {
 		shapes = new ShapeRenderer();
 	}
-	
+
 	public static void draw(float delta, Batch batch, float maxWidth) {
 		shapes.setProjectionMatrix(batch.getProjectionMatrix());
 		Iterator<BulletObject> iter = BulletObject.bullets.iterator();
-		
-		while(iter.hasNext()) {
+
+		while (iter.hasNext()) {
 			try {
 				BulletObject r = iter.next();
 				if (r.r.x < 0 || r.r.x > maxWidth) {
@@ -37,5 +37,5 @@ public class CoreObject {
 			}
 		}
 	}
-	
+
 }

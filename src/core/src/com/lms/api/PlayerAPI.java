@@ -1,18 +1,13 @@
 package com.lms.api;
 
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
-import com.lms.object.BulletObject;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 public class PlayerAPI {
@@ -51,10 +46,10 @@ public class PlayerAPI {
 		}
 		/*
 		 * CoreEntity pl = playerList.get(name);
-		 * 
+		 *
 		 * if (pl != null) { if (name.equals(LmsConfig.playerName)) { return; }
 		 * move(name, x, y); return; }
-		 * 
+		 *
 		 * pl = me.newEntity(type, name); if (pl == null) {
 		 * Gdx.app.log("PlayerAPI", "Can't find entity type (" + type + ")");
 		 * return; } pl.create(); pl.setX(x); pl.setY(y); pl.setAnimation(true);
@@ -85,7 +80,7 @@ public class PlayerAPI {
 		 * "PlayerAPI - Move", "Can't find entity name (" + name + ")"); return;
 		 * } if (pl.getX() > x) { pl.setScaleX(-Math.abs(pl.getScaleX())); }
 		 * else if (pl.getX() < x) { pl.setScaleX(Math.abs(pl.getScaleX())); }
-		 * 
+		 *
 		 * pl.setX(x); pl.setY(y);
 		 */
 		// pd.updateEntity();
@@ -117,7 +112,7 @@ public class PlayerAPI {
 	/*
 	 * public static CoreEntity get(String name) { CoreEntity obj =
 	 * playerList.get(name);
-	 * 
+	 *
 	 * return obj; }
 	 */
 
@@ -142,40 +137,42 @@ public class PlayerAPI {
 		pl.setScaleX(f);
 		pl.setScaleY(f);
 	}
-	
+
 	public static void removeAll() {
-		for(Entry<String, PlayerData> p: players.entrySet()) {
+		for (Entry<String, PlayerData> p : players.entrySet()) {
 			sl.getEngine().removeEntity(players.get(p.getKey()).getCoreEntity().getEntity());
 		}
 		players.clear();
 	}
-	
+
 	public static void dead(String name) {
 		PlayerData pd = players.get(name);
 
 		if (pd == null || pd.isGod()) {
 			return;
 		}
-		
+
 		pd.pos.x = 100;
 		pd.pos.y = 300;
-		
+
 		pd.setGodMode(2000);
 		pd.updateEntity();
-		
+
 	}
-	
+
 	public static void addKill(String name) {
 		PlayerData p = players.get(name);
-		if (p == null)
+		if (p == null) {
 			return;
+		}
 		p.addKill();
 	}
-	
+
 	public static void setKill(String name, int kill) {
 		PlayerData p = players.get(name);
-		if (p == null)
+		if (p == null) {
 			return;
+		}
 		p.setKill(kill);
 	}
 }

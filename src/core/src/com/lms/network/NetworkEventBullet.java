@@ -4,9 +4,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.lms.api.PlayerAPI;
-import com.lms.api.PlayerServerAPI;
 import com.lms.object.BulletObject;
 
 import net.lastman.network.core.TCPClient;
@@ -15,10 +12,9 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventBullet extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	/**
-	 * Data rule
-	 * NAME:X:Y:WIDTH:HEIGHT:SIDE
+	 * Data rule NAME:X:Y:WIDTH:HEIGHT:SIDE
 	 */
 	@Override
 	public void process(String data, UDPClient UDPcn) {
@@ -59,7 +55,7 @@ public class NetworkEventBullet extends NetworkEvent {
 	public static String createMsg(String name, Rectangle r, int side) {
 		return createMsg(name, r.x, r.y, r.width, r.height, side);
 	}
-	
+
 	public static String createMsg(String name, float x, float y, float width, float height, int side) {
 		return String.format("%c%s:%.1f:%.1f:%.1f:%.1f:%d", headerCode, name, x, y, width, height, side);
 	}

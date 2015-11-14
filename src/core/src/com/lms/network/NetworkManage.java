@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.entity.MainEntity;
-import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 import net.lastman.network.core.TCPClient;
@@ -23,7 +22,7 @@ public class NetworkManage implements Runnable {
 	Socket client;
 
 	private static long byteRecv = 0;
-	
+
 	private long lastRecv = 0;
 
 	public NetworkManage(UDPClient UDPcn, TCPClient TCPcn, SceneLoader sl, MainEntity me, Viewport vp) {
@@ -34,7 +33,7 @@ public class NetworkManage implements Runnable {
 		this.vp = vp;
 		nem = new NetworkEventManage();
 		// Gdx.app.log("Network", "Create object");
-		
+
 		NetworkPing.start();
 	}
 
@@ -88,7 +87,7 @@ public class NetworkManage implements Runnable {
 		byteRecv += msg.length();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
-			
+
 		}
 		if (event != null) {
 			event.process(dat[0], TCPcn);
@@ -126,11 +125,11 @@ public class NetworkManage implements Runnable {
 	public void sendBullet(String name, Rectangle r, int side) {
 		TCPsendMsg(NetworkEventBullet.createMsg(name, r, side));
 	}
-	
+
 	public void sendDead(String playerKill, String playerDead) {
 		TCPsendMsg(NetworkEventDead.createMsg(playerKill, playerDead));
 	}
-	
+
 	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}
@@ -142,7 +141,7 @@ public class NetworkManage implements Runnable {
 	public boolean isConn() {
 		return TCPcn.isConnected() && UDPcn.isConnected();
 	}
-	
+
 	public static long getByteRecv() {
 		return byteRecv;
 	}

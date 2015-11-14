@@ -7,7 +7,7 @@ import com.lms.game.LmsConfig;
 public class SpeedUpItem extends Item {
 
 	private PlayerData pd;
-	
+
 	public SpeedUpItem(long expire, int timeout) {
 		super(expire, timeout);
 	}
@@ -23,5 +23,5 @@ public class SpeedUpItem extends Item {
 	public void onTimeout() {
 		PlayerAPI.get(LmsConfig.playerName).speedRun -= 500;
 	}
-	
+
 }

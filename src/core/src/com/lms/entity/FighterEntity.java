@@ -35,11 +35,11 @@ public class FighterEntity extends CoreEntity {
 		add();
 
 		setAnimation(true);
-		
+
 		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
 		sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
 		sac.currentAnimation = "stand";
-		this.animationState.set(sac);
+		animationState.set(sac);
 	}
 
 	@Override

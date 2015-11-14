@@ -11,30 +11,30 @@ import com.uwsoft.editor.renderer.utils.ComponentRetriever;
 public class SwordScript implements IScript {
 
 	CoreEntity player;
-	
+
 	private TransformComponent tf;
-	
+
 	public SwordScript() {
 
 	}
-	
+
 	@Override
 	public void init(Entity entity) {
 		tf = ComponentRetriever.get(entity, TransformComponent.class);
-		
+
 	}
 
 	@Override
 	public void act(float delta) {
 		if (Gdx.input.isKeyJustPressed(Keys.X)) {
-			
+
 		}
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -18,7 +18,7 @@ public class PlayerServerAPI {
 	public static void add(String name, String type, float x, float y) {
 		add(name, type, x, y, 0);
 	}
-	
+
 	public static void add(String name, String type, float x, float y, int kill) {
 		if (playerList.get(name) != null) {
 			return;
@@ -103,6 +103,7 @@ public class PlayerServerAPI {
 		}
 		return "";
 	}
+
 	public static long getTcpLastConn(String name) {
 		return playerList.get(name).lastTcpConn;
 	}
@@ -117,8 +118,9 @@ public class PlayerServerAPI {
 
 	public static void addKill(String name) {
 		PlayerData p = playerList.get(name);
-		if (p == null)
+		if (p == null) {
 			return;
+		}
 		p.addKill();
 	}
 }

@@ -10,12 +10,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.lms.api.PlayerAPI;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
-import com.lms.network.NetworkEventDead;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
-import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
 import com.uwsoft.editor.renderer.scripts.IScript;
 import com.uwsoft.editor.renderer.utils.ComponentRetriever;
@@ -34,7 +32,7 @@ public class Player implements IScript {
 	private final float jumpSpeed = 600f;
 	private float decreseX;
 	private float maxWidth;
-	
+
 	private boolean isJump = false;
 	private boolean isWalk = false;
 
@@ -53,8 +51,8 @@ public class Player implements IScript {
 		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
 		speed = new Vector2(500, 0);
 
-		//sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
-		//sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
+		// sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 14));
+		// sac.frameRangeMap.put("run", new FrameRange("run", 15, 49));
 
 		sac.currentAnimation = "stand";
 		animation.set(sac);
@@ -103,12 +101,9 @@ public class Player implements IScript {
 		}
 
 		/*
-		if (transformComponent.y < 7f) {
-			speed.y = 0;
-			transformComponent.y = 7f;
-			isJump = false;
-		}
-		*/
+		 * if (transformComponent.y < 7f) { speed.y = 0; transformComponent.y =
+		 * 7f; isJump = false; }
+		 */
 		if (transformComponent.y < 0) {
 			transformComponent.y = 1;
 			isJump = false;
@@ -118,11 +113,11 @@ public class Player implements IScript {
 			LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
 			PlayerAPI.dead(LmsConfig.playerName);
 		}
-		
+
 		if (transformComponent.x < 0f) {
 			transformComponent.x = 0f;
 		}
-		
+
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}

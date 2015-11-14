@@ -12,10 +12,9 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventDead extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	/**
-	 * Data rule
-	 * playerKill:playerDead
+	 * Data rule playerKill:playerDead
 	 */
 	@Override
 	public void process(String data, UDPClient UDPcn) {
@@ -42,7 +41,7 @@ public class NetworkEventDead extends NetworkEvent {
 		PlayerServerAPI.addKill(dat[0]);
 		tcp.broadcast(createMsg(dat[0], dat[1]));
 	}
-	
+
 	public static String createMsg(String playerKill, String playerDead) {
 		return String.format("%c%s:%s", headerCode, playerKill, playerDead);
 	}

@@ -35,11 +35,11 @@ public class NinjaEntity extends CoreEntity {
 		add();
 
 		setAnimation(true);
-		
+
 		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 9));
 		sac.frameRangeMap.put("run", new FrameRange("run", 10, 21));
 		sac.currentAnimation = "stand";
-		this.animationState.set(sac);
+		animationState.set(sac);
 	}
 
 	@Override

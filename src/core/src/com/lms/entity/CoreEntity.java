@@ -22,7 +22,7 @@ public abstract class CoreEntity {
 	protected TransformComponent tf;
 	protected DimensionsComponent dc;
 	public TintComponent tc;
-	
+
 	protected String entityName;
 
 	protected Vector2 position;
@@ -135,25 +135,27 @@ public abstract class CoreEntity {
 	public void setSpeedJump(float speedJump) {
 		this.speedJump = speedJump;
 	}
-	
+
 	public boolean isWalk() {
-		if (sac == null)
+		if (sac == null) {
 			return false;
+		}
 		return sac.currentAnimation.equals("run");
 	}
-	
+
 	public void setWalk(boolean r) {
 		if (r) {
-			if (sac.currentAnimation.equals("run"))
+			if (sac.currentAnimation.equals("run")) {
 				return;
+			}
 			sac.currentAnimation = "run";
-		}
-		else {
-			if (sac.currentAnimation.equals("stand"))
+		} else {
+			if (sac.currentAnimation.equals("stand")) {
 				return;
+			}
 			sac.currentAnimation = "stand";
 		}
-		
+
 		animationState.set(sac);
 	}
 }

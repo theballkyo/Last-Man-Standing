@@ -191,7 +191,7 @@ public class PlayerData {
 	public void setKill(int kill) {
 		this.kill = kill;
 	}
-	
+
 	public void addKill() {
 		kill += 1;
 	}

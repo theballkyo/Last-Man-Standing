@@ -7,6 +7,7 @@ public class LmsConfig {
 	public static final int width = 800;
 	public static final int height = 600;
 	public static final boolean debug = true;
+
 	public enum GameType {
 		Client, Server
 	}

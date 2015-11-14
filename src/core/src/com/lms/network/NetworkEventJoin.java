@@ -62,7 +62,7 @@ public class NetworkEventJoin extends NetworkEvent {
 		float x = Float.parseFloat(dat[2]);
 		float y = Float.parseFloat(dat[3]);
 		int kill = Integer.parseInt(dat[4]);
-		
+
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setUdpLastConn(name, System.currentTimeMillis());
 		PlayerServerAPI.setUdpClient(name, address, port);
@@ -78,7 +78,7 @@ public class NetworkEventJoin extends NetworkEvent {
 		float x = Float.parseFloat(dat[2]);
 		float y = Float.parseFloat(dat[3]);
 		int kill = Integer.parseInt(dat[4]);
-		
+
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
@@ -95,7 +95,7 @@ public class NetworkEventJoin extends NetworkEvent {
 		}
 
 	}
-	
+
 	public static String createJoinMsg(String name, String type, float x, float y, int kill) {
 		return String.format("%c%s:%s:%.0f:%.0f:%d", headerCode, name, type, x, y, kill);
 	}

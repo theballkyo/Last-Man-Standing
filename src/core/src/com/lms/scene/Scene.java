@@ -11,6 +11,7 @@ public abstract class Scene extends ApplicationAdapter {
 	Viewport vp;
 	OrthographicCamera cam;
 	SceneManage sm;
+
 	public Scene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		this.sl = sl;
 		this.vp = vp;

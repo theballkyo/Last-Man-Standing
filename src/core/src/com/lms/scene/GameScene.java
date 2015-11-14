@@ -22,7 +22,6 @@ import com.lms.game.LmsGame;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.lms.network.NetworkPing;
-import com.lms.object.BulletObject;
 import com.lms.object.CoreObject;
 import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.BulletScript;
@@ -39,43 +38,46 @@ public class GameScene extends Scene {
 	private ShapeRenderer shapes;
 	private BitmapFont font;
 	private SpriteBatch batchFix;
-	
+
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
 
+	@Override
 	public void create() {
-		
+
 		font = new BitmapFont();
 		shapes = new ShapeRenderer();
 		batchFix = new SpriteBatch();
 		font.setColor(Color.RED);
-		
+
 		sl.loadScene("MainScene", vp);
-		
+
 		PlayerAPI.removeAll();
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 1900f));
 		myEntity.addScript(new BulletScript(1, sl));
 		connToServer();
-		
+
 	}
-	
+
+	@Override
 	public void render() {
 		updatePlayer();
-		
+
 		act();
 
 		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);
 		if (LmsConfig.debug) {
 			debug();
 		}
-		
+
 		if (!LmsGame.networkManage.isConn()) {
 			sm.setScene(SceneName.StartScene);
 		}
 	}
+
 	private boolean connToServer() {
 		// Connect to server
 		LmsGame.networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
@@ -109,7 +111,7 @@ public class GameScene extends Scene {
 		LmsGame.networkManage.updateList();
 
 		new Thread(() -> {
-			while(true) {
+			while (true) {
 				LmsGame.networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
 				try {
 					Thread.sleep(10);
@@ -119,13 +121,13 @@ public class GameScene extends Scene {
 				}
 			}
 		}).start();
-		
+
 		return true;
-		
+
 	}
 
 	private void updatePlayer() {
-		for(Entry<String, PlayerData> p: PlayerAPI.getAll().entrySet()) {
+		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getKey().equals(LmsConfig.playerName)) {
 				p.getValue().pos.x = myEntity.getX();
 				p.getValue().pos.y = myEntity.getY();
@@ -134,9 +136,9 @@ public class GameScene extends Scene {
 			p.getValue().updateEntity();
 		}
 	}
-	
+
 	public void act() {
-		
+
 		cam.position.x = myEntity.getX();
 		cam.position.y = myEntity.getY();
 
@@ -149,22 +151,23 @@ public class GameScene extends Scene {
 		if (myEntity.getX() > 1900 - (Gdx.graphics.getWidth() / 2)) {
 			cam.position.x = 1900 - (Gdx.graphics.getWidth() / 2);
 		}
-		
+
 	}
-	
+
 	private void debug() {
 		DecimalFormat numFormat = new DecimalFormat("###,###,###,###");
 		batchFix.begin();
-		font.draw(batchFix, NetworkPing.getString() + " : Total bytes recev " + numFormat.format(NetworkManage.getByteRecv()), 5,
+		font.draw(batchFix,
+				NetworkPing.getString() + " : Total bytes recev " + numFormat.format(NetworkManage.getByteRecv()), 5,
 				Gdx.graphics.getHeight() - 5);
 		font.draw(batchFix, String.format("Player position %.0f:%.0f", myEntity.getX(), myEntity.getY()), 5,
 				Gdx.graphics.getHeight() - 25);
 		font.draw(batchFix, String.format("Welcome %s", LmsConfig.playerName), 5, Gdx.graphics.getHeight() - 45);
 		batchFix.end();
-		
+
 		int m = 1;
 		shapes.setProjectionMatrix(sl.getBatch().getProjectionMatrix());
-		
+
 		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
 				PlayerData pl = p.getValue();
@@ -172,8 +175,8 @@ public class GameScene extends Scene {
 				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
 				sl.getBatch().end();
 				batchFix.begin();
-				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y, pl.getKill()), 5,
-						Gdx.graphics.getHeight() - (45 + (m * 20)));
+				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y,
+						pl.getKill()), 5, Gdx.graphics.getHeight() - (45 + (m * 20)));
 				batchFix.end();
 				m += 1;
 				Vector2 v = new Vector2(pl.pos.x, pl.pos.y);
@@ -184,6 +187,6 @@ public class GameScene extends Scene {
 				shapes.end();
 			}
 
-		} 
+		}
 	}
 }
