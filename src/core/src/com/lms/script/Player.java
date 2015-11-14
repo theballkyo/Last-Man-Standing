@@ -109,7 +109,11 @@ public class Player implements IScript {
 			isJump = false;
 		}
 		*/
-		
+		if (transformComponent.y < 0) {
+			transformComponent.y = 1;
+			isJump = false;
+			speed.y = 0;
+		}
 		if (transformComponent.y + dimensionsComponent.height < 0) {
 			LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
 			PlayerAPI.dead(LmsConfig.playerName);

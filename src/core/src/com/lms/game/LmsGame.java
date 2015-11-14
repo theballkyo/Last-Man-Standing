@@ -87,18 +87,7 @@ public class LmsGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-<<<<<<< HEAD
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		 
-		
-		act();
-		sl.getEngine().update(Gdx.graphics.getDeltaTime());
-		sm.render();
-		
-		// updatePlayer();
-=======
+
 		try {
 			Gdx.gl.glClearColor(0, 0, 0, 0);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -114,7 +103,6 @@ public class LmsGame extends ApplicationAdapter {
 			e.printStackTrace();
 			Gdx.app.exit();
 		}
->>>>>>> origin/cleanup
 	}
 
 	@Override

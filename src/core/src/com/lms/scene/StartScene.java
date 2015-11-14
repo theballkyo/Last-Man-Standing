@@ -4,9 +4,12 @@ import java.awt.font.FontRenderContext;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.api.PlayerAPI;
 import com.lms.entity.CoreEntity;
@@ -26,7 +29,8 @@ public class StartScene extends Scene{
 	private SpriteBatch batchFix;
 	private BitmapFont font;
 	private boolean play = false;
-
+	private FreeTypeFontGenerator generator;
+	private FreeTypeFontParameter parameter;
 	private String name = "";
 	
 	public StartScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
@@ -34,8 +38,13 @@ public class StartScene extends Scene{
 	}
 
 	public void create() {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/test.otf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 86;
+		parameter.color = Color.RED;
+		font = generator.generateFont(parameter); // font size 12 pixels
 		batchFix = new SpriteBatch();
-		font = new BitmapFont();
+		// font = new BitmapFont();
 		sl.loadScene("StartScene", vp);
 
 		sl.addComponentsByTagName("button", ButtonComponent.class);
@@ -72,7 +81,7 @@ public class StartScene extends Scene{
 	
 	public void render() {
 		batchFix.begin();
-		if (name.length() < 10){
+		if (name.length() < 12){
 		if (Gdx.input.isKeyJustPressed(Input.Keys.A)) name += "A";
 		 if (Gdx.input.isKeyJustPressed(Input.Keys.B)) name += "B";
 		 if (Gdx.input.isKeyJustPressed(Input.Keys.C)) name += "C";
@@ -110,12 +119,12 @@ public class StartScene extends Scene{
 		 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) name += "8";
 		 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) name += "9";}
 		 if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE) && name.length() != 0) name = name.substring(0, name.length()-1);
-		 font.getData().setScale(5f, 5f);
 		 font.draw(batchFix, name, 170, 350);
 		batchFix.end();
 		
 		if (play) {
 			PlayerAPI.remove(LmsConfig.playerName);
+			LmsConfig.playerName = name;
 			sm.setScene(SceneName.PlayScene);
 			return;
 		}

@@ -13,7 +13,7 @@ public class LmsConfig {
 
 	public static GameType gameType = GameType.Client;
 
-	public static String host = "mc-sv1.enjoyprice.in.th";
+	public static String host = "127.0.0.1";
 
 	public static int UDPport = 20156;
 
