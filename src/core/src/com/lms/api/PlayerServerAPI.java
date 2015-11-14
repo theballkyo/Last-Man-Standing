@@ -16,11 +16,16 @@ public class PlayerServerAPI {
 	private static HashMap<String, PlayerData> playerList = new HashMap<String, PlayerData>();
 
 	public static void add(String name, String type, float x, float y) {
+		add(name, type, x, y, 0);
+	}
+	
+	public static void add(String name, String type, float x, float y, int kill) {
 		if (playerList.get(name) != null) {
 			return;
 		}
 
 		playerList.put(name, new PlayerData(name, type, x, y));
+		playerList.get(name).setKill(kill);
 
 	}
 
@@ -110,4 +115,10 @@ public class PlayerServerAPI {
 		return playerList;
 	}
 
+	public static void addKill(String name) {
+		PlayerData p = playerList.get(name);
+		if (p == null)
+			return;
+		p.addKill();
+	}
 }

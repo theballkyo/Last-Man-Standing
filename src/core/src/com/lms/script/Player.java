@@ -7,6 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lms.api.PlayerAPI;
+import com.lms.game.LmsConfig;
+import com.lms.game.LmsGame;
+import com.lms.network.NetworkEventDead;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
@@ -97,12 +101,19 @@ public class Player implements IScript {
 			isJump = false;
 		}
 
+		/*
 		if (transformComponent.y < 7f) {
 			speed.y = 0;
 			transformComponent.y = 7f;
 			isJump = false;
 		}
-
+		*/
+		
+		if (transformComponent.y + dimensionsComponent.height < 0) {
+			LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
+			PlayerAPI.dead(LmsConfig.playerName);
+		}
+		
 		if (transformComponent.x < 0f) {
 			transformComponent.x = 0f;
 		}
@@ -113,7 +124,6 @@ public class Player implements IScript {
 		if (isWalk) {
 
 			if (!sac.currentAnimation.equals("run")) {
-				System.out.println("Run");
 				sac.currentAnimation = "run";
 				animation.set(sac);
 
@@ -121,7 +131,6 @@ public class Player implements IScript {
 
 		} else {
 			if (!sac.currentAnimation.equals("stand")) {
-				System.out.println("Stand");
 				sac.currentAnimation = "stand";
 				animation.set(sac);
 			}

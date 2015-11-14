@@ -50,7 +50,6 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 								@Override
 								public void run() {
 									connectionId += 1;
-									// clientList.put(connectionId, client);
 									clientAccept(client);
 								}
 
@@ -149,8 +148,10 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 	}
 
 	@Override
-	public void broadcast(int clientId, String msg) {
+	public void broadcast(Socket client, String msg) {
 		for (Entry<String, PlayerData> entry : PlayerServerAPI.getAll().entrySet()) { 
+			if (client == entry.getValue().getTcpSocket())
+				continue;
 			sendMsg(entry.getValue().getTcpSocket(), msg);
 		}
 	}

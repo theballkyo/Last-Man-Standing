@@ -3,8 +3,9 @@ package com.lms.api;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.LinkedList;
+import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.lms.entity.CoreEntity;
 import com.lms.game.LmsConfig;
@@ -17,6 +18,8 @@ public class PlayerData {
 	public Vector2 pos;
 	public Vector2 scale;
 
+	private int kill;
+
 	public float speedRun;
 	public float speedJump;
 
@@ -26,10 +29,11 @@ public class PlayerData {
 	private String name;
 	private String type;
 	private String currentAnimation;
-	
+
 	public String scene = "MainScene";
 
 	private boolean isWalk;
+	private boolean isGod;
 	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
@@ -125,20 +129,19 @@ public class PlayerData {
 				entity.setWalk(false);
 			}
 		}
-		
+
 		if (entity.getX() > pos.x) {
 			scale.x = (-Math.abs(scale.x));
 		} else if (entity.getX() < pos.x) {
 			scale.x = Math.abs(scale.x);
 		}
-		
+
 		entity.setX(pos.x);
 		entity.setY(pos.y);
 
 		entity.setScaleX(scale.x);
 		entity.setScaleY(scale.y);
-		
-		
+
 	}
 
 	public String getCurrentAnimation() {
@@ -148,12 +151,48 @@ public class PlayerData {
 	public void setCurrentAnimation(String currentAnimation) {
 		this.currentAnimation = currentAnimation;
 	}
-	
+
 	public boolean isWalk() {
 		return isWalk;
 	}
-	
+
 	public void setWalk(boolean r) {
 		isWalk = r;
+	}
+
+	public boolean isGod() {
+		return isGod;
+	}
+
+	public void setGodMode(long time) {
+		isGod = true;
+		new Thread(() -> {
+			long endTime = System.currentTimeMillis() + time;
+			Color c = entity.tc.color;
+			Random r = new Random();
+			while (System.currentTimeMillis() < endTime) {
+				c.set(r.nextFloat(), r.nextFloat(), r.nextFloat(), r.nextFloat());
+				try {
+					Thread.sleep(1);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			c.set(1, 1, 1, 1);
+			isGod = false;
+		}).start();
+	}
+
+	public int getKill() {
+		return kill;
+	}
+
+	public void setKill(int kill) {
+		this.kill = kill;
+	}
+	
+	public void addKill() {
+		kill += 1;
 	}
 }
