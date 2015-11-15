@@ -37,8 +37,12 @@ public class NetworkEventBuff extends NetworkEvent {
 		String[] dat = data.split(":");
 		byte buffCode = dat[0].getBytes()[0];
 		String name = dat[1];
-		System.out.println(data);
-		CoreBuff.processBuff(buffCode, name, dat[2].split("|"));
+		
+		if (dat[2].contains("|"))
+			CoreBuff.processBuff(buffCode, name, dat[2].split("|"));
+		else
+			CoreBuff.processBuff(buffCode, name, new String[]{dat[2]});
+
 	}
 
 	/**
@@ -64,7 +68,6 @@ public class NetworkEventBuff extends NetworkEvent {
 	 */
 	@Override
 	public void processServer(String data, Socket client, String time, TCPServerInterface tcp) {
-		System.out.println(data);
 		tcp.broadcast(client, String.format("%c%s", headerCode, data));
 	}
 
@@ -76,6 +79,7 @@ public class NetworkEventBuff extends NetworkEvent {
 	 * @return
 	 */
 	public static String createMsg(byte buffCode, String name, String[] arg) {
+		System.out.println("J" + String.join("|", arg));
 		return String.format("%c%c:%s:%s", headerCode, buffCode, name, String.join("|", arg));
 	}
 }
