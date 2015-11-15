@@ -130,6 +130,10 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventDead.createMsg(playerKill, playerDead));
 	}
 
+	public void sendBuff(byte buffCode, String name, String[] arg) {
+		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, arg));
+	}
+	
 	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}

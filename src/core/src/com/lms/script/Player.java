@@ -104,6 +104,9 @@ public class Player implements IScript {
 				PlayerAPI.dead(LmsConfig.playerName);
 			}
 		}
+		if (transformComponent.x < 0) {
+			transformComponent.x = 0;
+		}
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}

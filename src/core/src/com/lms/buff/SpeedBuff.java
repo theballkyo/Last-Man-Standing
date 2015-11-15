@@ -21,4 +21,8 @@ public class SpeedBuff extends Buff{
 	public void timeout() {
 		PlayerAPI.get(playerName).speed.x -= speed;
 	}
+	
+	public String[] getArg() {
+		return new String[]{String.valueOf(duration), String.valueOf(speed)};
+	}
 }

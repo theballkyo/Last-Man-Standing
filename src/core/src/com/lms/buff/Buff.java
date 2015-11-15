@@ -38,4 +38,6 @@ public abstract class Buff {
 	public byte getBuffCode() {
 		return buffCode;
 	}
+	
+	abstract public String[] getArg();
 }

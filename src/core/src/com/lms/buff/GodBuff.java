@@ -6,7 +6,6 @@ public class GodBuff extends Buff {
 
 	public GodBuff(String playerName, long duration) {
 		super(playerName, duration);
-		buffCode = 0x02;
 	}
 
 	@Override
@@ -17,6 +16,10 @@ public class GodBuff extends Buff {
 	@Override
 	public void timeout() {
 
+	}
+	
+	public String[] getArg() {
+		return new String[]{String.valueOf(duration)};
 	}
 
 }

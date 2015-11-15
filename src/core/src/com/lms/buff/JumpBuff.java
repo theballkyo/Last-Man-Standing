@@ -2,9 +2,11 @@ package com.lms.buff;
 
 public class JumpBuff extends Buff {
 
-	public JumpBuff(String playerName, long duration) {
+	private int speed;
+	
+	public JumpBuff(String playerName, long duration, int speed) {
 		super(playerName, duration);
-		buffCode = 0x01;
+		this.speed = speed;
 	}
 
 	@Override
@@ -18,5 +20,7 @@ public class JumpBuff extends Buff {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public String[] getArg() {
+		return new String[]{String.valueOf(duration), String.valueOf(speed)};
+	}
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.lms.buff.CoreBuff;
+import com.lms.buff.GodBuff;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
@@ -161,7 +163,7 @@ public class PlayerAPI {
 		pd.pos.x = 100;
 		pd.pos.y = 300;
 
-		pd.setGodMode(2000);
+		CoreBuff.add(name, new GodBuff(name, 3000));
 		pd.updateEntity();
 
 	}
