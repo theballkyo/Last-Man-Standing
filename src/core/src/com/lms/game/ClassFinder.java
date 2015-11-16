@@ -44,7 +44,7 @@ public class ClassFinder {
 			} catch (ClassNotFoundException ignore) {
 			}
 		}
-		
+
 		return classes;
 	}
 

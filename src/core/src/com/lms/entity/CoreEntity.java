@@ -60,6 +60,7 @@ public abstract class CoreEntity {
 	public void removeScript() {
 		entity.remove(ScriptComponent.class);
 	}
+
 	public void setX(float x) {
 		tf.x = x;
 	}

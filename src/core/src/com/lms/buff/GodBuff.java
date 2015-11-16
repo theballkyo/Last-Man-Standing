@@ -17,9 +17,10 @@ public class GodBuff extends Buff {
 	public void timeout() {
 
 	}
-	
+
+	@Override
 	public String[] getArg() {
-		return new String[]{String.valueOf(duration)};
+		return new String[] { String.valueOf(duration) };
 	}
 
 }

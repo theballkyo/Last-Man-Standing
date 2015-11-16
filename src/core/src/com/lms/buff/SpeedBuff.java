@@ -2,10 +2,10 @@ package com.lms.buff;
 
 import com.lms.api.PlayerAPI;
 
-public class SpeedBuff extends Buff{
+public class SpeedBuff extends Buff {
 
 	private int speed;
-	
+
 	public SpeedBuff(String playerName, long duration, int speed) {
 		super(playerName, duration);
 		this.speed = speed;
@@ -16,13 +16,14 @@ public class SpeedBuff extends Buff{
 	public void init() {
 		PlayerAPI.get(playerName).speed.x += speed;
 	}
-	
+
 	@Override
 	public void timeout() {
 		PlayerAPI.get(playerName).speed.x -= speed;
 	}
-	
+
+	@Override
 	public String[] getArg() {
-		return new String[]{String.valueOf(duration), String.valueOf(speed)};
+		return new String[] { String.valueOf(duration), String.valueOf(speed) };
 	}
 }

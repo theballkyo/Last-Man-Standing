@@ -11,7 +11,6 @@ import com.lms.api.PlayerAPI;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
-import com.uwsoft.editor.renderer.components.ScriptComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
@@ -37,6 +36,7 @@ public class Player implements IScript {
 	private boolean isJump = false;
 	private boolean isWalk = false;
 	private boolean isPlay;
+
 	public Player(World world, float maxWidth, boolean isPlay) {
 		this.world = world;
 		this.maxWidth = maxWidth;
@@ -160,7 +160,7 @@ public class Player implements IScript {
 
 	@Override
 	public void dispose() {
-		
+
 	}
 
 	public float getx() {

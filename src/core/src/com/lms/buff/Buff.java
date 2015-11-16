@@ -3,11 +3,11 @@ package com.lms.buff;
 public abstract class Buff {
 
 	private long startTime;
-	
+
 	protected long duration;
 
 	protected String playerName;
-	
+
 	protected byte buffCode;
 
 	public Buff(String playerName, long duration) {
@@ -17,8 +17,9 @@ public abstract class Buff {
 	}
 
 	abstract public void init();
+
 	abstract public void timeout();
-	
+
 	public long getDuration() {
 		return duration;
 	};
@@ -26,18 +27,18 @@ public abstract class Buff {
 	public long getStartTime() {
 		return startTime;
 	}
-	
+
 	public long timeRemain() {
 		return System.currentTimeMillis() + duration - startTime;
 	}
-	
+
 	public boolean isTimeout() {
-		return System.currentTimeMillis() - duration > startTime; 
+		return System.currentTimeMillis() - duration > startTime;
 	}
-	
+
 	public byte getBuffCode() {
 		return buffCode;
 	}
-	
+
 	abstract public String[] getArg();
 }

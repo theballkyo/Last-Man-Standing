@@ -126,6 +126,10 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventBullet.createMsg(name, r, side));
 	}
 
+	public void sendSword(String name, int width) {
+		TCPsendMsg(NetworkEventSword.createMsg(name, width));
+	}
+
 	public void sendDead(String playerKill, String playerDead) {
 		TCPsendMsg(NetworkEventDead.createMsg(playerKill, playerDead));
 	}
@@ -133,7 +137,7 @@ public class NetworkManage implements Runnable {
 	public void sendBuff(byte buffCode, String name, String[] arg) {
 		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, arg));
 	}
-	
+
 	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}

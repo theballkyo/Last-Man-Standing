@@ -20,7 +20,7 @@ public class PlayerData {
 	public Vector2 pos;
 	public Vector2 scale;
 	public Vector2 speed;
-	
+
 	private int kill;
 
 	public float speedRun;
@@ -30,7 +30,7 @@ public class PlayerData {
 	public long lastTcpConn;
 
 	private long id;
-	
+
 	private String name;
 	private String type;
 	private String currentAnimation;
@@ -202,18 +202,19 @@ public class PlayerData {
 	public void addKill() {
 		kill += 1;
 	}
-	
+
 	public void addBuff(Buff buff) {
 		buffs.add(buff);
 	}
-	
+
 	public ArrayList<Buff> getAllBuff() {
 		return buffs;
 	}
-	
+
 	public long getId() {
-		if (entity == null)
+		if (entity == null) {
 			return -1;
+		}
 		return entity.getEntity().getId();
 	}
 }

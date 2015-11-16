@@ -16,7 +16,7 @@ public class CoreObject {
 
 	static Vector2 v1 = new Vector2(200, 200);
 	static Vector2 v2 = new Vector2(5, 5);
-	
+
 	static {
 		shapes = new ShapeRenderer();
 		v2 = new Vector2(v1.x + (5 * MathUtils.sinDeg(5)), v1.y + (5 * MathUtils.cosDeg(5)));
@@ -43,23 +43,27 @@ public class CoreObject {
 				break;
 			}
 		}
-		
-		Iterator<SwordObject> sw = SwordObject.getAll().iterator();
-		
-		while(sw.hasNext()) {
-			SwordObject so = sw.next();
-			if (so.getI() == -1) {
-				sw.remove();
-				continue;
-			}
-			Vector2 targetPos = new Vector2(so.getPos().x + (so.getWidth() * MathUtils.sinDeg(so.getI())),
-					so.getPos().y + (so.getWidth() * MathUtils.cosDeg(so.getI())));
 
-			shapes.begin(ShapeType.Filled);
-			shapes.setColor(1, 0, 0, 1);
-			shapes.line(so.getPos(), targetPos);
-			shapes.end();
-			so.plusI(Gdx.graphics.getDeltaTime());
+		Iterator<SwordObject> sw = SwordObject.getAll().iterator();
+
+		while (sw.hasNext()) {
+			try {
+				SwordObject so = sw.next();
+				if (so.getI() == -1) {
+					sw.remove();
+					continue;
+				}
+				
+
+				shapes.begin(ShapeType.Filled);
+				shapes.setColor(1, 0, 0, 1);
+				shapes.line(so.getPos(), so.getTargetPos());
+				shapes.end();
+				so.plusI(Gdx.graphics.getDeltaTime());
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+				break;
+			}
 		}
 	}
 

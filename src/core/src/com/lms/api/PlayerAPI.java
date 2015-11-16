@@ -11,7 +11,6 @@ import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.components.ScriptComponent;
 
 public class PlayerAPI {
 
@@ -114,11 +113,13 @@ public class PlayerAPI {
 
 	public static PlayerData get(long id) {
 		for (Entry<String, PlayerData> p : players.entrySet()) {
-			if (p.getValue().getId() != -1 && p.getValue().getId() == id)
+			if (p.getValue().getId() != -1 && p.getValue().getId() == id) {
 				return p.getValue();
+			}
 		}
 		return null;
 	}
+
 	public static void remove(String name) {
 		try {
 			sl.getEngine().removeEntity(players.get(name).getCoreEntity().getEntity());
@@ -131,7 +132,7 @@ public class PlayerAPI {
 	public static void removeScript(String name) {
 		players.get(name).getCoreEntity().removeScript();
 	}
-	
+
 	public static HashMap<String, PlayerData> getAll() {
 		return players;
 	}

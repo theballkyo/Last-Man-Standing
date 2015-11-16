@@ -42,7 +42,7 @@ public class GameScene extends Scene {
 	private ShapeRenderer shapes;
 	private BitmapFont font;
 	private SpriteBatch batchFix;
-	
+
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}

@@ -27,7 +27,8 @@ public class NetworkEventManage {
 		NetworkEventBullet.headerCode = 0x07;
 		NetworkEventDead.headerCode = 0x08;
 		NetworkEventBuff.headerCode = 0x09;
-		
+		NetworkEventSword.headerCode = 0x10;
+
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
 		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong());
@@ -37,6 +38,7 @@ public class NetworkEventManage {
 		events.put(NetworkEventBullet.headerCode, new NetworkEventBullet());
 		events.put(NetworkEventDead.headerCode, new NetworkEventDead());
 		events.put(NetworkEventBuff.headerCode, new NetworkEventBuff());
+		events.put(NetworkEventSword.headerCode, new NetworkEventSword());
 	}
 
 	public void add(Byte headerCode, NetworkEvent ne) {

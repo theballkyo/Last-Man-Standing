@@ -2,7 +2,6 @@ package com.lms.scene;
 
 import java.util.Random;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -16,9 +15,7 @@ import com.lms.api.PlayerAPI;
 import com.lms.entity.CoreEntity;
 import com.lms.game.LmsConfig;
 import com.lms.scene.SceneManage.SceneName;
-import com.lms.script.BulletScript;
 import com.lms.script.Player;
-import com.lms.script.SwordScript;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent;
 import com.uwsoft.editor.renderer.components.additional.ButtonComponent.ButtonListener;
@@ -70,23 +67,23 @@ public class StartScene extends Scene {
 			@Override
 			public void clicked() {
 				// System.out.println("dd !");
-				//isChange = true;
+				// isChange = true;
 				play = true;
 			}
 		});
-		entityList = new String[]{"figther"};
-		
-		PlayerAPI.removeAll();	
+		entityList = new String[] { "figther" };
+
+		PlayerAPI.removeAll();
 		PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 960f, false));
-		//myEntity.addScript(new SwordScript());
-		//myEntity.addScript(new BulletScript(0, sl));
+		// myEntity.addScript(new SwordScript());
+		// myEntity.addScript(new BulletScript(0, sl));
 	}
 
 	@Override
 	public void render() {
-		
+
 		if (isChange) {
 			myEntity.setX(-999);
 			myEntity.setY(-999);
@@ -185,8 +182,7 @@ public class StartScene extends Scene {
 			return;
 		}
 		act();
-		
-		
+
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.lms.network;
 
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
 
 import com.lms.buff.CoreBuff;
 
@@ -12,12 +11,12 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventBuff extends NetworkEvent {
 
 	/**
-	 *  Data rule
-	 *  buffCode:name:arg0|arg1...
+	 * Data rule buffCode:name:arg0|arg1...
 	 */
 	public static byte headerCode;
+
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param UDPcn
 	 */
@@ -28,7 +27,7 @@ public class NetworkEventBuff extends NetworkEvent {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param TCPcn
 	 */
@@ -37,16 +36,17 @@ public class NetworkEventBuff extends NetworkEvent {
 		String[] dat = data.split(":");
 		byte buffCode = dat[0].getBytes()[0];
 		String name = dat[1];
-		
-		if (dat[2].contains("|"))
+
+		if (dat[2].contains("|")) {
 			CoreBuff.processBuff(buffCode, name, dat[2].split("|"));
-		else
-			CoreBuff.processBuff(buffCode, name, new String[]{dat[2]});
+		} else {
+			CoreBuff.processBuff(buffCode, name, new String[] { dat[2] });
+		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param address
 	 * @param port
@@ -60,7 +60,7 @@ public class NetworkEventBuff extends NetworkEvent {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param client
 	 * @param time
@@ -72,7 +72,7 @@ public class NetworkEventBuff extends NetworkEvent {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param buffName
 	 * @param time
