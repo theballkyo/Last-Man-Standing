@@ -114,7 +114,7 @@ public class PlayerAPI {
 
 	public static PlayerData get(long id) {
 		for (Entry<String, PlayerData> p : players.entrySet()) {
-			if (p.getValue().getId() != -1)
+			if (p.getValue().getId() != -1 && p.getValue().getId() == id)
 				return p.getValue();
 		}
 		return null;

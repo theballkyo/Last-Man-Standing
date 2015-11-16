@@ -74,7 +74,7 @@ public class StartScene extends Scene {
 				play = true;
 			}
 		});
-		entityList = new String[]{"ninja", "figther"};
+		entityList = new String[]{"figther"};
 		
 		PlayerAPI.removeAll();	
 		PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);

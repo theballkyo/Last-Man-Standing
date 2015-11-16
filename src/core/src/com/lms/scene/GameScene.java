@@ -29,6 +29,7 @@ import com.lms.object.CoreObject;
 import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.BulletScript;
 import com.lms.script.Player;
+import com.lms.script.SwordScript;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 import net.lastman.network.core.TCPClient;
@@ -57,10 +58,11 @@ public class GameScene extends Scene {
 		sl.loadScene("MainScene", vp);
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "ninja", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 1900f, true));
 		myEntity.addScript(new BulletScript(1, sl));
+		myEntity.addScript(new SwordScript());
 		connToServer();
 		CoreBuff.add(LmsConfig.playerName, new SpeedBuff(LmsConfig.playerName, 2000, 300));
 		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
