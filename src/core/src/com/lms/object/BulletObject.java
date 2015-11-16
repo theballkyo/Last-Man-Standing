@@ -20,4 +20,5 @@ public class BulletObject {
 	public static void add(BulletObject b) {
 		bullets.add(b);
 	}
+	
 }

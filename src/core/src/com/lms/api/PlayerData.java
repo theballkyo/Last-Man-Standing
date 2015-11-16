@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lms.buff.Buff;
 import com.lms.entity.CoreEntity;
@@ -216,5 +217,9 @@ public class PlayerData {
 			return -1;
 		}
 		return entity.getEntity().getId();
+	}
+	
+	public Rectangle getRect() {
+		return new Rectangle(pos.x, pos.y, entity.getWidth(), entity.getHeight());
 	}
 }

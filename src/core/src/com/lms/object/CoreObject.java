@@ -9,23 +9,22 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.lms.api.PlayerAPI;
+import com.lms.game.LmsConfig;
+import com.lms.item.Item;
 
 public class CoreObject {
 
 	private static ShapeRenderer shapes;
 
-	static Vector2 v1 = new Vector2(200, 200);
-	static Vector2 v2 = new Vector2(5, 5);
-
 	static {
 		shapes = new ShapeRenderer();
-		v2 = new Vector2(v1.x + (5 * MathUtils.sinDeg(5)), v1.y + (5 * MathUtils.cosDeg(5)));
 	}
 
 	public static void draw(float delta, Batch batch, float maxWidth) {
 		shapes.setProjectionMatrix(batch.getProjectionMatrix());
+		
 		Iterator<BulletObject> iter = BulletObject.bullets.iterator();
-
 		while (iter.hasNext()) {
 			try {
 				BulletObject r = iter.next();
@@ -45,7 +44,6 @@ public class CoreObject {
 		}
 
 		Iterator<SwordObject> sw = SwordObject.getAll().iterator();
-
 		while (sw.hasNext()) {
 			try {
 				SwordObject so = sw.next();
@@ -53,13 +51,30 @@ public class CoreObject {
 					sw.remove();
 					continue;
 				}
-				
 
 				shapes.begin(ShapeType.Filled);
 				shapes.setColor(1, 0, 0, 1);
 				shapes.line(so.getPos(), so.getTargetPos());
 				shapes.end();
 				so.plusI(Gdx.graphics.getDeltaTime());
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+				break;
+			}
+		}
+		
+		Iterator<Item> items = ItemObject.getAll().iterator();
+		while(items.hasNext()) {
+			try {
+				Item item = items.next();
+				shapes.begin(ShapeType.Line);
+				shapes.setColor(1, 0, 0, 1);
+				shapes.rect(item.getRect().x, item.getRect().y, item.getRect().width, item.getRect().height);
+				shapes.end();
+				if (item.isPick(PlayerAPI.get(LmsConfig.playerName).getRect())) {
+					item.onPick(LmsConfig.playerName);
+					items.remove();
+				}	
 			} catch (ConcurrentModificationException e) {
 				e.printStackTrace();
 				break;

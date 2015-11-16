@@ -22,10 +22,12 @@ import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
+import com.lms.item.SpeedUpItem;
 import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkManage;
 import com.lms.network.NetworkPing;
 import com.lms.object.CoreObject;
+import com.lms.object.ItemObject;
 import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.BulletScript;
 import com.lms.script.Player;
@@ -66,6 +68,8 @@ public class GameScene extends Scene {
 		connToServer();
 		CoreBuff.add(LmsConfig.playerName, new SpeedBuff(LmsConfig.playerName, 2000, 300));
 		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
+		
+		ItemObject.add(new SpeedUpItem(3000, new Vector2(200, 200)));
 	}
 
 	@Override

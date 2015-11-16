@@ -1,5 +1,6 @@
 package com.lms.buff;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -41,13 +42,18 @@ public class CoreBuff {
 	public static void update() {
 		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
 			Iterator<Buff> iter = p.getValue().getAllBuff().iterator();
-			while (iter.hasNext()) {
-				Buff buff = iter.next();
-				if (buff.isTimeout()) {
-					System.out.println(p.getKey() + ":" + buff.getClass().getSimpleName() + " timeout");
-					buff.timeout();
-					iter.remove();
+			try {
+				while (iter.hasNext()) {
+					Buff buff = iter.next();
+					if (buff.isTimeout()) {
+						System.out.println(p.getKey() + ":" + buff.getClass().getSimpleName() + " timeout");
+						buff.timeout();
+						iter.remove();
+					}
 				}
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
+				break;
 			}
 		}
 	}
