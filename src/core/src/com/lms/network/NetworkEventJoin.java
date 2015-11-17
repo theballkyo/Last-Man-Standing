@@ -69,11 +69,11 @@ public class NetworkEventJoin extends NetworkEvent {
 				System.out.println("UDP Same name: " + name);
 				return;
 			}
-		}	
+		}
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setUdpLastConn(name, System.currentTimeMillis());
 		PlayerServerAPI.setUdpClient(name, address, port);
-		
+
 	}
 
 	@Override
@@ -87,18 +87,17 @@ public class NetworkEventJoin extends NetworkEvent {
 		int kill = Integer.parseInt(dat[4]);
 
 		tcp.sendMsg(client, String.format("%cOk", headerCode));
-		
-		if (PlayerServerAPI.isNameSame(name)) {
-			System.out.println("Same name: " + name);
-			tcp.sendMsg(client, NetworkEventError.createMsg(1));
+
+		if (PlayerServerAPI.get(name).getTcpSocket() != null) {
+			System.out.println("TCP Same name: " + name);
+			// tcp.sendMsg(client, NetworkEventError.createMsg(1));
 			return;
 		}
-		
+
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
 		tcp.broadcast(createJoinMsg(name, type, x, y, kill));
-		
 
 		for (Entry<String, PlayerData> e : PlayerServerAPI.getAll().entrySet()) {
 			name = e.getValue().getName();

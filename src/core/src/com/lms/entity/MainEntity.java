@@ -15,6 +15,7 @@ public class MainEntity {
 	public MainEntity(SceneLoader sl) {
 		this.sl = sl;
 		ret.put("sheep", SheepEntity.class);
+		ret.put("fighter", FighterEntity.class);
 		ret.put("figther", FighterEntity.class);
 		ret.put("ninja", NinjaEntity.class);
 	}

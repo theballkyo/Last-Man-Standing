@@ -62,7 +62,7 @@ public class NetworkManage implements Runnable {
 		}).start();
 
 		pong = new Thread(() -> {
-			while(true) {
+			while (true) {
 				TCPsendMsg("p");
 				try {
 					Thread.sleep(500);
@@ -73,7 +73,7 @@ public class NetworkManage implements Runnable {
 				}
 			}
 		});
-		
+
 		pong.start();
 	}
 
@@ -129,8 +129,12 @@ public class NetworkManage implements Runnable {
 
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Send packet Player join ...");
-		TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
-		UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+		if (!TCPcn.isConnected() || !NetworkEventJoin.tcpJoin) {
+			TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+		}
+		if (!UDPcn.isConnected() || !NetworkEventJoin.udpJoin) {
+			UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+		}
 	}
 
 	public void sendMove(String name, float x, float y) {
@@ -149,8 +153,8 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventDead.createMsg(playerKill, playerDead));
 	}
 
-	public void sendBuff(byte buffCode, String name, String[] arg) {
-		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, arg));
+	public void sendBuff(byte buffCode, String name, int duration, String[] arg) {
+		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, duration, arg));
 	}
 
 	public void updateList() {
@@ -161,6 +165,10 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventPong.getMsg());
 	}
 
+	public void reqBuff() {
+		TCPsendMsg(NetworkEventBuff.reqBuffData());
+	}
+
 	public boolean isConn() {
 		return TCPcn.isConnected() && UDPcn.isConnected();
 	}
@@ -168,8 +176,7 @@ public class NetworkManage implements Runnable {
 	public static long getByteRecv() {
 		return byteRecv;
 	}
-	
-	
+
 	@SuppressWarnings("deprecation")
 	public void stop() {
 		pong.interrupt();

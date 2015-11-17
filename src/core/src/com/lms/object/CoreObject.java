@@ -7,8 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.lms.api.PlayerAPI;
 import com.lms.game.LmsConfig;
 import com.lms.item.Item;
@@ -23,8 +21,8 @@ public class CoreObject {
 
 	public static void draw(float delta, Batch batch, float maxWidth) {
 		shapes.setProjectionMatrix(batch.getProjectionMatrix());
-		
-		Iterator<BulletObject> iter = BulletObject.bullets.iterator();
+
+		Iterator<BulletObject> iter = BulletObject.getAll().iterator();
 		while (iter.hasNext()) {
 			try {
 				BulletObject r = iter.next();
@@ -62,9 +60,9 @@ public class CoreObject {
 				break;
 			}
 		}
-		
+
 		Iterator<Item> items = ItemObject.getAll().iterator();
-		while(items.hasNext()) {
+		while (items.hasNext()) {
 			try {
 				Item item = items.next();
 				shapes.begin(ShapeType.Line);
@@ -74,7 +72,7 @@ public class CoreObject {
 				if (item.isPick(PlayerAPI.get(LmsConfig.playerName).getRect())) {
 					item.onPick(LmsConfig.playerName);
 					items.remove();
-				}	
+				}
 			} catch (ConcurrentModificationException e) {
 				e.printStackTrace();
 				break;

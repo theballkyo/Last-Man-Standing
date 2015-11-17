@@ -83,21 +83,10 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 		while (true) {
 			try {
 				DataInputStream in = new DataInputStream(client.getInputStream());
-				try {
-					msg = in.readUTF();
-					process(msg, client);
-				} catch (EOFException e) {
-					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has error.");
-					e.printStackTrace();
-					String name = PlayerServerAPI.getName(client);
-					if (PlayerServerAPI.remove(client)) {
-						broadcast(NetworkEventDisconnect.removeMsg(name));
-					}
-					break;
-				}
-					
+				msg = in.readUTF();
+				process(msg, client);	
 			} catch (IOException e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 				if (e.getMessage().contains("Connection reset")) {
 					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has disconnected.");
 					String name = PlayerServerAPI.getName(client);
@@ -116,7 +105,6 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 			}
 
 		}
-		System.out.println("AAAAA");
 	}
 
 	public void process(final String msg, final Socket client) {

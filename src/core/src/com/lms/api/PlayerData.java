@@ -39,6 +39,7 @@ public class PlayerData {
 	public String scene = "MainScene";
 
 	private ArrayList<Buff> buffs;
+	private ArrayList<BuffData> buffData;
 	private boolean isWalk;
 	private boolean isGod;
 	private int tWalk = 0;
@@ -60,6 +61,7 @@ public class PlayerData {
 		scale = new Vector2(1, 1);
 		buffs = new ArrayList<>();
 		speed = new Vector2();
+		buffData = new ArrayList<>();
 	}
 
 	public void setCoreEntity(CoreEntity entity) {
@@ -218,8 +220,16 @@ public class PlayerData {
 		}
 		return entity.getEntity().getId();
 	}
-	
+
 	public Rectangle getRect() {
 		return new Rectangle(pos.x, pos.y, entity.getWidth(), entity.getHeight());
+	}
+
+	public ArrayList<BuffData> getBuffData() {
+		return buffData;
+	}
+
+	public void addBuffData(BuffData b) {
+		buffData.add(b);
 	}
 }

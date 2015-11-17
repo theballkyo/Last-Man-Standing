@@ -4,13 +4,13 @@ public abstract class Buff {
 
 	private long startTime;
 
-	protected long duration;
+	protected int duration;
 
 	protected String playerName;
 
 	protected byte buffCode;
 
-	public Buff(String playerName, long duration) {
+	public Buff(String playerName, int duration) {
 		this.playerName = playerName;
 		this.duration = duration;
 		startTime = System.currentTimeMillis();
@@ -28,8 +28,8 @@ public abstract class Buff {
 		return startTime;
 	}
 
-	public long timeRemain() {
-		return System.currentTimeMillis() + duration - startTime;
+	public int timeRemain() {
+		return (int) (System.currentTimeMillis() + duration - startTime);
 	}
 
 	public boolean isTimeout() {

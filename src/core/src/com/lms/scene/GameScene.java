@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,7 +18,6 @@ import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerData;
 import com.lms.buff.CoreBuff;
 import com.lms.buff.GodBuff;
-import com.lms.buff.SpeedBuff;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
@@ -46,13 +46,15 @@ public class GameScene extends Scene {
 	private SpriteBatch batchFix;
 
 	private Thread sendMoveThread;
+	private Sound sound;
+
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
 
 	@Override
 	public void create() {
-
+		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/fight.mp3"));
 		font = new BitmapFont();
 		shapes = new ShapeRenderer();
 		batchFix = new SpriteBatch();
@@ -71,9 +73,9 @@ public class GameScene extends Scene {
 				}
 			}
 		});
-		
+
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "fighter", 0, 250f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		if (!connToServer()) {
 			sm.setScene(SceneName.StartScene);
@@ -81,11 +83,13 @@ public class GameScene extends Scene {
 		myEntity.addScript(new Player(sl.world, 1900f, true));
 		myEntity.addScript(new BulletScript(1, sl));
 		myEntity.addScript(new SwordScript());
-		CoreBuff.add(LmsConfig.playerName, new SpeedBuff(LmsConfig.playerName, 2000, 300));
+		// CoreBuff.add(LmsConfig.playerName, new
+		// SpeedBuff(LmsConfig.playerName, 2000, 300));
 		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
-		
-		ItemObject.add(new SpeedUpItem(3000, new Vector2(200, 200)));
 
+		ItemObject.add(new SpeedUpItem(3000, new Vector2(200, 200)));
+		sound.loop();
+		sound.play(0.8f);
 	}
 
 	@Override
@@ -110,9 +114,10 @@ public class GameScene extends Scene {
 			LmsGame.networkManage.stop();
 			sendMoveThread.stop();
 		} catch (NullPointerException e) {
-			
+
 		}
 	}
+
 	private boolean connToServer() {
 		// Connect to server
 		LmsGame.networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
@@ -137,17 +142,21 @@ public class GameScene extends Scene {
 			}
 			tryConnTime += 1;
 
-			if (tryConnTime >= 3 || !LmsGame.networkManage.isConn()) {
+			if (tryConnTime >= 10 || !LmsGame.networkManage.isConn()) {
 				Gdx.app.error("Connection", "No network connect");
 				return false;
 			}
 		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
-		if (LmsConfig.errorCode == 1) {
+
+		if (LmsConfig.errorCode != 0) {
 			return false;
 		}
+
 		LmsGame.networkManage.updateList();
-				
+
 		sendMoveThread.start();
+
+		LmsGame.networkManage.reqBuff();
 		return true;
 
 	}

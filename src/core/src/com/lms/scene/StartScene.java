@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -33,6 +34,8 @@ public class StartScene extends Scene {
 	private boolean isChange = false;
 	private String[] entityList;
 
+	private Sound sound;
+
 	public StartScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
@@ -45,12 +48,13 @@ public class StartScene extends Scene {
 		parameter.color = Color.RED;
 		font = generator.generateFont(parameter); // font size 12 pixels
 		batchFix = new SpriteBatch();
+		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/start.mp3"));
 		// font = new BitmapFont();
 		sl.loadScene("StartScene", vp);
 
 		sl.addComponentsByTagName("button", ButtonComponent.class);
 
-		sl.entityFactory.getEntityByUniqueId(40).getComponent(ButtonComponent.class).addListener(new ButtonListener() {
+		sl.entityFactory.getEntityByUniqueId(19).getComponent(ButtonComponent.class).addListener(new ButtonListener() {
 
 			@Override
 			public void touchUp() {
@@ -71,14 +75,15 @@ public class StartScene extends Scene {
 				play = true;
 			}
 		});
-		entityList = new String[] { "figther" };
+		entityList = new String[] { "ninja" };
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, "fighter", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 960f, false));
 		// myEntity.addScript(new SwordScript());
 		// myEntity.addScript(new BulletScript(0, sl));
+		// sound.play();
 	}
 
 	@Override
@@ -207,7 +212,7 @@ public class StartScene extends Scene {
 
 	@Override
 	public void dispose() {
-
+		sound.dispose();
 	}
 
 	private void act() {

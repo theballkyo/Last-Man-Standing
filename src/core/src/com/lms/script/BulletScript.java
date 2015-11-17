@@ -1,6 +1,5 @@
 package com.lms.script;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -31,32 +30,43 @@ public class BulletScript implements IScript {
 	TransformComponent tf;
 	SceneLoader sl;
 	ShapeRenderer shapes;
-	ArrayList<BulletObject> bullets;
 	MainItemComponent mic;
 	Entity entity;
+
+	private boolean isAtk;
 
 	public BulletScript(int side, SceneLoader sl) {
 		this.side = side;
 		this.sl = sl;
+		isAtk = false;
 	}
 
 	@Override
 	public void init(Entity entity) {
 		this.entity = entity;
 		shapes = new ShapeRenderer();
-		bullets = BulletObject.bullets;
 		tf = ComponentRetriever.get(entity, TransformComponent.class);
 		mic = ComponentRetriever.get(entity, MainItemComponent.class);
 	}
 
 	@Override
 	public void act(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.C)) {
+		if (Gdx.input.isKeyJustPressed(Keys.C) && !isAtk) {
 			Rectangle r = new Rectangle(tf.x, tf.y, 50, 50);
-			bullets.add(new BulletObject(r, tf.scaleX, mic.itemIdentifier));
+			BulletObject.add(new BulletObject(r, tf.scaleX, mic.itemIdentifier));
 			LmsGame.networkManage.sendBullet(LmsConfig.playerName, r, (int) tf.scaleX);
+			isAtk = true;
+			new Thread(() -> {
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				isAtk = false;
+			}).start();
 		}
-		Iterator<BulletObject> iter = BulletObject.bullets.iterator();
+		Iterator<BulletObject> iter = BulletObject.getAll().iterator();
 		while (iter.hasNext()) {
 			BulletObject b = iter.next();
 			if (!b.owner.equals(LmsConfig.playerName)) {

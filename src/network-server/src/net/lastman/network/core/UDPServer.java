@@ -70,7 +70,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 							}
 						} catch (ConcurrentModificationException e) {
 							e.printStackTrace();
-							break;
+							// continue;
 						}
 						try {
 							Thread.sleep(delayUpdate);

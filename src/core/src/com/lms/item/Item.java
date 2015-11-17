@@ -2,7 +2,6 @@ package com.lms.item;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.lms.api.PlayerData;
 
 public abstract class Item {
 
@@ -28,18 +27,19 @@ public abstract class Item {
 	public long timeRemain() {
 		return System.currentTimeMillis() + duration - sTime;
 	}
-	
+
 	public boolean isTimeout() {
 		return sTime + duration < System.currentTimeMillis();
 	}
-	
+
 	public boolean isPick(Vector2 pos) {
 		return rect.contains(pos);
 	}
-	
+
 	public boolean isPick(Rectangle r) {
 		return rect.overlaps(r);
 	}
+
 	public Rectangle getRect() {
 		return rect;
 	}

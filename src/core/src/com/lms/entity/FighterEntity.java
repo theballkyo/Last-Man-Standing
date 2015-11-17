@@ -17,7 +17,7 @@ public class FighterEntity extends CoreEntity {
 	}
 
 	private void init() {
-		vo.animationName = "player";
+		vo.animationName = "ninja";
 		vo.x = 200f;
 		vo.y = 500f;
 		vo.layerName = entityName;
@@ -46,7 +46,7 @@ public class FighterEntity extends CoreEntity {
 
 	@Override
 	public String getType() {
-		return "figther";
+		return "ninja";
 	}
 
 }

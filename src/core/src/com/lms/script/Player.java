@@ -127,6 +127,12 @@ public class Player implements IScript {
 
 	}
 
+	private void rayCast2() {
+		if (speed.y > 0) {
+			return;
+		}
+	}
+
 	private void rayCast() {
 
 		float rayGap = dimensionsComponent.height / 2;
@@ -143,7 +149,7 @@ public class Player implements IScript {
 		Vector2 rayTo = new Vector2(
 				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
 				(transformComponent.y - raySize) * PhysicsBodyLoader.getScale());
-		rayFrom.y -= 2.2f;
+		rayFrom.y -= 2.3;
 		world.rayCast(new RayCastCallback() {
 
 			@Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lms.api.PlayerData;
 import com.lms.game.LmsConfig;
+import com.lms.game.LmsSound;
 
 public class SwordObject {
 
@@ -24,15 +25,17 @@ public class SwordObject {
 	}
 
 	public static SwordObject getMe() {
-		for (SwordObject s: swords) {
-			if (s.p.getName().equals(LmsConfig.playerName))
+		for (SwordObject s : swords) {
+			if (s.p.getName().equals(LmsConfig.playerName)) {
 				return s;
+			}
 		}
 		return null;
 	}
-	
+
 	public static void add(SwordObject s) {
 		swords.add(s);
+		LmsSound.playSword();
 	}
 
 	public static ArrayList<SwordObject> getAll() {
@@ -61,6 +64,7 @@ public class SwordObject {
 		return new Vector2(getPos().x + (getWidth() * MathUtils.sinDeg(getI())),
 				getPos().y + (getWidth() * MathUtils.cosDeg(getI())));
 	}
+
 	public void plusI(float delta) {
 		i += 400 * delta;
 	}

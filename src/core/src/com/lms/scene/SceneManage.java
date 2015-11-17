@@ -51,7 +51,7 @@ public class SceneManage {
 		}
 		scene.create();
 	}
-	
+
 	private void errorCheck() {
 		if (LmsConfig.errorCode == 1) {
 			setScene(SceneName.StartScene);

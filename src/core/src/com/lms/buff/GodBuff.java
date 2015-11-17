@@ -4,7 +4,7 @@ import com.lms.api.PlayerAPI;
 
 public class GodBuff extends Buff {
 
-	public GodBuff(String playerName, long duration) {
+	public GodBuff(String playerName, int duration) {
 		super(playerName, duration);
 	}
 
@@ -20,7 +20,7 @@ public class GodBuff extends Buff {
 
 	@Override
 	public String[] getArg() {
-		return new String[] { String.valueOf(duration) };
+		return new String[] {};
 	}
 
 }

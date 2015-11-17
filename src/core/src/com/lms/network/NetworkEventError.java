@@ -11,7 +11,7 @@ import net.lastman.network.core.UDPClient;
 public class NetworkEventError extends NetworkEvent {
 
 	public static byte headerCode;
-	
+
 	@Override
 	public void process(String data, UDPClient UDPcn) {
 		// TODO Auto-generated method stub
@@ -36,7 +36,7 @@ public class NetworkEventError extends NetworkEvent {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public static String createMsg(int errorCode) {
 		return String.format("%c%d", headerCode, errorCode);
 	}

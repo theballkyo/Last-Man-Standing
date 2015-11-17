@@ -25,7 +25,7 @@ public class PlayerServerAPI {
 		}
 
 		playerList.put(name, new PlayerData(name, type, x, y));
-		
+
 		playerList.get(name).setKill(kill);
 
 	}
@@ -126,20 +126,28 @@ public class PlayerServerAPI {
 		}
 		p.addKill();
 	}
-	
+
 	public static InetAddress udpAddress(String name) {
 		return playerList.get(name).getUdpAddress();
 	}
-	
+
 	public static int udpPort(String name) {
 		return playerList.get(name).getUdpPort();
 	}
-	
+
 	public static boolean isNameSame(String name) {
 		return playerList.containsKey(name);
 	}
-	
+
 	public static PlayerData get(String name) {
 		return playerList.get(name);
+	}
+
+	public static void addBuffData(String name, BuffData b) {
+		PlayerData pl = playerList.get(name);
+		if (pl == null) {
+			return;
+		}
+		pl.addBuffData(b);
 	}
 }

@@ -1,5 +1,7 @@
 package com.lms.game;
 
+import java.util.ConcurrentModificationException;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -48,7 +50,7 @@ public class LmsGame extends ApplicationAdapter {
 		PlayerAPI.load(sl, me);
 
 		sm = new SceneManage(sl, vp, cam);
-
+		LmsSound.load();
 	}
 
 	public void act() {
@@ -58,21 +60,12 @@ public class LmsGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 
-		try {
 			Gdx.gl.glClearColor(0, 0, 0, 0);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			act();
 			sl.getEngine().update(Gdx.graphics.getDeltaTime());
 			sm.render();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-			Gdx.app.exit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Gdx.app.exit();
-		}
+	
 	}
 
 	@Override

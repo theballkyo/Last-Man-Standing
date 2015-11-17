@@ -22,20 +22,25 @@ public class CoreBuff {
 	}
 
 	public static void add(String name, Buff buff) {
-		PlayerAPI.get(name).addBuff(buff);
-		buff.init();
 		if (name.equals(LmsConfig.playerName)) {
-			LmsGame.networkManage.sendBuff(buffCode.get(buff.getClass().getSimpleName()), name, buff.getArg());
+			LmsGame.networkManage.sendBuff(buffCode.get(buff.getClass().getSimpleName()), name, buff.duration,
+					buff.getArg());
 		}
 	}
 
-	public static void processBuff(byte buffCode, String name, String[] arg) {
+	private static void add_(String name, Buff buff) {
+		PlayerAPI.get(name).addBuff(buff);
+		buff.init();
+	}
+
+	public static void processBuff(byte buffCode, String name, int duration, String[] arg) {
 		if (buffCode == 0x00) {
-			add(name, new GodBuff(name, Long.parseLong(arg[0])));
+			add_(name, new GodBuff(name, duration));
 		} else if (buffCode == 0x01) {
-			add(name, new SpeedBuff(name, Long.parseLong(arg[0]), Integer.parseInt(arg[1])));
+			System.out.println(arg[0]);
+			add_(name, new SpeedBuff(name, duration, Integer.parseInt(arg[0])));
 		} else if (buffCode == 0x02) {
-			add(name, new SpeedBuff(name, Long.parseLong(arg[0]), Integer.parseInt(arg[1])));
+			add_(name, new JumpBuff(name, duration, Integer.parseInt(arg[0])));
 		}
 	}
 

@@ -4,7 +4,7 @@ public class JumpBuff extends Buff {
 
 	private int speed;
 
-	public JumpBuff(String playerName, long duration, int speed) {
+	public JumpBuff(String playerName, int duration, int speed) {
 		super(playerName, duration);
 		this.speed = speed;
 	}
@@ -23,6 +23,6 @@ public class JumpBuff extends Buff {
 
 	@Override
 	public String[] getArg() {
-		return new String[] { String.valueOf(duration), String.valueOf(speed) };
+		return new String[] { String.valueOf(speed) };
 	}
 }
