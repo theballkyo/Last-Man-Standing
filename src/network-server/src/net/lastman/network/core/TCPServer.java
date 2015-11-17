@@ -89,8 +89,9 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 				} catch (EOFException e) {
 					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has error.");
 					e.printStackTrace();
+					String name = PlayerServerAPI.getName(client);
 					if (PlayerServerAPI.remove(client)) {
-						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+						broadcast(NetworkEventDisconnect.removeMsg(name));
 					}
 					break;
 				}
@@ -99,18 +100,18 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 				e.printStackTrace();
 				if (e.getMessage().contains("Connection reset")) {
 					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has disconnected.");
+					String name = PlayerServerAPI.getName(client);
 					if (PlayerServerAPI.remove(client)) {
-						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+						broadcast(NetworkEventDisconnect.removeMsg(name));
 					}
 					break;
 				} else if (e.getMessage().contains("Read timed out")) {
 					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has timeout.");
+					String name = PlayerServerAPI.getName(client);
 					if (PlayerServerAPI.remove(client)) {
-						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+						broadcast(NetworkEventDisconnect.removeMsg(name));
 					}
 					break;
-				} else {
-					System.out.println("EOF");
 				}
 			}
 

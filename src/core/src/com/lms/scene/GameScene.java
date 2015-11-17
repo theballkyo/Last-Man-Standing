@@ -75,10 +75,12 @@ public class GameScene extends Scene {
 		PlayerAPI.removeAll();
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
+		if (!connToServer()) {
+			sm.setScene(SceneName.StartScene);
+		}
 		myEntity.addScript(new Player(sl.world, 1900f, true));
 		myEntity.addScript(new BulletScript(1, sl));
 		myEntity.addScript(new SwordScript());
-		connToServer();
 		CoreBuff.add(LmsConfig.playerName, new SpeedBuff(LmsConfig.playerName, 2000, 300));
 		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
 		
@@ -140,7 +142,9 @@ public class GameScene extends Scene {
 				return false;
 			}
 		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
-
+		if (LmsConfig.errorCode == 1) {
+			return false;
+		}
 		LmsGame.networkManage.updateList();
 				
 		sendMoveThread.start();
