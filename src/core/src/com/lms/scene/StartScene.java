@@ -175,7 +175,7 @@ public class StartScene extends Scene {
 		font.draw(batchFix, name, 170, 350);
 		batchFix.end();
 
-		if (play) {
+		if (play && name.length() > 3 && name.length() < 15) {
 			System.out.println("Play !!");
 			PlayerAPI.remove(LmsConfig.playerName);
 			LmsConfig.playerName = name;
