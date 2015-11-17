@@ -41,6 +41,9 @@ public class UDPClient implements ClientNetwork {
 		}
 	}
 
+	public void stop() {
+		sock.close();
+	}
 	@Override
 	public String readMsg() {
         try {

@@ -45,6 +45,7 @@ public class GameScene extends Scene {
 	private BitmapFont font;
 	private SpriteBatch batchFix;
 
+	private Thread sendMoveThread;
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
@@ -59,6 +60,18 @@ public class GameScene extends Scene {
 
 		sl.loadScene("MainScene", vp);
 
+		sendMoveThread = new Thread(() -> {
+			while (true) {
+				LmsGame.networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
+				try {
+					Thread.sleep(10);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		PlayerAPI.removeAll();
 		PlayerAPI.add(LmsConfig.playerName, "figther", 100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
@@ -70,6 +83,7 @@ public class GameScene extends Scene {
 		CoreBuff.add(LmsConfig.playerName, new GodBuff(LmsConfig.playerName, 2000));
 		
 		ItemObject.add(new SpeedUpItem(3000, new Vector2(200, 200)));
+
 	}
 
 	@Override
@@ -82,12 +96,21 @@ public class GameScene extends Scene {
 		if (LmsConfig.debug) {
 			debug();
 		}
-
 		if (!LmsGame.networkManage.isConn()) {
 			sm.setScene(SceneName.StartScene);
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public void dispose() {
+		try {
+			LmsGame.networkManage.stop();
+			sendMoveThread.stop();
+		} catch (NullPointerException e) {
+			
+		}
+	}
 	private boolean connToServer() {
 		// Connect to server
 		LmsGame.networkManage = new NetworkManage(new UDPClient(LmsConfig.host, LmsConfig.UDPport),
@@ -119,19 +142,8 @@ public class GameScene extends Scene {
 		} while (!NetworkEventJoin.tcpJoin || !NetworkEventJoin.udpJoin);
 
 		LmsGame.networkManage.updateList();
-
-		new Thread(() -> {
-			while (true) {
-				LmsGame.networkManage.sendMove(myEntity.getName(), myEntity.getX(), myEntity.getY());
-				try {
-					Thread.sleep(10);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
-
+				
+		sendMoveThread.start();
 		return true;
 
 	}

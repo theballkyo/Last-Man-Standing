@@ -2,6 +2,7 @@ package com.lms.scene;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lms.game.LmsConfig;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 public class SceneManage {
@@ -31,6 +32,7 @@ public class SceneManage {
 
 	public void render() {
 		scene.render();
+		errorCheck();
 	}
 
 	public void resize(int width, int height) {
@@ -48,5 +50,12 @@ public class SceneManage {
 			break;
 		}
 		scene.create();
+	}
+	
+	private void errorCheck() {
+		if (LmsConfig.errorCode == 1) {
+			setScene(SceneName.StartScene);
+			LmsConfig.errorCode = 0;
+		}
 	}
 }

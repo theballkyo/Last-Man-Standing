@@ -21,4 +21,6 @@ public class LmsConfig {
 	public static int TCPport = 20157;
 
 	public static String playerName = "Dev" + System.currentTimeMillis();
+	
+	public static int errorCode = 0;
 }

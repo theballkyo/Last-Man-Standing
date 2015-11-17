@@ -2,6 +2,7 @@ package net.lastman.network.core;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -45,7 +46,7 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 							// + serverSocket.getLocalPort() + "...");
 							final Socket client = serverSocket.accept();
 							System.out.println("Just connected to " + client.getRemoteSocketAddress());
-							client.setSoTimeout(3000);
+							client.setSoTimeout(10000);
 							new Thread(new Runnable() {
 								@Override
 								public void run() {
@@ -82,18 +83,39 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 		while (true) {
 			try {
 				DataInputStream in = new DataInputStream(client.getInputStream());
-				msg = in.readUTF();
-				process(msg, client);
-			} catch (IOException e) {
-				if (e.getMessage().contains("Connection reset")) {
-					System.out.println("Client: " + client.getInetAddress() + " has disconnected.");
-					broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
-					PlayerServerAPI.remove(client);
+				try {
+					msg = in.readUTF();
+					process(msg, client);
+				} catch (EOFException e) {
+					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has error.");
+					e.printStackTrace();
+					if (PlayerServerAPI.remove(client)) {
+						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+					}
 					break;
+				}
+					
+			} catch (IOException e) {
+				e.printStackTrace();
+				if (e.getMessage().contains("Connection reset")) {
+					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has disconnected.");
+					if (PlayerServerAPI.remove(client)) {
+						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+					}
+					break;
+				} else if (e.getMessage().contains("Read timed out")) {
+					System.out.println("Client: " + client.getInetAddress() + ":" + client.getPort() + " has timeout.");
+					if (PlayerServerAPI.remove(client)) {
+						broadcast(NetworkEventDisconnect.removeMsg(PlayerServerAPI.getName(client)));
+					}
+					break;
+				} else {
+					System.out.println("EOF");
 				}
 			}
 
 		}
+		System.out.println("AAAAA");
 	}
 
 	public void process(final String msg, final Socket client) {

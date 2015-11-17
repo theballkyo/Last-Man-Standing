@@ -37,6 +37,15 @@ public class TCPClient implements ClientNetwork{
 		}
 	}
 
+	public void stop() {
+		try {
+			client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public String readMsg() {
 		try {

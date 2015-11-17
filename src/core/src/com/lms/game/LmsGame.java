@@ -52,14 +52,7 @@ public class LmsGame extends ApplicationAdapter {
 	}
 
 	public void act() {
-		/*
-		 * cam.position.x = myEntity.getX(); cam.position.y = myEntity.getY();
-		 *
-		 * if (cam.position.y < Gdx.graphics.getHeight() / 2) { cam.position.y =
-		 * Gdx.graphics.getHeight() / 2; } if (cam.position.x <
-		 * Gdx.graphics.getWidth() / 2) { cam.position.x =
-		 * Gdx.graphics.getWidth() / 2; }
-		 */
+
 	}
 
 	@Override

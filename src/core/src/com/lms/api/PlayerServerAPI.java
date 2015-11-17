@@ -19,12 +19,13 @@ public class PlayerServerAPI {
 		add(name, type, x, y, 0);
 	}
 
-	public static void add(String name, String type, float x, float y, int kill) {
+	public synchronized static void add(String name, String type, float x, float y, int kill) {
 		if (playerList.get(name) != null) {
 			return;
 		}
 
 		playerList.put(name, new PlayerData(name, type, x, y));
+		
 		playerList.get(name).setKill(kill);
 
 	}
@@ -41,13 +42,15 @@ public class PlayerServerAPI {
 
 	}
 
-	public static void remove(Socket client) {
+	public static boolean remove(Socket client) {
 		for (Entry<String, PlayerData> p : playerList.entrySet()) {
 			if (p.getValue().getTcpSocket() == client) {
+				System.out.println(p.getKey());
 				playerList.remove(p.getKey());
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public static void update(String name, float x, float y) {
@@ -122,5 +125,21 @@ public class PlayerServerAPI {
 			return;
 		}
 		p.addKill();
+	}
+	
+	public static InetAddress udpAddress(String name) {
+		return playerList.get(name).getUdpAddress();
+	}
+	
+	public static int udpPort(String name) {
+		return playerList.get(name).getUdpPort();
+	}
+	
+	public static boolean isNameSame(String name) {
+		return playerList.containsKey(name);
+	}
+	
+	public static PlayerData get(String name) {
+		return playerList.get(name);
 	}
 }

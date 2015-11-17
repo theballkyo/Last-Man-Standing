@@ -100,7 +100,7 @@ public class Player implements IScript {
 			}
 		} else {
 			if (transformComponent.y + dimensionsComponent.height < 0) {
-				LmsGame.networkManage.sendDead("bot", LmsConfig.playerName);
+				LmsGame.networkManage.sendDead("-", LmsConfig.playerName);
 				PlayerAPI.dead(LmsConfig.playerName);
 			}
 		}

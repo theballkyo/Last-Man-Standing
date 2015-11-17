@@ -176,9 +176,11 @@ public class StartScene extends Scene {
 		batchFix.end();
 
 		if (play) {
+			System.out.println("Play !!");
 			PlayerAPI.remove(LmsConfig.playerName);
 			LmsConfig.playerName = name;
 			sm.setScene(SceneName.PlayScene);
+			play = false;
 			return;
 		}
 		act();

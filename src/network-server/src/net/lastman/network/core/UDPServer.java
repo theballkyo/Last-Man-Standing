@@ -69,6 +69,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 										+ System.currentTimeMillis());
 							}
 						} catch (ConcurrentModificationException e) {
+							e.printStackTrace();
 							break;
 						}
 						try {
@@ -189,8 +190,10 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 			}
 			PlayerData cp = entry.getValue();
 			// Check player address
-			if (cp.getUdpAddress() == null || cp.getUdpPort() == 0)
+			if (cp.getUdpAddress() == null) {
+				System.out.println("NULL");
 				continue;
+			}
 			sendMsg(cp.getUdpAddress(), cp.getUdpPort(), msg);
 		}
 	}

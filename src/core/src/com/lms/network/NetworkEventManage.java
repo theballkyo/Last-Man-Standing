@@ -5,11 +5,6 @@ import java.util.HashMap;
 public class NetworkEventManage {
 	private HashMap<Byte, NetworkEvent> events;
 
-	/**
-	 * NetworkManage nm use for Client side ! NetworkServerAbstract ns use for
-	 * Server side !
-	 */
-
 	public NetworkEventManage() {
 		events = new HashMap<Byte, NetworkEvent>();
 		init();
@@ -28,7 +23,8 @@ public class NetworkEventManage {
 		NetworkEventDead.headerCode = 0x08;
 		NetworkEventBuff.headerCode = 0x09;
 		NetworkEventSword.headerCode = 0x10;
-
+		NetworkEventError.headerCode = 0x11;
+		
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
 		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong());
@@ -39,6 +35,7 @@ public class NetworkEventManage {
 		events.put(NetworkEventDead.headerCode, new NetworkEventDead());
 		events.put(NetworkEventBuff.headerCode, new NetworkEventBuff());
 		events.put(NetworkEventSword.headerCode, new NetworkEventSword());
+		events.put(NetworkEventError.headerCode, new NetworkEventError());
 	}
 
 	public void add(Byte headerCode, NetworkEvent ne) {

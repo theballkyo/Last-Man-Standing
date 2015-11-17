@@ -21,6 +21,7 @@ public class NetworkManage implements Runnable {
 	NetworkEventManage nem;
 	Socket client;
 
+	private Thread pong;
 	private static long byteRecv = 0;
 
 	private long lastRecv = 0;
@@ -60,6 +61,20 @@ public class NetworkManage implements Runnable {
 			}
 		}).start();
 
+		pong = new Thread(() -> {
+			while(true) {
+				TCPsendMsg("p");
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					break;
+				}
+			}
+		});
+		
+		pong.start();
 	}
 
 	private void UDPListener() {
@@ -106,7 +121,7 @@ public class NetworkManage implements Runnable {
 
 	public void TCPsendMsg(String msg) {
 		if (!TCPcn.isConnected()) {
-			Gdx.app.error("TCP", "Not connected...");
+			Gdx.app.error("TCP", "Not connected..." + msg);
 			return;
 		}
 		TCPcn.sendMsg(msg + "!" + System.currentTimeMillis());
@@ -152,5 +167,14 @@ public class NetworkManage implements Runnable {
 
 	public static long getByteRecv() {
 		return byteRecv;
+	}
+	
+	
+	@SuppressWarnings("deprecation")
+	public void stop() {
+		pong.interrupt();
+		pong.stop();
+		TCPcn.stop();
+		UDPcn.stop();
 	}
 }
