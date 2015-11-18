@@ -189,7 +189,7 @@ public class StartScene extends Scene {
 			return;
 		}
 		act();
-
+		play = false;
 	}
 
 	@Override

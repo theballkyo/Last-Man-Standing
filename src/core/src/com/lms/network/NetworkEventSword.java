@@ -24,7 +24,7 @@ public class NetworkEventSword extends NetworkEvent {
 		String[] dat = data.split(":");
 		String name = dat[0];
 		int width = Integer.parseInt(dat[1]);
-
+		PlayerAPI.get(name).setSword(true);
 		SwordObject.add(new SwordObject(PlayerAPI.get(name), width));
 	}
 

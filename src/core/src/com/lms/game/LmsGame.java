@@ -35,7 +35,7 @@ public class LmsGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		sl = new SceneLoader();
-		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		vp = new FitViewport(Gdx.graphics.getWidth() / 0.9f, Gdx.graphics.getHeight() / 0.9f);
 		sl.loadScene("StartScene", vp);
 
 		me = new MainEntity(sl);

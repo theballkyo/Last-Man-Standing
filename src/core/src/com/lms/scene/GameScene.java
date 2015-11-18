@@ -75,12 +75,13 @@ public class GameScene extends Scene {
 		});
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "fighter", 0, 250f);
+		PlayerAPI.add(LmsConfig.playerName, "swat", 0, 300);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
+		myEntity.addScript(new Player(sl.world, 1900f, true));
 		if (!connToServer()) {
 			sm.setScene(SceneName.StartScene);
 		}
-		myEntity.addScript(new Player(sl.world, 1900f, true));
+		
 		myEntity.addScript(new BulletScript(1, sl));
 		myEntity.addScript(new SwordScript());
 		// CoreBuff.add(LmsConfig.playerName, new
@@ -216,9 +217,11 @@ public class GameScene extends Scene {
 				m += 1;
 				Vector2 v = new Vector2(pl.pos.x, pl.pos.y);
 				Rectangle r = new Rectangle(v.x, v.y, pl.getCoreEntity().getWidth(), pl.getCoreEntity().getHeight());
+				r = pl.getRect();
 				shapes.begin(ShapeType.Line);
 				shapes.setColor(1, 0, 0, 1);
-				shapes.rect(r.x, r.y, r.width, r.height);
+				//shapes.rect(r.x, r.y, r.width, r.height);
+				shapes.polygon(pl.getPolygon().getVertices());
 				shapes.end();
 			}
 

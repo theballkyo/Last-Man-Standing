@@ -43,15 +43,16 @@ public class SwordScript implements IScript {
 			LmsGame.networkManage.sendSword(PlayerAPI.get(entity.getId()).getName(), lenght);
 			SwordObject.add(new SwordObject(PlayerAPI.get(entity.getId()), lenght));
 			isAtk = true;
-
+			PlayerAPI.get(entity.getId()).setSword(true);
 			new Thread(() -> {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(500);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 				isAtk = false;
+				PlayerAPI.get(entity.getId()).setSword(false);
 			}).start();
 		}
 
@@ -68,8 +69,7 @@ public class SwordScript implements IScript {
 			if (pd == null || SwordObject.getMe() == null) {
 				continue;
 			}
-			if (new Rectangle(pd.pos.x, pd.pos.y, pd.getCoreEntity().getWidth(), pd.getCoreEntity().getHeight())
-					.contains(SwordObject.getMe().getTargetPos())) {
+			if (SwordObject.getMe().isIntersect(pd.getPolygon())) {
 				System.out.println("Script bullets: " + pd.getName() + " is dead.");
 				LmsGame.networkManage.sendDead(SwordObject.getMe().getOwner(), pd.getName());
 				PlayerAPI.dead(pd.getName());

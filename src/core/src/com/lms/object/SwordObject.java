@@ -2,8 +2,12 @@ package com.lms.object;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerData;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsSound;
@@ -22,6 +26,7 @@ public class SwordObject {
 		this.width = width;
 
 		i = 0;
+		p.setSword(true);
 	}
 
 	public static SwordObject getMe() {
@@ -52,6 +57,7 @@ public class SwordObject {
 
 	public int getI() {
 		if (i > 180) {
+			p.setSword(false);
 			return -1;
 		}
 		if (p.getCoreEntity().getScaleX() < 0) {
@@ -71,5 +77,20 @@ public class SwordObject {
 
 	public String getOwner() {
 		return p.getName();
+	}
+	
+	public Polygon getPoly() {
+		Vector2 dot1 = getTargetPos();
+		Vector2 dot2 = getPos();
+		Polygon polygon = new Polygon(new float [] {
+			dot1.x, dot1.y,
+			dot2.x, dot2.y,
+			dot1.x, dot1.y
+		});
+		return polygon;
+	}
+	
+	public boolean isIntersect(Polygon poly) {
+		return Intersector.intersectSegmentPolygon(getPos(), getTargetPos(), poly);
 	}
 }

@@ -50,7 +50,7 @@ public class CoreObject {
 					continue;
 				}
 
-				shapes.begin(ShapeType.Filled);
+				shapes.begin(ShapeType.Line);
 				shapes.setColor(1, 0, 0, 1);
 				shapes.line(so.getPos(), so.getTargetPos());
 				shapes.end();

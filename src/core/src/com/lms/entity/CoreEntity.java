@@ -7,6 +7,7 @@ import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.ScriptComponent;
 import com.uwsoft.editor.renderer.components.TintComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
+import com.uwsoft.editor.renderer.components.ZIndexComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
 import com.uwsoft.editor.renderer.scripts.IScript;
@@ -22,6 +23,7 @@ public abstract class CoreEntity {
 	protected SpriteAnimationComponent sac;
 	protected TransformComponent tf;
 	protected DimensionsComponent dc;
+	protected ZIndexComponent zindexc;
 	public TintComponent tc;
 
 	protected String entityName;
@@ -35,11 +37,14 @@ public abstract class CoreEntity {
 	abstract public String getType();
 
 	public String scene = "";
-
+ 
+	protected Vector2 scale;
+	
 	public CoreEntity(String entityName, SceneLoader sl) {
 		this.entityName = entityName;
 		this.sl = sl;
 		speed = new Vector2();
+		scale = new Vector2(1, 1);
 	}
 
 	protected void add() {
@@ -51,6 +56,9 @@ public abstract class CoreEntity {
 		tf = ComponentRetriever.get(entity, TransformComponent.class);
 		dc = ComponentRetriever.get(entity, DimensionsComponent.class);
 		tc = ComponentRetriever.get(entity, TintComponent.class);
+		zindexc = ComponentRetriever.get(entity, ZIndexComponent.class);
+		
+		zindexc.setZIndex(500);
 	}
 
 	public void addScript(IScript script) {
@@ -146,5 +154,39 @@ public abstract class CoreEntity {
 		}
 
 		animationState.set(sac);
+	}
+	
+	public void setAnimation(String name) {
+		if (name.equals("run")) {
+			if (sac.currentAnimation.equals("run")) {
+				return;
+			}
+			sac.currentAnimation = "run";
+		} else if (name.equals("stand")){
+			if (sac.currentAnimation.equals("stand")) {
+				return;
+			}
+			sac.currentAnimation = "stand";
+		} else if (name.equals("sword")){
+			if (sac.currentAnimation.equals("sword")) {
+				return;
+			}
+			sac.currentAnimation = "sword";
+		} else if (name.equals("gun")){
+			if (sac.currentAnimation.equals("gun")) {
+				return;
+			}
+			sac.currentAnimation = "gun";
+		}
+
+		animationState.set(sac);
+	}
+	
+	public Vector2 getScale() {
+		return scale;
+	}
+	
+	public void setScale(Vector2 scale) {
+		this.scale = scale;
 	}
 }

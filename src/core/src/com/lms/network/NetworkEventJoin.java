@@ -87,13 +87,15 @@ public class NetworkEventJoin extends NetworkEvent {
 		int kill = Integer.parseInt(dat[4]);
 
 		tcp.sendMsg(client, String.format("%cOk", headerCode));
-
-		if (PlayerServerAPI.get(name).getTcpSocket() != null) {
-			System.out.println("TCP Same name: " + name);
-			// tcp.sendMsg(client, NetworkEventError.createMsg(1));
-			return;
+		
+		if (PlayerServerAPI.get(name )!= null) {
+			if (PlayerServerAPI.get(name).getTcpSocket() != null) {
+				System.out.println("TCP Same name: " + name);
+				// tcp.sendMsg(client, NetworkEventError.createMsg(1));
+				return;
+			}
 		}
-
+		
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);

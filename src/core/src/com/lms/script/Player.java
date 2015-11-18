@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lms.api.PlayerAPI;
+import com.lms.entity.CoreEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
@@ -104,26 +105,32 @@ public class Player implements IScript {
 				PlayerAPI.dead(LmsConfig.playerName);
 			}
 		}
-		if (transformComponent.x < 0) {
-			transformComponent.x = 0;
-		}
+		//if (transformComponent.x < 0) {
+		//	transformComponent.x = 0;
+		//}
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}
+		CoreEntity ce = PlayerAPI.get(player.getId()).getCoreEntity();
 		if (isWalk) {
-
 			if (!sac.currentAnimation.equals("run")) {
-				sac.currentAnimation = "run";
-				animation.set(sac);
+				ce.setAnimation("run");
 
 			}
-
+		} else if (PlayerAPI.get(player.getId()).isSword()) {
+			if (!sac.currentAnimation.equals("sword")) {
+				ce.setAnimation("sword");
+			}
+		} else if (PlayerAPI.get(player.getId()).isGun()) {
+			if (!sac.currentAnimation.equals("gun")) {
+				ce.setAnimation("gun");
+			}
 		} else {
 			if (!sac.currentAnimation.equals("stand")) {
-				sac.currentAnimation = "stand";
-				animation.set(sac);
+				ce.setAnimation("stand");
 			}
-		}
+		} 
+		// animation.set(sac);
 
 	}
 
@@ -149,7 +156,8 @@ public class Player implements IScript {
 		Vector2 rayTo = new Vector2(
 				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
 				(transformComponent.y - raySize) * PhysicsBodyLoader.getScale());
-		rayFrom.y -= 2.3;
+		rayFrom.y -= 2f;
+		//rayTo.y -= 25;
 		world.rayCast(new RayCastCallback() {
 
 			@Override
@@ -158,7 +166,7 @@ public class Player implements IScript {
 				speed.y = 0;
 				isJump = false;
 				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
-
+				// System.out.println();
 				return 0;
 			}
 		}, rayFrom, rayTo);

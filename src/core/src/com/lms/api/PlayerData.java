@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.lms.buff.Buff;
@@ -40,8 +41,10 @@ public class PlayerData {
 
 	private ArrayList<Buff> buffs;
 	private ArrayList<BuffData> buffData;
-	private boolean isWalk;
-	private boolean isGod;
+	private boolean isWalk = false;
+	private boolean isGod = false;
+	private boolean isSword = false;
+	private boolean isGun = false;
 	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
@@ -130,17 +133,22 @@ public class PlayerData {
 			entity.create();
 			speed = entity.speed;
 		}
-		if (entity.getX() != pos.x) {
-			entity.setWalk(true);
+		if (entity.getX() != pos.x && !isSword && !isGun) {
+			entity.setAnimation("run");
 			tWalk = 0;
 		}
-		if (entity.getX() == pos.x) {
+		else if (entity.getX() == pos.x && !isSword && !isGun) {
 			tWalk += 1;
 			if (tWalk > 3) {
-				entity.setWalk(false);
+				entity.setAnimation("stand");
 			}
 		}
-
+		if (isSword) {
+			entity.setAnimation("sword");
+		}
+		if (isGun) {
+			entity.setAnimation("gun");
+		}
 		if (entity.getX() > pos.x) {
 			scale.x = (-Math.abs(scale.x));
 		} else if (entity.getX() < pos.x) {
@@ -222,14 +230,43 @@ public class PlayerData {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(pos.x, pos.y, entity.getWidth(), entity.getHeight());
+		float width = entity.getScale().x * entity.getWidth();
+		float height = entity.getScale().y * entity.getHeight();
+		return new Rectangle(entity.getX() + ((entity.getWidth() - width) / 2) , entity.getY(), width , height);
 	}
 
+	public Polygon getPolygon() {
+		Rectangle r = getRect();
+		Polygon poly = new Polygon(new float[] {
+				r.x, r.y,
+				r.x, r.y + r.height,
+				r.x + r.width, r.y + r.height,
+				r.x + r.width, r.y
+		});
+		
+		return poly;
+	}
 	public ArrayList<BuffData> getBuffData() {
 		return buffData;
 	}
 
 	public void addBuffData(BuffData b) {
 		buffData.add(b);
+	}
+
+	public boolean isSword() {
+		return isSword;
+	}
+
+	public void setSword(boolean isSword) {
+		this.isSword = isSword;
+	}
+
+	public boolean isGun() {
+		return isGun;
+	}
+
+	public void setGun(boolean isGun) {
+		this.isGun = isGun;
 	}
 }

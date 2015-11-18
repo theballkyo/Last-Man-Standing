@@ -56,6 +56,7 @@ public class BulletScript implements IScript {
 			BulletObject.add(new BulletObject(r, tf.scaleX, mic.itemIdentifier));
 			LmsGame.networkManage.sendBullet(LmsConfig.playerName, r, (int) tf.scaleX);
 			isAtk = true;
+			PlayerAPI.get(entity.getId()).setGun(true);
 			new Thread(() -> {
 				try {
 					Thread.sleep(500);
@@ -64,6 +65,7 @@ public class BulletScript implements IScript {
 					e.printStackTrace();
 				}
 				isAtk = false;
+				PlayerAPI.get(entity.getId()).setGun(false);
 			}).start();
 		}
 		Iterator<BulletObject> iter = BulletObject.getAll().iterator();
@@ -82,8 +84,7 @@ public class BulletScript implements IScript {
 					continue;
 				}
 
-				if (b.r.overlaps(new Rectangle(pd.pos.x, pd.pos.y, pd.getCoreEntity().getWidth(),
-						pd.getCoreEntity().getHeight()))) {
+				if (b.r.overlaps(pd.getRect())) {
 					System.out.println("Script bullets: " + pd.getName() + " is dead.");
 					LmsGame.networkManage.sendDead(b.owner, pd.getName());
 					PlayerAPI.dead(pd.getName());

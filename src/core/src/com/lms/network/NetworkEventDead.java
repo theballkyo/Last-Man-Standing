@@ -25,6 +25,8 @@ public class NetworkEventDead extends NetworkEvent {
 	@Override
 	public void process(String data, TCPClient TCPcn) {
 		String[] dat = data.split(":");
+		if (PlayerAPI.get(dat[1]).isGod())
+			return;
 		PlayerAPI.addKill(dat[0]);
 		PlayerAPI.dead(dat[1]);
 	}
