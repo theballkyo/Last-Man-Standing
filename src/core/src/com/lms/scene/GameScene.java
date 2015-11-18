@@ -75,9 +75,9 @@ public class GameScene extends Scene {
 		});
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "swat", 0, 300);
+		PlayerAPI.add(LmsConfig.playerName, "swat", 200, 600);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-		myEntity.addScript(new Player(sl.world, 1900f, true));
+		myEntity.addScript(new Player(sl.world, 5500f, true));
 		if (!connToServer()) {
 			sm.setScene(SceneName.StartScene);
 		}
@@ -99,7 +99,7 @@ public class GameScene extends Scene {
 		CoreBuff.update();
 		act();
 
-		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 1900f);
+		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 5500f);
 		if (LmsConfig.debug) {
 			debug();
 		}
@@ -177,7 +177,7 @@ public class GameScene extends Scene {
 
 		cam.position.x = myEntity.getX();
 		cam.position.y = myEntity.getY();
-
+		/*
 		if (cam.position.y < Gdx.graphics.getHeight() / 2) {
 			cam.position.y = Gdx.graphics.getHeight() / 2;
 		}
@@ -187,7 +187,7 @@ public class GameScene extends Scene {
 		if (myEntity.getX() > 1900 - (Gdx.graphics.getWidth() / 2)) {
 			cam.position.x = 1900 - (Gdx.graphics.getWidth() / 2);
 		}
-
+		*/
 	}
 
 	private void debug() {

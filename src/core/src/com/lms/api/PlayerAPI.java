@@ -2,6 +2,7 @@ package com.lms.api;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.lms.buff.CoreBuff;
@@ -160,11 +161,10 @@ public class PlayerAPI {
 		if (pd == null || pd.isGod()) {
 			return;
 		}
-
-		pd.pos.x = 100;
-		pd.pos.y = 300;
-
-		CoreBuff.add(name, new GodBuff(name, 3000));
+		pd.pos.x = new Random().nextFloat() * 1000;
+		pd.pos.y = 1200;
+		
+		CoreBuff.add(name, new GodBuff(name, 5000));
 		pd.updateEntity();
 
 	}

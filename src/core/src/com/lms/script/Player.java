@@ -29,7 +29,7 @@ public class Player implements IScript {
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
 	private float gravity = -1200f;
-
+	private CoreEntity ce;
 	private final float jumpSpeed = 600f;
 	private float decreseX;
 	private float maxWidth;
@@ -56,6 +56,7 @@ public class Player implements IScript {
 		sac.currentAnimation = "stand";
 		animation.set(sac);
 		maxWidth -= dimensionsComponent.width;
+		ce = PlayerAPI.get(entity.getId()).getCoreEntity();
 	}
 
 	public Entity getEntity() {
@@ -103,6 +104,8 @@ public class Player implements IScript {
 			if (transformComponent.y + dimensionsComponent.height < 0) {
 				LmsGame.networkManage.sendDead("-", LmsConfig.playerName);
 				PlayerAPI.dead(LmsConfig.playerName);
+				speed.y = 0;
+				transformComponent.y = transformComponent.y;
 			}
 		}
 		//if (transformComponent.x < 0) {
@@ -149,7 +152,7 @@ public class Player implements IScript {
 		if (speed.y > 0) {
 			return;
 		}
-
+		
 		Vector2 rayFrom = new Vector2(
 				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
 				(transformComponent.y + rayGap) * PhysicsBodyLoader.getScale());
