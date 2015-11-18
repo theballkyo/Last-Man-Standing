@@ -35,6 +35,7 @@ public class StartScene extends Scene {
 	private String[] entityList;
 
 	private Sound sound;
+	private Random random = new Random();
 
 	public StartScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
@@ -75,10 +76,32 @@ public class StartScene extends Scene {
 				play = true;
 			}
 		});
-		entityList = new String[] { "ninja" };
+		
+		sl.entityFactory.getEntityByUniqueId(445).getComponent(ButtonComponent.class).addListener(new ButtonListener() {
+
+			@Override
+			public void touchUp() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void touchDown() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void clicked() {
+				isChange = true;
+			}
+		});
+		entityList = new String[] { "ninja","swat","knight","cyborg" };
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "fighter", 100f, 50f);
+
+		LmsConfig.playerType = entityList[random.nextInt(entityList.length)]; 
+		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 50f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 960f, false));
 		// myEntity.addScript(new SwordScript());
@@ -93,7 +116,8 @@ public class StartScene extends Scene {
 			myEntity.setX(-999);
 			myEntity.setY(-999);
 			PlayerAPI.removeAll();
-			PlayerAPI.add(LmsConfig.playerName, entityList[new Random().nextInt(entityList.length)], 100f, 50f);
+			LmsConfig.playerType = entityList[random.nextInt(entityList.length)];
+			PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 50f, 50f);
 			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 			myEntity.addScript(new Player(sl.world, 960f, false));
 			isChange = false;

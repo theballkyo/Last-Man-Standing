@@ -9,7 +9,7 @@ public class LmsSound {
 	private static Sound gunSound;
 
 	public static void load() {
-		swordSound = Gdx.audio.newSound(Gdx.files.internal("sounds/sword.wav"));
+		swordSound = Gdx.audio.newSound(Gdx.files.internal("sounds/swing.mp3"));
 		gunSound = Gdx.audio.newSound(Gdx.files.internal("sounds/gun.wav"));
 	}
 

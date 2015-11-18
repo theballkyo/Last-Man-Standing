@@ -132,7 +132,10 @@ public abstract class CoreEntity {
 	public Vector2 getPosition() {
 		return position;
 	}
-
+	public boolean isJump() {
+		return sac.currentAnimation.equals("jump");
+	}
+	
 	public boolean isWalk() {
 		if (sac == null) {
 			return false;
@@ -177,6 +180,26 @@ public abstract class CoreEntity {
 				return;
 			}
 			sac.currentAnimation = "gun";
+		} else if (name.equals("runsword")){
+			if (sac.currentAnimation.equals("runsword")) {
+				return;
+			}
+			sac.currentAnimation = "runsword";
+		}  else if (name.equals("rungun")){
+			if (sac.currentAnimation.equals("rungun")) {
+				return;
+			}
+			sac.currentAnimation = "rungun";
+		} else if (name.equals("jump")){
+			if (sac.currentAnimation.equals("jump")) {
+				return;
+			}
+			sac.currentAnimation = "jump";
+		} else if (name.equals("fall")){
+			if (sac.currentAnimation.equals("fall")) {
+				return;
+			}
+			sac.currentAnimation = "fall";
 		}
 
 		animationState.set(sac);

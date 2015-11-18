@@ -22,7 +22,7 @@ public class SwordScript implements IScript {
 
 	private TransformComponent tf;
 	private boolean isAtk;
-	private final int lenght = 200;
+	private final int lenght = 150;
 
 	private Entity entity;
 

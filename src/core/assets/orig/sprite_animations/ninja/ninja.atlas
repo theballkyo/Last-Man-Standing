@@ -80,70 +80,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0010
+ninja00098
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0011
+ninja00099
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0019
-  rotate: false
-  xy: 2, 305
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0012
+ninja0010
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0018
-  rotate: false
-  xy: 405, 608
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0013
+ninja00100
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0017
-  rotate: false
-  xy: 2, 2
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0014
+ninja00101
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0016
-  rotate: false
-  xy: 405, 305
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0015
+ninja00102
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -156,70 +128,63 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0020
+ninja00103
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0021
+ninja00104
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0029
-  rotate: false
-  xy: 2, 305
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0022
+ninja00105
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0028
+ninja00106
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0023
+ninja00107
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0027
-  rotate: false
-  xy: 2, 2
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0024
+ninja00108
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0026
+ninja00109
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0025
+ninja0011
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0019
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -232,70 +197,63 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0030
+ninja00110
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0031
+ninja00111
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0039
-  rotate: false
-  xy: 2, 305
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0032
+ninja00112
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0038
-  rotate: false
-  xy: 405, 608
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0033
+ninja00113
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0037
+ninja00114
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0034
+ninja0012
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0036
+ninja0018
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0035
+ninja0013
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0017
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -308,42 +266,70 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0040
+ninja0014
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0041
+ninja0016
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0015
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0042
+ninja0020
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0043
+ninja0021
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0044
+ninja0029
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0022
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0045
+ninja0028
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0023
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0027
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -356,42 +342,70 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0046
+ninja0024
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0047
+ninja0026
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0025
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0048
+ninja0030
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0049
+ninja0031
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0050
+ninja0039
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0032
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0051
+ninja0038
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0033
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0037
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -404,42 +418,49 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0052
+ninja0034
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0053
+ninja0036
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0035
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0054
+ninja0040
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0055
+ninja0041
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0056
+ninja0042
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0057
+ninja0043
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -452,42 +473,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0058
+ninja0044
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0059
+ninja0045
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0060
+ninja0046
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0061
+ninja0047
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0062
+ninja0048
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0063
+ninja0049
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -500,42 +521,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0064
+ninja0050
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0065
+ninja0051
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0066
+ninja0052
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0067
+ninja0053
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0068
+ninja0054
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0069
+ninja0055
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -548,42 +569,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0070
+ninja0056
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0071
+ninja0057
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0072
+ninja0058
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0073
+ninja0059
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0074
+ninja0060
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0075
+ninja0061
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -596,42 +617,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0076
+ninja0062
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0077
+ninja0063
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0078
+ninja0064
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0079
+ninja0065
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0080
+ninja0066
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0081
+ninja0067
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -644,42 +665,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0082
+ninja0068
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0083
+ninja0069
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0084
+ninja0070
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0085
+ninja0071
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0086
+ninja0072
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0087
+ninja0073
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -692,49 +713,42 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0088
+ninja0074
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0089
-  rotate: false
-  xy: 2, 608
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0090
+ninja0075
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0091
+ninja0076
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0092
+ninja0077
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0093
+ninja0078
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0094
+ninja0079
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -747,9 +761,126 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0095
+ninja0080
   rotate: false
   xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0081
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0082
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0083
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0084
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0085
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+ninja15.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ninja0086
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0087
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0088
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0089
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0090
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0091
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+ninja16.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ninja0092
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0093
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0094
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0095
+  rotate: false
+  xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
@@ -763,33 +894,33 @@ ninja0096
   index: -1
 ninja0097
   rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+ninja0115
+  rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0098
+ninja0116
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0099
+ninja0117
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0100
-  rotate: false
-  xy: 405, 2
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0101
+ninja0118
   rotate: false
   xy: 405, 2
   size: 401, 301
@@ -797,104 +928,84 @@ ninja0101
   offset: 0, 0
   index: -1
 
-ninja15.png
+ninja17.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ninja0102
+ninja0119
   rotate: false
   xy: 2, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0103
+ninja0120
   rotate: false
   xy: 2, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0104
-  rotate: false
-  xy: 2, 305
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0105
+ninja0121
   rotate: false
   xy: 405, 608
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0106
+ninja0122
   rotate: false
   xy: 2, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0107
+ninja0123
   rotate: false
   xy: 405, 305
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0108
+ninja0124
   rotate: false
   xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0109
+ninja0125
   rotate: false
   xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-
-ninja16.png
-size: 1024,1024
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-ninja0110
+ninja0126
   rotate: false
-  xy: 2, 608
+  xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0111
+ninja0127
   rotate: false
-  xy: 2, 305
+  xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0112
+ninja0128
   rotate: false
-  xy: 405, 608
+  xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0
   index: -1
-ninja0113
+ninja0129
   rotate: false
-  xy: 2, 2
-  size: 401, 301
-  orig: 401, 301
-  offset: 0, 0
-  index: -1
-ninja0114
-  rotate: false
-  xy: 405, 305
+  xy: 405, 2
   size: 401, 301
   orig: 401, 301
   offset: 0, 0

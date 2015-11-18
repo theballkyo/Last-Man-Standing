@@ -32,6 +32,7 @@ public class BulletScript implements IScript {
 	ShapeRenderer shapes;
 	MainItemComponent mic;
 	Entity entity;
+	Rectangle r;
 
 	private boolean isAtk;
 
@@ -52,7 +53,11 @@ public class BulletScript implements IScript {
 	@Override
 	public void act(float delta) {
 		if (Gdx.input.isKeyJustPressed(Keys.C) && !isAtk) {
-			Rectangle r = new Rectangle(tf.x, tf.y, 50, 50);
+			if (tf.scaleX == -1)
+				r = new Rectangle(tf.x+100, tf.y+100, 60, 32);
+			else if (tf.scaleX == 1)
+				r = new Rectangle(tf.x+300 , tf.y+100, 60, 32);
+			//System.out.println("ScaleX : " + tf.scaleX);  
 			BulletObject.add(new BulletObject(r, tf.scaleX, mic.itemIdentifier));
 			LmsGame.networkManage.sendBullet(LmsConfig.playerName, r, (int) tf.scaleX);
 			isAtk = true;

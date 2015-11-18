@@ -7,6 +7,7 @@ import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
 public class SwatEntity extends CoreEntity{
+	
 	public SpriteAnimationVO vo;
 
 	public SwatEntity(String entityName, SceneLoader sl) {
@@ -41,9 +42,13 @@ public class SwatEntity extends CoreEntity{
 		setAnimation(true);
 
 		sac.frameRangeMap.put("stand", new FrameRange("stand", 0, 9));
-		sac.frameRangeMap.put("run", new FrameRange("run", 10, 21));
-		sac.frameRangeMap.put("gun", new FrameRange("stand", 22, 35));
-		sac.frameRangeMap.put("sword", new FrameRange("run", 36, 50));
+		sac.frameRangeMap.put("run", new FrameRange("run", 40, 51));
+		sac.frameRangeMap.put("gun", new FrameRange("gun", 98, 104));
+		sac.frameRangeMap.put("sword", new FrameRange("sword", 88, 97));
+		sac.frameRangeMap.put("rungun", new FrameRange("rungun", 64, 75));
+		sac.frameRangeMap.put("runsword", new FrameRange("runsword", 120, 129));
+		sac.frameRangeMap.put("jump", new FrameRange("jump", 110, 114));
+		sac.frameRangeMap.put("fall", new FrameRange("fall", 115, 119));
 		sac.currentAnimation = "stand";
 		animationState.set(sac);
 	}

@@ -45,6 +45,7 @@ public class PlayerData {
 	private boolean isGod = false;
 	private boolean isSword = false;
 	private boolean isGun = false;
+	private boolean isJump = false;
 	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
@@ -133,7 +134,21 @@ public class PlayerData {
 			entity.create();
 			speed = entity.speed;
 		}
-		if (entity.getX() != pos.x && !isSword && !isGun) {
+		if (isSword) {
+			entity.setAnimation("sword");
+		}
+		if (isGun) {
+			entity.setAnimation("gun");
+		}
+		if (isJump){
+			entity.setAnimation("jump");
+		}
+		if (entity.getX() != pos.x) {
+			if (isGun) {
+				//System.out.println("rungun");
+				entity.setAnimation("rungun");
+			}
+			if (isSword) entity.setAnimation("runsword");
 			entity.setAnimation("run");
 			tWalk = 0;
 		}
@@ -143,12 +158,8 @@ public class PlayerData {
 				entity.setAnimation("stand");
 			}
 		}
-		if (isSword) {
-			entity.setAnimation("sword");
-		}
-		if (isGun) {
-			entity.setAnimation("gun");
-		}
+		
+		
 		if (entity.getX() > pos.x) {
 			scale.x = (-Math.abs(scale.x));
 		} else if (entity.getX() < pos.x) {
@@ -269,4 +280,13 @@ public class PlayerData {
 	public void setGun(boolean isGun) {
 		this.isGun = isGun;
 	}
+	
+	public boolean isJump() {
+		return isJump;
+	}
+
+	public void setJump(boolean isJump) {
+		this.isJump = isJump;
+	}
+	
 }

@@ -75,7 +75,7 @@ public class GameScene extends Scene {
 		});
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, "swat", 200, 600);
+		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 200, 600);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 5500f, true));
 		if (!connToServer()) {

@@ -72,7 +72,7 @@ public class SwordObject {
 	}
 
 	public void plusI(float delta) {
-		i += 400 * delta;
+		i += 500 * delta;
 	}
 
 	public String getOwner() {

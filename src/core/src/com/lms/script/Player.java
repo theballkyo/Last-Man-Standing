@@ -116,9 +116,15 @@ public class Player implements IScript {
 		}
 		CoreEntity ce = PlayerAPI.get(player.getId()).getCoreEntity();
 		if (isWalk) {
-			if (!sac.currentAnimation.equals("run")) {
-				ce.setAnimation("run");
-
+				if (PlayerAPI.get(player.getId()).isSword())
+					ce.setAnimation("runsword");
+				else if (PlayerAPI.get(player.getId()).isGun())
+					ce.setAnimation("rungun");
+				else ce.setAnimation("run");
+				
+		} else if (PlayerAPI.get(player.getId()).isJump()) {
+			if (!sac.currentAnimation.equals("jump")) {
+				ce.setAnimation("sword");
 			}
 		} else if (PlayerAPI.get(player.getId()).isSword()) {
 			if (!sac.currentAnimation.equals("sword")) {
@@ -128,6 +134,7 @@ public class Player implements IScript {
 			if (!sac.currentAnimation.equals("gun")) {
 				ce.setAnimation("gun");
 			}
+		
 		} else {
 			if (!sac.currentAnimation.equals("stand")) {
 				ce.setAnimation("stand");
