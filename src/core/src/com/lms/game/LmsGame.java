@@ -44,6 +44,7 @@ public class LmsGame extends ApplicationAdapter {
 		shapes = new ShapeRenderer();
 		font.setColor(Color.WHITE);
 
+		
 		cam = (OrthographicCamera) vp.getCamera();
 
 		// Load API

@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -48,6 +50,9 @@ public class GameScene extends Scene {
 
 	private Thread sendMoveThread;
 	private Sound sound;
+	
+	private FreeTypeFontGenerator generator;
+	private FreeTypeFontParameter parameter;
 	
 	private Random random;
 
@@ -105,7 +110,8 @@ public class GameScene extends Scene {
 
 		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 5500f);
 		if (LmsConfig.debug) {
-			debug();
+			leaderboard();
+			//debug();
 		}
 		if (!LmsGame.networkManage.isConn()) {
 			sm.setScene(SceneName.StartScene);
@@ -193,6 +199,27 @@ public class GameScene extends Scene {
 		}
 		*/
 	}
+	
+	private void leaderboard(){
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/test.otf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 30;
+		parameter.color = Color.RED;
+		font = generator.generateFont(parameter);
+		int m = 1;
+		
+		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
+			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
+				PlayerData pl = p.getValue();
+				batchFix.begin();
+				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y,
+						pl.getKill()), 500, Gdx.graphics.getHeight() - (45 + (m * 20)));
+				batchFix.end();
+				m += 1;
+			}
+		}
+	}
+	
 
 	private void debug() {
 		DecimalFormat numFormat = new DecimalFormat("###,###,###,###");
