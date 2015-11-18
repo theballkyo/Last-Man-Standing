@@ -114,6 +114,9 @@ public class Player implements IScript {
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}
+		if (transformComponent.x < -2050) {
+			transformComponent.x = -2050;
+		}
 		CoreEntity ce = PlayerAPI.get(player.getId()).getCoreEntity();
 		if (isWalk) {
 				if (PlayerAPI.get(player.getId()).isSword())

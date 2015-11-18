@@ -28,7 +28,7 @@ public class CoreObject {
 		while (iter.hasNext()) {
 			try {
 				BulletObject r = iter.next();
-				if (r.r.x < 0 || r.r.x > maxWidth) {
+				if (r.r.x < -1920 || r.r.x > maxWidth) {
 					iter.remove();
 				}
 				r.r.x += (delta * 1000) * r.side;

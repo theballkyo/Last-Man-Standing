@@ -15,7 +15,7 @@ public class LmsConfig {
 
 	public static GameType gameType = GameType.Client;
 
-	public static String host = "127.0.0.1";
+	public static String host = "192.168.1.49";
 
 	public static int UDPport = 20156;
 

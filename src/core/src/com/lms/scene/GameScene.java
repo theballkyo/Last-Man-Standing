@@ -2,6 +2,7 @@ package com.lms.scene;
 
 import java.text.DecimalFormat;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -47,6 +48,8 @@ public class GameScene extends Scene {
 
 	private Thread sendMoveThread;
 	private Sound sound;
+	
+	private Random random;
 
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
@@ -58,7 +61,7 @@ public class GameScene extends Scene {
 		font = new BitmapFont();
 		shapes = new ShapeRenderer();
 		batchFix = new SpriteBatch();
-		font.setColor(Color.RED);
+		font.setColor(Color.WHITE);
 
 		sl.loadScene("MainScene", vp);
 
@@ -75,9 +78,10 @@ public class GameScene extends Scene {
 		});
 
 		PlayerAPI.removeAll();
-		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 200, 600);
+		//int ran_x = random.nextInt(5500)-1800;
+		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 800, 1000);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-		myEntity.addScript(new Player(sl.world, 5500f, true));
+		myEntity.addScript(new Player(sl.world, 3950f, true));
 		if (!connToServer()) {
 			sm.setScene(SceneName.StartScene);
 		}
@@ -175,8 +179,8 @@ public class GameScene extends Scene {
 
 	public void act() {
 
-		cam.position.x = myEntity.getX();
-		cam.position.y = myEntity.getY();
+		cam.position.x = myEntity.getX()+myEntity.getWidth()/2;
+		cam.position.y = myEntity.getY()+myEntity.getHeight()/2;
 		/*
 		if (cam.position.y < Gdx.graphics.getHeight() / 2) {
 			cam.position.y = Gdx.graphics.getHeight() / 2;
@@ -208,7 +212,8 @@ public class GameScene extends Scene {
 			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
 				PlayerData pl = p.getValue();
 				sl.getBatch().begin();
-				font.draw(sl.getBatch(), pl.getName(), pl.pos.x, pl.pos.y);
+
+				font.draw(sl.getBatch(), pl.getName(), pl.pos.x+150, pl.pos.y-5);
 				sl.getBatch().end();
 				batchFix.begin();
 				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y,

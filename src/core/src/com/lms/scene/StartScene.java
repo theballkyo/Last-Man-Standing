@@ -101,7 +101,7 @@ public class StartScene extends Scene {
 		PlayerAPI.removeAll();
 
 		LmsConfig.playerType = entityList[random.nextInt(entityList.length)]; 
-		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 50f, 50f);
+		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, -100f, 50f);
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 		myEntity.addScript(new Player(sl.world, 960f, false));
 		// myEntity.addScript(new SwordScript());
@@ -117,7 +117,7 @@ public class StartScene extends Scene {
 			myEntity.setY(-999);
 			PlayerAPI.removeAll();
 			LmsConfig.playerType = entityList[random.nextInt(entityList.length)];
-			PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, 50f, 50f);
+			PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, -100f, 50f);
 			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
 			myEntity.addScript(new Player(sl.world, 960f, false));
 			isChange = false;
@@ -201,7 +201,7 @@ public class StartScene extends Scene {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE) && name.length() != 0) {
 			name = name.substring(0, name.length() - 1);
 		}
-		font.draw(batchFix, name, 170, 350);
+		font.draw(batchFix, name, 170, 335);
 		batchFix.end();
 
 		if (play && name.length() > 3 && name.length() < 15) {
