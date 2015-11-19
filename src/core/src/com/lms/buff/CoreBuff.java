@@ -37,10 +37,9 @@ public class CoreBuff {
 		if (buffCode == 0x00) {
 			add_(name, new GodBuff(name, duration));
 		} else if (buffCode == 0x01) {
-			System.out.println(arg[0]);
 			add_(name, new SpeedBuff(name, duration, Integer.parseInt(arg[0])));
 		} else if (buffCode == 0x02) {
-			add_(name, new JumpBuff(name, duration, Integer.parseInt(arg[0])));
+			//add_(name, new JumpBuff(name, duration, Integer.parseInt(arg[0])));
 		}
 	}
 
@@ -51,7 +50,7 @@ public class CoreBuff {
 				while (iter.hasNext()) {
 					Buff buff = iter.next();
 					if (buff.isTimeout()) {
-						System.out.println(p.getKey() + ":" + buff.getClass().getSimpleName() + " timeout");
+						// System.out.println(p.getKey() + ":" + buff.getClass().getSimpleName() + " timeout");
 						buff.timeout();
 						iter.remove();
 					}

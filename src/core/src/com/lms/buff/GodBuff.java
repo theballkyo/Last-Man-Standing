@@ -10,7 +10,8 @@ public class GodBuff extends Buff {
 
 	@Override
 	public void init() {
-		PlayerAPI.get(playerName).setGodMode(3000);
+		System.out.println("God buff: " + duration);
+		PlayerAPI.get(playerName).setGodMode(duration);
 	}
 
 	@Override

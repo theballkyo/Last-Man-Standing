@@ -101,11 +101,7 @@ public class PlayerAPI {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * CoreEntity pl = playerList.get(name); if (pl == null) {
-		 * Gdx.app.log("PlayerAPI", "Can't find entity name (" + name + ")");
-		 * return; } pl.setAnimation(play);
-		 */
+
 	}
 
 	public static PlayerData get(String name) {
@@ -158,10 +154,13 @@ public class PlayerAPI {
 	public static void dead(String name) {
 		PlayerData pd = players.get(name);
 
-		if (pd == null || pd.isGod()) {
-			return;
+		if ((pd == null || pd.isGod())) {
+			if (pd.getCoreEntity().getY() > -30) {
+				return;
+			}
+			
 		}
-		pd.pos.x = new Random().nextFloat() * 1000;
+		pd.pos.x = new Random().nextFloat() * 3500;
 		pd.pos.y = 1200;
 		
 		CoreBuff.add(name, new GodBuff(name, 5000));

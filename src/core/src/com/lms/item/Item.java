@@ -1,7 +1,12 @@
 package com.lms.item;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.lms.api.PlayerAPI;
+import com.lms.entity.BoxEntity;
+import com.uwsoft.editor.renderer.SceneLoader;
+import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
 public abstract class Item {
 
@@ -13,13 +18,25 @@ public abstract class Item {
 	private Rectangle rect;
 	public String type;
 
-	public Item(int duration, Vector2 pos) {
+	public int id;
+	
+	public long entityId = -1;
+	public Entity entity;
+	public Item(int duration, Vector2 pos, int id) {
 		this.duration = duration;
 		this.pos = pos;
 		sTime = System.currentTimeMillis();
 		rect = new Rectangle(pos.x, pos.y, 100, 100);
+		this.id = id;
 	}
 
+	public void createAnimation(SceneLoader sl) {
+		BoxEntity box = new BoxEntity(""+System.currentTimeMillis(), sl, pos);
+		box.create();
+		entity = box.getEntity();
+		entityId = box.getEntity().getId();
+	}
+	
 	public abstract void onPick(String playerName);
 
 	public abstract void onTimeout();

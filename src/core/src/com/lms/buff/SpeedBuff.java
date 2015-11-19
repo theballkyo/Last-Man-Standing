@@ -6,33 +6,35 @@ import com.lms.api.PlayerAPI;
 
 public class SpeedBuff extends Buff {
 
-	private int speed;
+	private static int speed;
 
 	private static HashMap<String, Integer> count = new HashMap<>();
 
+	private static boolean isBuff = false;
 	public SpeedBuff(String playerName, int duration, int speed) {
 		super(playerName, duration);
-		this.speed = speed;
+		
 		buffCode = 0x00;
+		
+		if (!isBuff)
+			SpeedBuff.speed = speed;
 	}
 
 	@Override
 	public void init() {
-		count.put(playerName, count.getOrDefault(playerName, 0) + 1);
-		if (count.get(playerName) > 1) {
+		if (isBuff)
 			return;
-		}
+		isBuff = true;
 		PlayerAPI.get(playerName).speed.x += speed;
 	}
 
 	@Override
 	public void timeout() {
-		count.put(playerName, count.getOrDefault(playerName, 1) - 1);
-		if (count.get(playerName) >= 1) {
+		if (!isBuff)
 			return;
-		}
-
-		PlayerAPI.get(playerName).speed.x -= speed;
+		isBuff = false;
+		System.out.println("Speed buff timeout: " + speed);
+		PlayerAPI.get(playerName).speed.x = 700;
 	}
 
 	@Override

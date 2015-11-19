@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.lms.api.PlayerAPI;
 import com.lms.game.LmsConfig;
+import com.lms.game.LmsGame;
 import com.lms.item.Item;
+import com.uwsoft.editor.renderer.SceneLoader;
 
 public class CoreObject {
 
@@ -21,7 +23,7 @@ public class CoreObject {
 		shapes = new ShapeRenderer();
 	}
 
-	public static void draw(float delta, Batch batch, float maxWidth) {
+	public static void draw(float delta, Batch batch, float maxWidth, SceneLoader sl) {
 		shapes.setProjectionMatrix(batch.getProjectionMatrix());
 
 		Iterator<BulletObject> iter = BulletObject.getAll().iterator();
@@ -73,12 +75,13 @@ public class CoreObject {
 		while (items.hasNext()) {
 			try {
 				Item item = items.next();
-				shapes.begin(ShapeType.Line);
-				shapes.setColor(1, 0, 0, 1);
-				shapes.rect(item.getRect().x, item.getRect().y, item.getRect().width, item.getRect().height);
-				shapes.end();
+				if (item.entityId == -1) {
+					item.createAnimation(sl);
+				}
 				if (item.isPick(PlayerAPI.get(LmsConfig.playerName).getRect())) {
 					item.onPick(LmsConfig.playerName);
+					LmsGame.networkManage.sendPick(item.id);
+					sl.getEngine().removeEntity(item.entity);
 					items.remove();
 				}
 			} catch (ConcurrentModificationException e) {

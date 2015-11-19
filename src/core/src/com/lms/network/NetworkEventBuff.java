@@ -41,7 +41,7 @@ public class NetworkEventBuff extends NetworkEvent {
 		byte buffCode = dat[0].getBytes()[0];
 		String name = dat[1];
 		int duration = Integer.parseInt(dat[2]);
-		System.out.println(data);
+		// System.out.println(data);
 		if (dat.length == 4) {
 			if (dat[3].contains("|")) {
 				CoreBuff.processBuff(buffCode, name, duration, dat[3].split("|"));

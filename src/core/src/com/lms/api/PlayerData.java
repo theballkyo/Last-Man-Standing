@@ -201,6 +201,7 @@ public class PlayerData {
 			Color c = entity.tc.color;
 			Random r = new Random();
 			while (System.currentTimeMillis() <= endTime) {
+				isGod = true;
 				c.set(r.nextFloat(), r.nextFloat(), r.nextFloat(), r.nextFloat());
 				try {
 					Thread.sleep(1);

@@ -7,6 +7,11 @@ import com.lms.game.LmsGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		if (arg.length > 0) {
+			System.out.println(arg[0]);
+			if (arg[0].equals("HACK"))
+			LmsConfig.isHack = true;
+		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = LmsConfig.title;
 		config.width = LmsConfig.width;

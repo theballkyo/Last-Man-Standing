@@ -106,7 +106,7 @@ public class StartScene extends Scene {
 		myEntity.addScript(new Player(sl.world, 960f, false));
 		// myEntity.addScript(new SwordScript());
 		// myEntity.addScript(new BulletScript(0, sl));
-		// sound.play();
+		sound.play();
 	}
 
 	@Override
@@ -208,6 +208,11 @@ public class StartScene extends Scene {
 			System.out.println("Play !!");
 			PlayerAPI.remove(LmsConfig.playerName);
 			LmsConfig.playerName = name;
+			
+			if (LmsConfig.isHack) {
+				LmsConfig.playerName = "GOD_GM";
+			}
+			
 			sm.setScene(SceneName.PlayScene);
 			play = false;
 			return;

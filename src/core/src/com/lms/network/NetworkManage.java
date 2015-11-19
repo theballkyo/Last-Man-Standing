@@ -157,7 +157,10 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, duration, arg));
 	}
 
-	public void updateList() {
+	public void sendPick(int id) {
+		TCPsendMsg(NetworkEventItem.pickMsg(id));
+	}
+ 	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}
 

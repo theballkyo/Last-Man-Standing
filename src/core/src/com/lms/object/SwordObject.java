@@ -1,6 +1,7 @@
 package com.lms.object;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -29,11 +30,15 @@ public class SwordObject {
 		p.setSword(true);
 	}
 
-	public static SwordObject getMe() {
-		for (SwordObject s : swords) {
-			if (s.p.getName().equals(LmsConfig.playerName)) {
-				return s;
+	public synchronized static SwordObject getMe() {
+		try {
+			for (SwordObject s : swords) {
+				if (s.p.getName().equals(LmsConfig.playerName)) {
+					return s;
+				}
 			}
+		} catch (ConcurrentModificationException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

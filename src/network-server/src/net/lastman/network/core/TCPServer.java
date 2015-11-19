@@ -8,11 +8,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.lms.api.PlayerData;
 import com.lms.api.PlayerServerAPI;
 import com.lms.network.NetworkEvent;
 import com.lms.network.NetworkEventDisconnect;
+import com.lms.network.NetworkEventItem;
 import com.lms.network.NetworkEventManage;
 import com.lms.network.TCPServerInterface;
 
@@ -29,6 +31,7 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 	private int port;
 
 
+	
 	public TCPServer(int port) {
 		this.port = port;
 		this.nem = new NetworkEventManage();
@@ -71,6 +74,12 @@ public class TCPServer implements TCPServerInterface, LMSServer {
 	@Override
 	public void start() {
 		sv.start();
+
+		new Thread(new Runnable() {
+			public void run() {
+				NetworkEventItem.processBg(tcp);
+			}
+		}).start();
 	}
 
 	@Override

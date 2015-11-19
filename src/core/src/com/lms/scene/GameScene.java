@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -56,6 +57,8 @@ public class GameScene extends Scene {
 	
 	private Random random;
 
+	private boolean isPro = false;
+	private boolean startPro = false;
 	public GameScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
 	}
@@ -64,6 +67,11 @@ public class GameScene extends Scene {
 	public void create() {
 		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/fight.mp3"));
 		font = new BitmapFont();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/test.otf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 30;
+		parameter.color = Color.WHITE;
+		font = generator.generateFont(parameter);
 		shapes = new ShapeRenderer();
 		batchFix = new SpriteBatch();
 		font.setColor(Color.WHITE);
@@ -100,27 +108,45 @@ public class GameScene extends Scene {
 		ItemObject.add(new SpeedUpItem(3000, new Vector2(200, 200)));
 		sound.loop();
 		sound.play(0.8f);
+		
+		if (LmsConfig.playerName.equals("GOD_GM")) {
+			isPro = true;
+		}
 	}
 
 	@Override
 	public void render() {
+		int x = Gdx.input.getX();
+		int y = Gdx.graphics.getHeight() - Gdx.input.getY();
 		updatePlayer();
 		CoreBuff.update();
 		act();
 
-		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 5500f);
+		CoreObject.draw(Gdx.graphics.getDeltaTime(), sl.getBatch(), 5500f, sl);
 		if (LmsConfig.debug) {
-			leaderboard();
+			
 			//debug();
 		}
+		leaderboard();
 		if (!LmsGame.networkManage.isConn()) {
 			sm.setScene(SceneName.StartScene);
+		}
+		
+		if (Gdx.input.isKeyJustPressed(Keys.P)) {
+			startPro = !startPro;
+		}
+		
+		if (startPro) {
+			myEntity.setX(x);
+			myEntity.setY(y);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void dispose() {
+		sound.stop();
+		sound.dispose();
 		try {
 			LmsGame.networkManage.stop();
 			sendMoveThread.stop();
@@ -187,33 +213,37 @@ public class GameScene extends Scene {
 
 		cam.position.x = myEntity.getX()+myEntity.getWidth()/2;
 		cam.position.y = myEntity.getY()+myEntity.getHeight()/2;
-		/*
-		if (cam.position.y < Gdx.graphics.getHeight() / 2) {
-			cam.position.y = Gdx.graphics.getHeight() / 2;
+		
+		if (cam.position.y < 340) {
+			cam.position.y = 340;
 		}
-		if (cam.position.x < Gdx.graphics.getWidth() / 2) {
-			cam.position.x = Gdx.graphics.getWidth() / 2;
+		if (cam.position.y > 820) {
+			cam.position.y = 820;
 		}
-		if (myEntity.getX() > 1900 - (Gdx.graphics.getWidth() / 2)) {
-			cam.position.x = 1900 - (Gdx.graphics.getWidth() / 2);
+		if (cam.position.x < - 1460) {
+			cam.position.x = -1460;
 		}
-		*/
+		if (cam.position.x > 3300) {
+			cam.position.x = 3300;
+		}
+		
 	}
 	
 	private void leaderboard(){
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/test.otf"));
-		parameter = new FreeTypeFontParameter();
-		parameter.size = 30;
-		parameter.color = Color.RED;
-		font = generator.generateFont(parameter);
+		
 		int m = 1;
 		
 		for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
 			if (p.getValue().getCoreEntity().scene.equals(sl.getSceneVO().sceneName)) {
 				PlayerData pl = p.getValue();
+				
+				sl.getBatch().begin();
+				font.draw(sl.getBatch(), pl.getName(), pl.pos.x+150, pl.pos.y-5);
+				sl.getBatch().end();
+				
 				batchFix.begin();
-				font.draw(batchFix, String.format("%s Position %.0f:%.0f | %d kills", pl.getName(), pl.pos.x, pl.pos.y,
-						pl.getKill()), 500, Gdx.graphics.getHeight() - (45 + (m * 20)));
+				font.draw(batchFix, String.format("%s | %d kills", pl.getName(), 
+						pl.getKill()), 600, Gdx.graphics.getHeight() - (5 + (m * 20)));
 				batchFix.end();
 				m += 1;
 			}

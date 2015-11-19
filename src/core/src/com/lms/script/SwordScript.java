@@ -72,7 +72,7 @@ public class SwordScript implements IScript {
 			if (SwordObject.getMe().isIntersect(pd.getPolygon())) {
 				System.out.println("Script bullets: " + pd.getName() + " is dead.");
 				LmsGame.networkManage.sendDead(SwordObject.getMe().getOwner(), pd.getName());
-				PlayerAPI.dead(pd.getName());
+				// PlayerAPI.dead(pd.getName());
 				break;
 			}
 		}

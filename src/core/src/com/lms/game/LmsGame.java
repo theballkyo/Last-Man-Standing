@@ -35,7 +35,7 @@ public class LmsGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		sl = new SceneLoader();
-		vp = new FitViewport(Gdx.graphics.getWidth() / 0.9f, Gdx.graphics.getHeight() / 0.9f);
+		vp = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		sl.loadScene("StartScene", vp);
 
 		me = new MainEntity(sl);
@@ -52,6 +52,8 @@ public class LmsGame extends ApplicationAdapter {
 
 		sm = new SceneManage(sl, vp, cam);
 		LmsSound.load();
+		
+		LmsConfig.sl = sl;
 	}
 
 	public void act() {
@@ -60,12 +62,15 @@ public class LmsGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-
-			Gdx.gl.glClearColor(0, 0, 0, 0);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			act();
-			sl.getEngine().update(Gdx.graphics.getDeltaTime());
-			sm.render();
+			try {
+				Gdx.gl.glClearColor(0, 0, 0, 0);
+				Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+				act();
+				sl.getEngine().update(Gdx.graphics.getDeltaTime());
+				sm.render();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	
 	}
 
