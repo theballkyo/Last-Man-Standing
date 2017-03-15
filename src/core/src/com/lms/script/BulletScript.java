@@ -93,10 +93,10 @@ public class BulletScript implements IScript {
 					}
 
 					if (b.r.overlaps(pd.getRect())) {
-						System.out.println("Script bullets: " + pd.getName() + " is dead.");
+//						System.out.println("Script bullets: " + pd.getName() + " is dead.");
 						LmsGame.networkManage.sendDead(b.owner, pd.getName());
 						LmsGame.networkManage.sendRemoveBullt(b.id);
-						PlayerAPI.dead(pd.getName());
+//						PlayerAPI.dead(pd.getName());
 						try {
 							iter.remove();
 						} catch (ConcurrentModificationException e) {

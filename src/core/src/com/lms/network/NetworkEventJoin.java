@@ -9,6 +9,7 @@ import com.lms.api.PlayerData;
 import com.lms.api.PlayerServerAPI;
 import com.lms.game.LmsConfig;
 
+import com.lms.script.Player;
 import net.lastman.network.core.TCPClient;
 import net.lastman.network.core.UDPClient;
 
@@ -51,6 +52,8 @@ public class NetworkEventJoin extends NetworkEvent {
 		}
 		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 		PlayerAPI.setKill(dat[0], Integer.parseInt(dat[4]));
+		PlayerData pd = PlayerAPI.get(dat[0]);
+		pd.setDead(Integer.parseInt(dat[5]));
 	}
 
 	@Override
@@ -82,9 +85,10 @@ public class NetworkEventJoin extends NetworkEvent {
 
 		String name = dat[0];
 		String type = dat[1];
-		float x = Float.parseFloat(dat[2]);
-		float y = Float.parseFloat(dat[3]);
-		int kill = Integer.parseInt(dat[4]);
+		float x = 0;
+		float y = 0;
+		int kill = 0;
+		int dead = 0;
 
 		tcp.sendMsg(client, String.format("%cOk", NetworkEventJoin.headerCode));
 		System.out.println("TCP JOIN > " + name);
@@ -99,7 +103,7 @@ public class NetworkEventJoin extends NetworkEvent {
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
-		tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
+		tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill, dead));
 
 		for (Entry<String, PlayerData> e : PlayerServerAPI.getAll().entrySet()) {
 			name = e.getValue().getName();
@@ -107,12 +111,13 @@ public class NetworkEventJoin extends NetworkEvent {
 			x = e.getValue().pos.x;
 			y = e.getValue().pos.y;
 			kill = e.getValue().getKill();
-			tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
+			dead = e.getValue().getDead();
+			tcp.sendMsg(client, NetworkEventJoin.createJoinMsg(name, type, x, y, kill, dead));
 		}
 
 	}
 
-	public static String createJoinMsg(String name, String type, float x, float y, int kill) {
-		return String.format("%c%s:%s:%.0f:%.0f:%d", NetworkEventJoin.headerCode, name, type, x, y, kill);
+	public static String createJoinMsg(String name, String type, float x, float y, int kill, int dead) {
+		return String.format("%c%s:%s:%.0f:%.0f:%d:%d", NetworkEventJoin.headerCode, name, type, x, y, kill, dead);
 	}
 }

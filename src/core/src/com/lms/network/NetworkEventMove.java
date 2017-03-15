@@ -34,9 +34,9 @@ public class NetworkEventMove extends NetworkEvent {
 		if (lastSeq < Long.parseLong(dat[1])) {
 			PlayerAPI.move(dat[0], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
 			// player.setMoveSeq(Long.parseLong(dat[1]));
-			Gdx.app.log("NW => Move", dat[0] + "" + Long.parseLong(dat[1]));
+//			Gdx.app.log("NW => Move", dat[0] + "" + Long.parseLong(dat[1]));
 		} else {
-			Gdx.app.log("NW => Move", "Data seq slow");
+//			Gdx.app.log("NW => Move", "Data seq slow");
 		}
 	}
 

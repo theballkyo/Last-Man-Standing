@@ -49,7 +49,7 @@ public class LmsGame extends ApplicationAdapter {
 		// LmsSound.load();
 
 		LmsConfig.sl = sl;
-	}
+    }
 
 	public void act() {
 

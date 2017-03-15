@@ -7,6 +7,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.lms.buff.CoreBuff;
 import com.lms.buff.GodBuff;
+import com.lms.buff.SpeedBuff;
 import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
@@ -189,19 +190,20 @@ public class PlayerAPI {
 
 	public static void dead(String name) {
 		PlayerData pd = PlayerAPI.players.get(name);
+        System.out.println(pd.getCoreEntity().getY());
+		if (pd == null || pd.isGod()) {
 
-		if ((pd == null || pd.isGod())) {
-			if (pd.getCoreEntity().getY() > -30) {
+			if (pd.getCoreEntity().getY() > 1) {
 				return;
 			}
-
 		}
 		pd.pos.x = (new Random().nextFloat() * (12000 + 9000)) - 9000;
 		pd.pos.y = 1200;
 
+		pd.setDead(pd.getDead() + 1);
 		CoreBuff.add(name, new GodBuff(name, 1000));
+		CoreBuff.add(name, new SpeedBuff(name, 1000, 500));
 		pd.updateEntity();
-
 	}
 
 	public static void addKill(String name) {

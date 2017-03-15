@@ -134,6 +134,14 @@ public class PlayerServerAPI {
 		p.addKill();
 	}
 
+	public static void addDead(String name) {
+		PlayerData p = PlayerServerAPI.playerList.get(name);
+		if (p == null) {
+			return;
+		}
+		p.setDead(p.getDead() + 1);
+	}
+
 	public static InetAddress udpAddress(String name) {
 		return PlayerServerAPI.playerList.get(name).getUdpAddress();
 	}

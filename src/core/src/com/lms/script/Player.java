@@ -62,7 +62,7 @@ public class Player implements IScript {
 	@Override
 	public void init(Entity entity) {
 		player = entity;
-		Gdx.app.log("E name", "" + player.getId());
+//		Gdx.app.log("E name", "" + player.getId());
 		transformComponent = ComponentRetriever.get(entity, TransformComponent.class);
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
@@ -139,12 +139,15 @@ public class Player implements IScript {
 				speed.y = 0;
 			}
 		} else {
-			if (transformComponent.y + dimensionsComponent.height < 0) {
+			if (transformComponent.y + dimensionsComponent.height < 0 && !playerData.isDead()) {
 				LmsGame.networkManage.sendDead("-", LmsConfig.playerName);
-				PlayerAPI.dead(LmsConfig.playerName);
+				playerData.setIsDead(true);
+//				PlayerAPI.dead(LmsConfig.playerName);
 				speed.y = 0;
 				// transformComponent.y = transformComponent.y;
-			}
+			} else if (transformComponent.y + dimensionsComponent.height > 0) {
+			    playerData.setIsDead(false);
+            }
 		}
 		// if (transformComponent.x < 0) {
 		// transformComponent.x = 0;

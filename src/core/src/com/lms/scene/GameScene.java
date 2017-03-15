@@ -82,7 +82,6 @@ public class GameScene extends Scene {
 				try {
 					Thread.sleep(12);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -143,6 +142,10 @@ public class GameScene extends Scene {
 			myEntity.setX(x);
 			myEntity.setY(y);
 		}
+
+		// Set a game title
+		Gdx.graphics.setTitle(String.format("%s %s - %s %d kills %d dead", LmsConfig.title, LmsConfig.version, myPlayerData.getName(),
+				myPlayerData.getKill(), myPlayerData.getDead()));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -245,7 +248,12 @@ public class GameScene extends Scene {
 				sl.getBatch().end();
 
 				batchFix.begin();
-				font.draw(batchFix, String.format("%s | %d kills", pl.getName(), pl.getKill()),
+				float kd = pl.getKill();
+				if (pl.getDead() != 0) {
+					kd = pl.getKill() / (float) pl.getDead();
+				}
+
+				font.draw(batchFix, String.format("%s %d/%d K/D %.2f", pl.getName(), pl.getKill(), pl.getDead(), kd),
 						Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - (5 + (m * 20)));
 				batchFix.end();
 				m += 1;

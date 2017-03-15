@@ -4,7 +4,7 @@ import com.uwsoft.editor.renderer.SceneLoader;
 
 public class LmsConfig {
 
-	public static final String version = "0.9.60 Beta";
+	public static final String version = "1.0 Beta";
 	public static final String title = "Last Man Standing";
 	public static final int width = 1280;
 	public static final int height = 800;

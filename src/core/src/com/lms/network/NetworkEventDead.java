@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import com.lms.api.PlayerAPI;
+import com.lms.api.PlayerData;
 import com.lms.api.PlayerServerAPI;
 
 import net.lastman.network.core.TCPClient;
@@ -18,25 +19,25 @@ public class NetworkEventDead extends NetworkEvent {
 	 */
 	@Override
 	public void process(String data, UDPClient UDPcn) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void process(String data, TCPClient TCPcn) {
 		String[] dat = data.split(":");
-		if (PlayerAPI.get(dat[1]).isGod()) {
-			return;
-		}
+//		PlayerData playerData = PlayerAPI.get(dat[1]);
+//		if (playerData == null || playerData.isGod()) {
+//			return;
+//		}
 		PlayerAPI.addKill(dat[0]);
 		PlayerAPI.dead(dat[1]);
-		if (dat.length >= 3) {
-			try {
-				int bulletId = Integer.parseInt(dat[2]);
-			} catch (NumberFormatException e) {
-				System.out.println("NW Event dead: can't convert str to int");
-			}
-		}
+//		if (dat.length >= 3) {
+//			try {
+//				int bulletId = Integer.parseInt(dat[2]);
+//			} catch (NumberFormatException e) {
+//				System.out.println("NW Event dead: can't convert str to int");
+//			}
+//		}
 	}
 
 	@Override
@@ -47,9 +48,10 @@ public class NetworkEventDead extends NetworkEvent {
 
 	@Override
 	public void processServer(String data, Socket client, String time, TCPServerInterface tcp) {
-		System.out.println(data);
+//		System.out.println(data);
 		String[] dat = data.split(":");
 		PlayerServerAPI.addKill(dat[0]);
+		PlayerServerAPI.addDead(dat[1]);
 		tcp.broadcast(NetworkEventDead.createMsg(dat[0], dat[1]));
 	}
 

@@ -114,6 +114,8 @@ public class StartScene extends Scene {
 		// myEntity.addScript(new SwordScript());
 		// myEntity.addScript(new BulletScript(0, sl));
 		LmsSound.playLoginSound();
+
+		Gdx.graphics.setTitle(LmsConfig.title + " - " + LmsConfig.version);
 	}
 
 	@Override

@@ -129,10 +129,10 @@ public class NetworkManage implements Runnable {
 	public void sendJoin(String name, String type, float x, float y) {
 		Gdx.app.log("Network", "Send packet Player join ...");
 		if (!TCPcn.isConnected() || !NetworkEventJoin.tcpJoin) {
-			TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+			TCPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0, 0));
 		}
 		if (!UDPcn.isConnected() || !NetworkEventJoin.udpJoin) {
-			UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0));
+			UDPsendMsg(NetworkEventJoin.createJoinMsg(name, type, x, y, 0, 0));
 		}
 	}
 

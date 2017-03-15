@@ -22,6 +22,7 @@ public class PlayerData {
 	public Vector2 speed;
 
 	private int kill;
+	private int dead;
 	private long moveSeq;
 	
 	public float speedRun;
@@ -43,6 +44,8 @@ public class PlayerData {
 	private boolean isSword = false;
 	private boolean isGun = false;
 	private boolean isJump = false;
+	private boolean isDead = false;
+
 	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
@@ -297,5 +300,21 @@ public class PlayerData {
 	public void incrementMoveSeq() {
 		moveSeq++;
 	}
+
+	public int getDead() {
+		return dead;
+	}
+
+	public void setDead(int dead) {
+		this.dead = dead;
+	}
+
+	public void setIsDead(boolean isDead) {
+	    this.isDead = isDead;
+    }
+
+	public boolean isDead() {
+	    return isDead;
+    }
 
 }

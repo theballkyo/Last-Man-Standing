@@ -14,7 +14,7 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 	buildDir = "../build"
-    version = '0.9.60'
+    version = '1.0-BETA'
     ext {
         appName = "Last-Man-Standing"
         gdxVersion = '1.9.3'
