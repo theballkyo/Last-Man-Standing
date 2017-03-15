@@ -5,13 +5,8 @@ import java.util.HashMap;
 public class NetworkEventManage {
 	private HashMap<Byte, NetworkEvent> events;
 
-	/**
-	 * NetworkManage nm use for Client side ! NetworkServerAbstract ns use for
-	 * Server side !
-	 */
-
 	public NetworkEventManage() {
-		events = new HashMap<Byte, NetworkEvent>();
+		events = new HashMap<>();
 		init();
 		// loads();
 	}
@@ -24,6 +19,12 @@ public class NetworkEventManage {
 		NetworkEventMove.headerCode = 0x04;
 		NetworkEventAdd.headerCode = 0x05;
 		NetworkEventUpdate.headerCode = 0x06;
+		NetworkEventBullet.headerCode = 0x07;
+		NetworkEventDead.headerCode = 0x08;
+		NetworkEventBuff.headerCode = 0x09;
+		NetworkEventSword.headerCode = 0x10;
+		NetworkEventError.headerCode = 0x11;
+		NetworkEventItem.headerCode = 0x12;
 
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
 		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
@@ -31,9 +32,15 @@ public class NetworkEventManage {
 		events.put(NetworkEventMove.headerCode, new NetworkEventMove());
 		events.put(NetworkEventAdd.headerCode, new NetworkEventAdd());
 		events.put(NetworkEventUpdate.headerCode, new NetworkEventUpdate());
+		events.put(NetworkEventBullet.headerCode, new NetworkEventBullet());
+		events.put(NetworkEventDead.headerCode, new NetworkEventDead());
+		events.put(NetworkEventBuff.headerCode, new NetworkEventBuff());
+		events.put(NetworkEventSword.headerCode, new NetworkEventSword());
+		events.put(NetworkEventError.headerCode, new NetworkEventError());
+		events.put(NetworkEventItem.headerCode, new NetworkEventItem());
 	}
 
-	private void add(Byte headerCode, NetworkEvent ne) {
+	public void add(Byte headerCode, NetworkEvent ne) {
 		events.put(headerCode, ne);
 	}
 

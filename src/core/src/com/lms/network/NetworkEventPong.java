@@ -14,23 +14,22 @@ public class NetworkEventPong extends NetworkEvent {
 	public static byte headerCode;
 
 	public static String createPingMsg(String name) {
-		return String.format("%c%s", headerCode, name);
+		return String.format("%c%s", NetworkEventPong.headerCode, name);
 	}
 
 	public static String getMsg() {
-		return String.format("%caaa", headerCode);
+		return String.format("%caaa", NetworkEventPong.headerCode);
 	}
 
 	@Override
 	public void process(String data, UDPClient UDPcn) {
-		UDPcn.sendMsg(createPingMsg(LmsConfig.playerName));
+		UDPcn.sendMsg(NetworkEventPong.createPingMsg(LmsConfig.playerName));
 
 	}
 
 	@Override
 	public void process(String data, TCPClient TCPcn) {
-		// TODO Auto-generated method stub
-
+		// TCPcn.sendMsg("p");
 	}
 
 	@Override

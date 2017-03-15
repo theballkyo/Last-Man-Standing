@@ -1,27 +1,28 @@
 package com.lms.item;
 
-import com.lms.api.PlayerAPI;
-import com.lms.api.PlayerData;
-import com.lms.game.LmsConfig;
+import java.util.Random;
+
+import com.badlogic.gdx.math.Vector2;
+import com.lms.buff.CoreBuff;
+import com.lms.buff.SpeedBuff;
 
 public class SpeedUpItem extends Item {
 
-	private PlayerData pd;
-	
-	public SpeedUpItem(long expire, int timeout) {
-		super(expire, timeout);
+	String playerName;
+
+	public SpeedUpItem(int duration, Vector2 pos) {
+		super(duration, pos, new Random().nextInt(50000));
 	}
 
 	@Override
-	public void onPick(PlayerData pd) {
-		this.pd = pd;
-		PlayerAPI.get(LmsConfig.playerName).speedRun += 500;
-
+	public void onPick(String playerName) {
+		this.playerName = playerName;
+		CoreBuff.add(playerName, new SpeedBuff(playerName, 5000, 500));
 	}
 
 	@Override
 	public void onTimeout() {
-		PlayerAPI.get(LmsConfig.playerName).speedRun -= 500;
+
 	}
-	
+
 }

@@ -35,7 +35,7 @@ public class NetworkEventJoin extends NetworkEvent {
 			NetworkEventJoin.udpJoin = true;
 			return;
 		}
-		String[] dat = data.split(":");
+		data.split(":");
 	}
 
 	@Override
@@ -45,11 +45,12 @@ public class NetworkEventJoin extends NetworkEvent {
 			return;
 		}
 		String[] dat = data.split(":");
-		System.out.println(data);
+		System.out.println(data.length() + "," + data );
 		if (dat[0].equals(LmsConfig.playerName)) {
 			return;
 		}
 		PlayerAPI.add(dat[0], dat[1], Float.parseFloat(dat[2]), Float.parseFloat(dat[3]));
+		PlayerAPI.setKill(dat[0], Integer.parseInt(dat[4]));
 	}
 
 	@Override
@@ -60,14 +61,19 @@ public class NetworkEventJoin extends NetworkEvent {
 		String type = dat[1];
 		float x = Float.parseFloat(dat[2]);
 		float y = Float.parseFloat(dat[3]);
+		int kill = Integer.parseInt(dat[4]);
 
-		PlayerServerAPI.add(name, type, x, y);
+		udp.sendMsg(address, port, String.format("%cOk", NetworkEventJoin.headerCode));
+		if (PlayerServerAPI.get(name) != null) {
+			if (PlayerServerAPI.get(name).getUdpAddress() != null) {
+				System.out.println("UDP Same name: " + name);
+				return;
+			}
+		}
+		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setUdpLastConn(name, System.currentTimeMillis());
 		PlayerServerAPI.setUdpClient(name, address, port);
-		// udp.addClient(dat[0], incoming);
-		// udp.broadcast(dat[0], createJoinMsg(dat[0], dat[1],
-		// Float.parseFloat(dat[2]), Float.parseFloat(dat[3])));
-		udp.sendMsg(address, port, String.format("%cOk", headerCode));
+
 	}
 
 	@Override
@@ -78,25 +84,35 @@ public class NetworkEventJoin extends NetworkEvent {
 		String type = dat[1];
 		float x = Float.parseFloat(dat[2]);
 		float y = Float.parseFloat(dat[3]);
+		int kill = Integer.parseInt(dat[4]);
 
-		PlayerServerAPI.add(name, type, x, y);
+		tcp.sendMsg(client, String.format("%cOk", NetworkEventJoin.headerCode));
+		System.out.println("TCP JOIN > " + name);
+		if (PlayerServerAPI.get(name) != null) {
+			if (PlayerServerAPI.get(name).getTcpSocket() != null) {
+				System.out.println("TCP Same name: " + name);
+				tcp.close(client);
+				return;
+			}
+		}
+
+		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
-		tcp.broadcast(createJoinMsg(name, type, x, y));
-		tcp.sendMsg(client, String.format("%cOk", headerCode));
+		tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
 
 		for (Entry<String, PlayerData> e : PlayerServerAPI.getAll().entrySet()) {
 			name = e.getValue().getName();
 			type = e.getValue().getType();
 			x = e.getValue().pos.x;
 			y = e.getValue().pos.y;
-			tcp.broadcast(createJoinMsg(name, type, x, y));
+			kill = e.getValue().getKill();
+			tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
 		}
 
 	}
 
-	public static String createJoinMsg(String name, String type, float x, float y) {
-		return String.format("%c%s:%s:%.0f:%.0f", headerCode, name, type, x, y);
+	public static String createJoinMsg(String name, String type, float x, float y, int kill) {
+		return String.format("%c%s:%s:%.0f:%.0f:%d", NetworkEventJoin.headerCode, name, type, x, y, kill);
 	}
-
 }

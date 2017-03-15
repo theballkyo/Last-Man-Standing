@@ -10,6 +10,8 @@ public interface TCPServerInterface {
 
 	public void broadcast(String msg);
 
-	public void broadcast(int clientId, String msg);
+	public void broadcast(Socket client, String msg);
+
+	public void close(Socket client);
 
 }
