@@ -6,8 +6,8 @@ import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
-public class SwatEntity extends CoreEntity{
-	
+public class SwatEntity extends CoreEntity {
+
 	public SpriteAnimationVO vo;
 
 	public SwatEntity(String entityName, SceneLoader sl) {

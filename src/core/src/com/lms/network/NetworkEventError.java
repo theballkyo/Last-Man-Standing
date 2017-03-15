@@ -38,7 +38,7 @@ public class NetworkEventError extends NetworkEvent {
 	}
 
 	public static String createMsg(int errorCode) {
-		return String.format("%c%d", headerCode, errorCode);
+		return String.format("%c%d", NetworkEventError.headerCode, errorCode);
 	}
 
 }

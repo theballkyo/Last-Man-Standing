@@ -1,10 +1,11 @@
 package com.lms.scene;
 
+import java.util.HashMap;
 import java.util.Random;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,7 +15,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lms.api.PlayerAPI;
 import com.lms.entity.CoreEntity;
+import com.lms.entity.EntityData;
 import com.lms.game.LmsConfig;
+import com.lms.game.LmsSound;
 import com.lms.scene.SceneManage.SceneName;
 import com.lms.script.Player;
 import com.uwsoft.editor.renderer.SceneLoader;
@@ -34,8 +37,8 @@ public class StartScene extends Scene {
 	private boolean isChange = false;
 	private String[] entityList;
 
-	private Sound sound;
 	private Random random = new Random();
+
 
 	public StartScene(SceneLoader sl, Viewport vp, OrthographicCamera cam, SceneManage sm) {
 		super(sl, vp, cam, sm);
@@ -45,11 +48,10 @@ public class StartScene extends Scene {
 	public void create() {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/test.otf"));
 		parameter = new FreeTypeFontParameter();
-		parameter.size = 86;
+		parameter.size = 120;
 		parameter.color = Color.RED;
 		font = generator.generateFont(parameter); // font size 12 pixels
 		batchFix = new SpriteBatch();
-		sound = Gdx.audio.newSound(Gdx.files.internal("sounds/start.mp3"));
 		// font = new BitmapFont();
 		sl.loadScene("StartScene", vp);
 
@@ -76,7 +78,7 @@ public class StartScene extends Scene {
 				play = true;
 			}
 		});
-		
+
 		sl.entityFactory.getEntityByUniqueId(445).getComponent(ButtonComponent.class).addListener(new ButtonListener() {
 
 			@Override
@@ -96,17 +98,22 @@ public class StartScene extends Scene {
 				isChange = true;
 			}
 		});
-		entityList = new String[] { "ninja","swat","knight","cyborg" };
+		entityList = new String[] { "ninja", "swat", "knight", "cyborg" };
 
 		PlayerAPI.removeAll();
 
-		LmsConfig.playerType = entityList[random.nextInt(entityList.length)]; 
-		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, -100f, 50f);
+		LmsConfig.playerType = entityList[random.nextInt(entityList.length)];
+		PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, -200f, -150f);
+
+		for (Entity e : sl.getEngine().getEntities()) {
+			EntityData.addEntity(e);
+		}
+
 		myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-		myEntity.addScript(new Player(sl.world, 960f, false));
+		myEntity.addScript(new Player(sl.world, 1950f, false));
 		// myEntity.addScript(new SwordScript());
 		// myEntity.addScript(new BulletScript(0, sl));
-		sound.play();
+		LmsSound.playLoginSound();
 	}
 
 	@Override
@@ -119,11 +126,11 @@ public class StartScene extends Scene {
 			LmsConfig.playerType = entityList[random.nextInt(entityList.length)];
 			PlayerAPI.add(LmsConfig.playerName, LmsConfig.playerType, -100f, 50f);
 			myEntity = PlayerAPI.get(LmsConfig.playerName).getCoreEntity();
-			myEntity.addScript(new Player(sl.world, 960f, false));
+			myEntity.addScript(new Player(sl.world, 1950f, false));
 			isChange = false;
 		}
 		batchFix.begin();
-		if (name.length() < 12) {
+		if (name.length() < 10) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
 				name += "A";
 			} else if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
@@ -201,18 +208,18 @@ public class StartScene extends Scene {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE) && name.length() != 0) {
 			name = name.substring(0, name.length() - 1);
 		}
-		font.draw(batchFix, name, 170, 335);
+		font.draw(batchFix, name, 270, 590);
 		batchFix.end();
 
-		if (play && name.length() > 3 && name.length() < 15) {
+		if (play && name.length() > 3 && name.length() < 11) {
 			System.out.println("Play !!");
 			PlayerAPI.remove(LmsConfig.playerName);
 			LmsConfig.playerName = name;
-			
+
 			if (LmsConfig.isHack) {
 				LmsConfig.playerName = "GOD_GM";
 			}
-			
+
 			sm.setScene(SceneName.PlayScene);
 			play = false;
 			return;
@@ -241,12 +248,13 @@ public class StartScene extends Scene {
 
 	@Override
 	public void dispose() {
-		sound.dispose();
+		LmsSound.stopLoginSound();
 	}
 
 	private void act() {
-		if (myEntity.getX() + myEntity.getWidth() >= Gdx.graphics.getWidth()) {
-			myEntity.setX(Gdx.graphics.getWidth() - myEntity.getWidth());
+		
+		if (myEntity.getX() < -500) {
+			myEntity.setX(-500);
 		}
 	}
 }

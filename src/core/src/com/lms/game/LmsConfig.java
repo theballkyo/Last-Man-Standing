@@ -4,11 +4,11 @@ import com.uwsoft.editor.renderer.SceneLoader;
 
 public class LmsConfig {
 
-	public static final String version = "0.9.11";
+	public static final String version = "0.9.60 Beta";
 	public static final String title = "Last Man Standing";
-	public static final int width = 800;
-	public static final int height = 600;
-	public static final boolean debug = true;
+	public static final int width = 1280;
+	public static final int height = 800;
+	public static boolean debug = false;
 	public static String playerType;
 
 	public enum GameType {
@@ -26,8 +26,8 @@ public class LmsConfig {
 	public static String playerName = "Dev" + System.currentTimeMillis();
 
 	public static int errorCode = 0;
-	
+
 	public static boolean isHack = false;
-	
+
 	public static SceneLoader sl;
 }

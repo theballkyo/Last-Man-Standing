@@ -53,15 +53,17 @@ public class BulletScript implements IScript {
 	@Override
 	public void act(float delta) {
 		if (Gdx.input.isKeyJustPressed(Keys.C) && !isAtk) {
-			if (tf.scaleX == -1)
-				r = new Rectangle(tf.x+100, tf.y+100, 60, 32);
-			else if (tf.scaleX == 1)
-				r = new Rectangle(tf.x+300 , tf.y+100, 60, 32);
-			//System.out.println("ScaleX : " + tf.scaleX);  
-			BulletObject.add(new BulletObject(r, tf.scaleX, mic.itemIdentifier));
+			if (tf.scaleX < 0) {
+				r = new Rectangle((tf.x + 100), (tf.y + 100) * tf.scaleY, 60, 32);
+			} else if (tf.scaleX > 0) {
+				r = new Rectangle((tf.x + 300) * tf.scaleX, (tf.y + 100) * tf.scaleY, 60, 32);
+			}
+			// System.out.println("ScaleX : " + tf.scaleX);
+			// BulletObject.add(new BulletObject(r, tf.scaleX,
+			// mic.itemIdentifier));
 			LmsGame.networkManage.sendBullet(LmsConfig.playerName, r, (int) tf.scaleX);
 			isAtk = true;
-			PlayerAPI.get(entity.getId()).setGun(true);
+			// PlayerAPI.get(entity.getId()).setGun(true);
 			new Thread(() -> {
 				try {
 					Thread.sleep(500);
@@ -73,39 +75,43 @@ public class BulletScript implements IScript {
 				PlayerAPI.get(entity.getId()).setGun(false);
 			}).start();
 		}
-		Iterator<BulletObject> iter = BulletObject.getAll().iterator();
-		while (iter.hasNext()) {
-			BulletObject b = iter.next();
-			if (!b.owner.equals(LmsConfig.playerName)) {
-				continue;
-			}
-			for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
-				PlayerData pd = p.getValue();
-
-				if (pd.isGod()) {
+		synchronized (BulletObject.syncArr) {
+			Iterator<BulletObject> iter = BulletObject.getAll().iterator();
+			while (iter.hasNext()) {
+				BulletObject b = iter.next();
+				if (!b.owner.equals(LmsConfig.playerName)) {
 					continue;
 				}
-				if (pd.getName().equals(b.owner)) {
-					continue;
-				}
+				for (Entry<String, PlayerData> p : PlayerAPI.getAll().entrySet()) {
+					PlayerData pd = p.getValue();
 
-				if (b.r.overlaps(pd.getRect())) {
-					System.out.println("Script bullets: " + pd.getName() + " is dead.");
-					LmsGame.networkManage.sendDead(b.owner, pd.getName());
-					PlayerAPI.dead(pd.getName());
-					try {
-						iter.remove();
-					} catch (ConcurrentModificationException e) {
-						e.printStackTrace();
-						break;
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
+					if (pd.isGod()) {
+						continue;
+					}
+					if (pd.getName().equals(b.owner)) {
+						continue;
+					}
+
+					if (b.r.overlaps(pd.getRect())) {
+						System.out.println("Script bullets: " + pd.getName() + " is dead.");
+						LmsGame.networkManage.sendDead(b.owner, pd.getName());
+						LmsGame.networkManage.sendRemoveBullt(b.id);
+						PlayerAPI.dead(pd.getName());
+						try {
+							iter.remove();
+						} catch (ConcurrentModificationException e) {
+							e.printStackTrace();
+							break;
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+							break;
+						}
 						break;
 					}
-					break;
 				}
 			}
 		}
+
 	}
 
 	@Override

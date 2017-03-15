@@ -52,7 +52,7 @@ public class TCPClient implements ClientNetwork{
 			InputStream msgServer = client.getInputStream();
 			DataInputStream msg = new DataInputStream(msgServer);
 			return msg.readUTF();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			isConn = false;
 			e.printStackTrace();
 		}
@@ -66,8 +66,8 @@ public class TCPClient implements ClientNetwork{
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
 			out.writeUTF(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			isConn = false;
 			e.printStackTrace();
 		}
         

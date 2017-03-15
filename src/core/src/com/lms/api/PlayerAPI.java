@@ -11,35 +11,45 @@ import com.lms.entity.CoreEntity;
 import com.lms.entity.MainEntity;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsConfig.GameType;
+import com.lms.script.PlayerBot;
 import com.uwsoft.editor.renderer.SceneLoader;
 
 public class PlayerAPI {
 
-	private static HashMap<String, CoreEntity> playerList = new HashMap<String, CoreEntity>();
+	private static HashMap<String, CoreEntity> playerList = new HashMap<>();
 
-	private static HashMap<String, PlayerData> players = new HashMap<String, PlayerData>();
+	private static HashMap<String, PlayerData> players = new HashMap<>();
 
 	public static SceneLoader sl;
 	public static MainEntity me;
 
 	public static void load(SceneLoader sl2, MainEntity me2) {
-		sl = sl2;
-		me = me2;
+		PlayerAPI.sl = sl2;
+		PlayerAPI.me = me2;
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param name
+	 * @param type
+	 * @param x
+	 * @param y
+	 */
 	public static void add(String name, String type, float x, float y) {
-		PlayerData pd = players.get(name);
+		PlayerData pd = PlayerAPI.players.get(name);
 
 		if (pd != null) {
 			return;
 		}
 
 		pd = new PlayerData(name, type, x, y);
-		players.put(name, pd);
+		PlayerAPI.players.put(name, pd);
 
 		if (LmsConfig.gameType == GameType.Client) {
 			try {
-				CoreEntity ce = me.newEntity(type, name);
+				CoreEntity ce = PlayerAPI.me.newEntity(type, name);
 				ce.create();
 				pd.setCoreEntity(ce);
 			} catch (NullPointerException e) {
@@ -47,22 +57,37 @@ public class PlayerAPI {
 				e.printStackTrace();
 			}
 		}
-		/*
-		 * CoreEntity pl = playerList.get(name);
-		 *
-		 * if (pl != null) { if (name.equals(LmsConfig.playerName)) { return; }
-		 * move(name, x, y); return; }
-		 *
-		 * pl = me.newEntity(type, name); if (pl == null) {
-		 * Gdx.app.log("PlayerAPI", "Can't find entity type (" + type + ")");
-		 * return; } pl.create(); pl.setX(x); pl.setY(y); pl.setAnimation(true);
-		 * System.out.printf("Create: %s %s %.0f %.0f\n", name, type, x, y);
-		 * playerList.put(name, pl);
-		 */
 	}
 
+	/**
+	 * 
+	 * Add player
+	 * Version 2 is add player with playerBot script
+	 * 
+	 * @param name
+	 * @param type
+	 * @param x
+	 * @param y
+	 */
+	public static void addVersion2(String name, String type, float x, float y) {
+		add(name, type, x, y);
+		PlayerData pd = PlayerAPI.players.get(name);
+		if (pd == null) {
+			Gdx.app.log("PlayerAPI", "Can't find player name " + name);
+			return;
+		}
+		pd.getCoreEntity().addScript(new PlayerBot());
+	}
+	
+	/**
+	 * Move player entity to new position
+	 * 
+	 * @param name
+	 * @param x
+	 * @param y
+	 */
 	public static void move(String name, float x, float y) {
-		PlayerData pd = players.get(name);
+		PlayerData pd = PlayerAPI.players.get(name);
 
 		if (pd == null) {
 			Gdx.app.log("PlayerAPI - Move", "Can't find entity name (" + name + ")");
@@ -78,17 +103,14 @@ public class PlayerAPI {
 		pd.pos.x = x;
 		pd.pos.y = y;
 
-		/*
-		 * CoreEntity pl = playerList.get(name); if (pl == null) { Gdx.app.log(
-		 * "PlayerAPI - Move", "Can't find entity name (" + name + ")"); return;
-		 * } if (pl.getX() > x) { pl.setScaleX(-Math.abs(pl.getScaleX())); }
-		 * else if (pl.getX() < x) { pl.setScaleX(Math.abs(pl.getScaleX())); }
-		 *
-		 * pl.setX(x); pl.setY(y);
-		 */
-		// pd.updateEntity();
 	}
 
+	/**
+	 * Set player entity with animation name
+	 * 
+	 * @param name
+	 * @param play
+	 */
 	public static void setAnimation(String name, boolean play) {
 
 		// Check if Server access
@@ -97,19 +119,25 @@ public class PlayerAPI {
 		}
 
 		try {
-			players.get(name).getCoreEntity().setAnimation(play);
+			PlayerAPI.players.get(name).getCoreEntity().setAnimation(play);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * Get PlayerData
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public static PlayerData get(String name) {
-		return players.get(name);
+		return PlayerAPI.players.get(name);
 	}
 
 	public static PlayerData get(long id) {
-		for (Entry<String, PlayerData> p : players.entrySet()) {
+		for (Entry<String, PlayerData> p : PlayerAPI.players.entrySet()) {
 			if (p.getValue().getId() != -1 && p.getValue().getId() == id) {
 				return p.getValue();
 			}
@@ -117,25 +145,33 @@ public class PlayerAPI {
 		return null;
 	}
 
+	/**
+	 * Remove player 
+	 * 
+	 * @param name
+	 */
 	public static void remove(String name) {
 		try {
-			sl.getEngine().removeEntity(players.get(name).getCoreEntity().getEntity());
-			players.remove(name);
+			if (PlayerAPI.sl.engine
+					.getEntity(PlayerAPI.players.get(name).getCoreEntity().getEntity().getId()) != null) {
+				PlayerAPI.sl.getEngine().removeEntity(PlayerAPI.players.get(name).getCoreEntity().getEntity());
+				PlayerAPI.players.remove(name);
+			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void removeScript(String name) {
-		players.get(name).getCoreEntity().removeScript();
+		PlayerAPI.players.get(name).getCoreEntity().removeScript();
 	}
 
 	public static HashMap<String, PlayerData> getAll() {
-		return players;
+		return PlayerAPI.players;
 	}
 
 	public static void setScale(String name, float f) {
-		CoreEntity pl = playerList.get(name);
+		CoreEntity pl = PlayerAPI.playerList.get(name);
 		if (pl == null) {
 			return;
 		}
@@ -144,32 +180,32 @@ public class PlayerAPI {
 	}
 
 	public static void removeAll() {
-		for (Entry<String, PlayerData> p : players.entrySet()) {
+		for (Entry<String, PlayerData> p : PlayerAPI.players.entrySet()) {
 			System.out.println("Remove: " + p.getKey());
-			remove(p.getKey());
+			PlayerAPI.remove(p.getKey());
 		}
-		players.clear();
+		PlayerAPI.players.clear();
 	}
 
 	public static void dead(String name) {
-		PlayerData pd = players.get(name);
+		PlayerData pd = PlayerAPI.players.get(name);
 
 		if ((pd == null || pd.isGod())) {
 			if (pd.getCoreEntity().getY() > -30) {
 				return;
 			}
-			
+
 		}
-		pd.pos.x = new Random().nextFloat() * 3500;
+		pd.pos.x = (new Random().nextFloat() * (12000 + 9000)) - 9000;
 		pd.pos.y = 1200;
-		
-		CoreBuff.add(name, new GodBuff(name, 5000));
+
+		CoreBuff.add(name, new GodBuff(name, 1000));
 		pd.updateEntity();
 
 	}
 
 	public static void addKill(String name) {
-		PlayerData p = players.get(name);
+		PlayerData p = PlayerAPI.players.get(name);
 		if (p == null) {
 			return;
 		}
@@ -177,7 +213,7 @@ public class PlayerAPI {
 	}
 
 	public static void setKill(String name, int kill) {
-		PlayerData p = players.get(name);
+		PlayerData p = PlayerAPI.players.get(name);
 		if (p == null) {
 			return;
 		}

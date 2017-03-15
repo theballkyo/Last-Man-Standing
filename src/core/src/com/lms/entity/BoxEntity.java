@@ -1,9 +1,7 @@
 package com.lms.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.lms.api.PlayerAPI;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.data.FrameRange;
 import com.uwsoft.editor.renderer.data.SpriteAnimationVO;
 
 public class BoxEntity extends CoreEntity {
@@ -11,8 +9,9 @@ public class BoxEntity extends CoreEntity {
 	public SpriteAnimationVO vo;
 
 	public Vector2 pos;
+
 	public BoxEntity(String entityName, SceneLoader sl, Vector2 pos) {
-		
+
 		super(entityName, sl);
 		vo = new SpriteAnimationVO();
 		this.pos = pos;

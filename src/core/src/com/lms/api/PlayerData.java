@@ -17,21 +17,18 @@ import com.lms.game.LmsConfig.GameType;
 
 public class PlayerData {
 
-	private float hp;
-
 	public Vector2 pos;
 	public Vector2 scale;
 	public Vector2 speed;
 
 	private int kill;
-
+	private long moveSeq;
+	
 	public float speedRun;
 	public float speedJump;
 
 	public long lastUdpConn;
 	public long lastTcpConn;
-
-	private long id;
 
 	private String name;
 	private String type;
@@ -49,9 +46,6 @@ public class PlayerData {
 	private int tWalk = 0;
 	/* For TCP */
 	private Socket client;
-	private int clientId;
-	/* For UDP */
-	private DatagramPacket udp;
 	private InetAddress udpAddress;
 	private int udpPort;
 
@@ -66,6 +60,7 @@ public class PlayerData {
 		buffs = new ArrayList<>();
 		speed = new Vector2();
 		buffData = new ArrayList<>();
+		moveSeq = 0;
 	}
 
 	public void setCoreEntity(CoreEntity entity) {
@@ -82,7 +77,6 @@ public class PlayerData {
 	}
 
 	public void setUdp(DatagramPacket udp) {
-		this.udp = udp;
 	}
 
 	public void setUdp(InetAddress udpAddress, int udpPort) {
@@ -140,32 +134,32 @@ public class PlayerData {
 		if (isGun) {
 			entity.setAnimation("gun");
 		}
-		if (isJump){
+		if (isJump) {
 			entity.setAnimation("jump");
 		}
 		if (entity.getX() != pos.x) {
 			if (isGun) {
-				//System.out.println("rungun");
+				// System.out.println("rungun");
 				entity.setAnimation("rungun");
 			}
-			if (isSword) entity.setAnimation("runsword");
+			if (isSword) {
+				entity.setAnimation("runsword");
+			}
 			entity.setAnimation("run");
 			tWalk = 0;
-		}
-		else if (entity.getX() == pos.x && !isSword && !isGun) {
+		} else if (entity.getX() == pos.x && !isSword && !isGun) {
 			tWalk += 1;
 			if (tWalk > 3) {
 				entity.setAnimation("stand");
 			}
 		}
-		
-		
+
 		if (entity.getX() > pos.x) {
 			scale.x = (-Math.abs(scale.x));
 		} else if (entity.getX() < pos.x) {
 			scale.x = Math.abs(scale.x);
 		}
-
+		
 		entity.setX(pos.x);
 		entity.setY(pos.y);
 
@@ -195,6 +189,9 @@ public class PlayerData {
 	}
 
 	public void setGodMode(long time) {
+		if (isGod == true) {
+			return;
+		}
 		isGod = true;
 		new Thread(() -> {
 			long endTime = System.currentTimeMillis() + time;
@@ -228,6 +225,8 @@ public class PlayerData {
 
 	public void addBuff(Buff buff) {
 		buffs.add(buff);
+
+		buff.init();
 	}
 
 	public ArrayList<Buff> getAllBuff() {
@@ -244,20 +243,17 @@ public class PlayerData {
 	public Rectangle getRect() {
 		float width = entity.getScale().x * entity.getWidth();
 		float height = entity.getScale().y * entity.getHeight();
-		return new Rectangle(entity.getX() + ((entity.getWidth() - width) / 2) , entity.getY(), width , height);
+		return new Rectangle(entity.getX() + ((entity.getWidth() - width) / 2) + 30, entity.getY(), width - 50, height);
 	}
 
 	public Polygon getPolygon() {
 		Rectangle r = getRect();
-		Polygon poly = new Polygon(new float[] {
-				r.x, r.y,
-				r.x, r.y + r.height,
-				r.x + r.width, r.y + r.height,
-				r.x + r.width, r.y
-		});
-		
+		Polygon poly = new Polygon(
+				new float[] { r.x, r.y, r.x, r.y + r.height, r.x + r.width, r.y + r.height, r.x + r.width, r.y });
+
 		return poly;
 	}
+
 	public ArrayList<BuffData> getBuffData() {
 		return buffData;
 	}
@@ -281,7 +277,7 @@ public class PlayerData {
 	public void setGun(boolean isGun) {
 		this.isGun = isGun;
 	}
-	
+
 	public boolean isJump() {
 		return isJump;
 	}
@@ -289,5 +285,17 @@ public class PlayerData {
 	public void setJump(boolean isJump) {
 		this.isJump = isJump;
 	}
+
+	public long getMoveSeq() {
+		return moveSeq;
+	}
+
+	public void setMoveSeq(long moveSeq) {
+		this.moveSeq = moveSeq;
+	}
 	
+	public void incrementMoveSeq() {
+		moveSeq++;
+	}
+
 }

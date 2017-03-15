@@ -11,7 +11,7 @@ public class CyborgEntity extends CoreEntity {
 	public SpriteAnimationVO vo;
 
 	public CyborgEntity(String entityName, SceneLoader sl) {
-		
+
 		super(entityName, sl);
 		vo = new SpriteAnimationVO();
 

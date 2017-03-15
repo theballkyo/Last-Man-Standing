@@ -24,8 +24,6 @@ public class NetworkManage implements Runnable {
 	private Thread pong;
 	private static long byteRecv = 0;
 
-	private long lastRecv = 0;
-
 	public NetworkManage(UDPClient UDPcn, TCPClient TCPcn, SceneLoader sl, MainEntity me, Viewport vp) {
 		this.UDPcn = UDPcn;
 		this.TCPcn = TCPcn;
@@ -46,6 +44,7 @@ public class NetworkManage implements Runnable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				Thread.currentThread().setName("UDP Listener");
 				while (true) {
 					UDPListener();
 				}
@@ -55,6 +54,7 @@ public class NetworkManage implements Runnable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
+				Thread.currentThread().setName("TCP Listener");
 				while (true) {
 					TCPListener();
 				}
@@ -62,6 +62,7 @@ public class NetworkManage implements Runnable {
 		}).start();
 
 		pong = new Thread(() -> {
+			Thread.currentThread().setName("PING Listener");
 			while (true) {
 				TCPsendMsg("p");
 				try {
@@ -83,7 +84,7 @@ public class NetworkManage implements Runnable {
 		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
 
-		byteRecv += msg.length();
+		NetworkManage.byteRecv += msg.length();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
 			NetworkPing.addPingTime(System.currentTimeMillis() - Long.parseLong(dat[1]));
@@ -99,7 +100,7 @@ public class NetworkManage implements Runnable {
 		String data = new String(msg.getBytes(), 1, msg.length() - 1);
 		String[] dat = data.split("!");
 
-		byteRecv += msg.length();
+		NetworkManage.byteRecv += msg.length();
 		NetworkEvent event = nem.get(header);
 		if (dat.length > 1) {
 
@@ -114,9 +115,7 @@ public class NetworkManage implements Runnable {
 	}
 
 	public void UDPsendMsg(String msg) {
-		new Thread(() -> {
-			UDPcn.sendMsg(msg + "!" + System.currentTimeMillis());
-		}).start();
+		UDPcn.sendMsg(msg + "!" + System.currentTimeMillis());
 	}
 
 	public void TCPsendMsg(String msg) {
@@ -137,8 +136,8 @@ public class NetworkManage implements Runnable {
 		}
 	}
 
-	public void sendMove(String name, float x, float y) {
-		UDPsendMsg(NetworkEventMove.createMoveMsg(name, x, y));
+	public void sendMove(String name, long seq, float x, float y) {
+		UDPsendMsg(NetworkEventMove.createMoveMsg(name, seq, x, y));
 	}
 
 	public void sendBullet(String name, Rectangle r, int side) {
@@ -157,10 +156,15 @@ public class NetworkManage implements Runnable {
 		TCPsendMsg(NetworkEventBuff.createMsg(buffCode, name, duration, arg));
 	}
 
+	public void sendRemoveBullt(int id) {
+		TCPsendMsg(NetworkEventBullet.removeBullet(id));
+	}
+
 	public void sendPick(int id) {
 		TCPsendMsg(NetworkEventItem.pickMsg(id));
 	}
- 	public void updateList() {
+
+	public void updateList() {
 		TCPsendMsg(NetworkEventUpdate.createUpdateMsg());
 	}
 
@@ -177,7 +181,7 @@ public class NetworkManage implements Runnable {
 	}
 
 	public static long getByteRecv() {
-		return byteRecv;
+		return NetworkManage.byteRecv;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -187,4 +191,5 @@ public class NetworkManage implements Runnable {
 		TCPcn.stop();
 		UDPcn.stop();
 	}
+
 }

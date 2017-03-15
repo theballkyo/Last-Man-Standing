@@ -37,11 +37,12 @@ public class NetworkEventBuff extends NetworkEvent {
 	 */
 	@Override
 	public void process(String data, TCPClient TCPcn) {
+		// System.out.println("Recv: buff tcp");
 		String[] dat = data.split(":");
 		byte buffCode = dat[0].getBytes()[0];
 		String name = dat[1];
 		int duration = Integer.parseInt(dat[2]);
-		// System.out.println(data);
+		System.out.println(data);
 		if (dat.length == 4) {
 			if (dat[3].contains("|")) {
 				CoreBuff.processBuff(buffCode, name, duration, dat[3].split("|"));
@@ -98,7 +99,7 @@ public class NetworkEventBuff extends NetworkEvent {
 		} else {
 			arg = "";
 		}
-		tcp.broadcast(String.format("%c%s", headerCode, data));
+		tcp.broadcast(String.format("%c%s", NetworkEventBuff.headerCode, data));
 
 		PlayerServerAPI.get(name).addBuffData(new BuffData(buffCode, name, duration, System.currentTimeMillis(), arg));
 	}
@@ -111,14 +112,15 @@ public class NetworkEventBuff extends NetworkEvent {
 	 * @return
 	 */
 	public static String createMsg(byte buffCode, String name, int duration, String[] arg) {
-		return String.format("%c%c:%s:%d:%s", headerCode, buffCode, name, duration, String.join("|", arg));
+		return String.format("%c%c:%s:%d:%s", NetworkEventBuff.headerCode, buffCode, name, duration,
+				String.join("|", arg));
 	}
 
 	public static String createMsg(byte buffCode, String name, int duration, String arg) {
-		return String.format("%c%c:%s:%d:%s", headerCode, buffCode, name, duration, arg);
+		return String.format("%c%c:%s:%d:%s", NetworkEventBuff.headerCode, buffCode, name, duration, arg);
 	}
 
 	public static String reqBuffData() {
-		return String.format("%cReq", headerCode);
+		return String.format("%cReq", NetworkEventBuff.headerCode);
 	}
 }

@@ -12,4 +12,6 @@ public interface TCPServerInterface {
 
 	public void broadcast(Socket client, String msg);
 
+	public void close(Socket client);
+
 }

@@ -11,8 +11,6 @@ public class SceneManage {
 	private Viewport vp;
 	private OrthographicCamera cam;
 
-	private SceneName sn;
-
 	private Scene scene;
 
 	public enum SceneName {
@@ -23,8 +21,6 @@ public class SceneManage {
 		this.sl = sl;
 		this.vp = vp;
 		this.cam = cam;
-
-		sn = SceneName.StartScene;
 
 		scene = new StartScene(sl, vp, cam, this);
 		scene.create();

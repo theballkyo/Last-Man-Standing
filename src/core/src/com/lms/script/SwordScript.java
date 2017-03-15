@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Rectangle;
 import com.lms.api.PlayerAPI;
 import com.lms.api.PlayerData;
 import com.lms.entity.CoreEntity;

@@ -6,7 +6,7 @@ public class NetworkEventManage {
 	private HashMap<Byte, NetworkEvent> events;
 
 	public NetworkEventManage() {
-		events = new HashMap<Byte, NetworkEvent>();
+		events = new HashMap<>();
 		init();
 		// loads();
 	}
@@ -25,7 +25,7 @@ public class NetworkEventManage {
 		NetworkEventSword.headerCode = 0x10;
 		NetworkEventError.headerCode = 0x11;
 		NetworkEventItem.headerCode = 0x12;
-		
+
 		events.put(NetworkEventJoin.headerCode, new NetworkEventJoin());
 		events.put(NetworkEventDisconnect.headerCode, new NetworkEventDisconnect());
 		events.put(NetworkEventPong.headerCode, new NetworkEventPong());

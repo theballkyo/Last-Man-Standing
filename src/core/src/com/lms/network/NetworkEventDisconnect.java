@@ -35,7 +35,7 @@ public class NetworkEventDisconnect extends NetworkEvent {
 	@Override
 	public void processServer(String data, InetAddress address, int port, String time, UDPServerInterface udp) {
 		PlayerServerAPI.remove(data);
-		udp.broadcast(data, removeMsg(data));
+		udp.broadcast(data, NetworkEventDisconnect.removeMsg(data));
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class NetworkEventDisconnect extends NetworkEvent {
 	}
 
 	public static String removeMsg(String name) {
-		return String.format("%c%s", headerCode, name);
+		return String.format("%c%s", NetworkEventDisconnect.headerCode, name);
 	}
 
 }

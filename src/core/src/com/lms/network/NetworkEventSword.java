@@ -36,12 +36,12 @@ public class NetworkEventSword extends NetworkEvent {
 
 	@Override
 	public void processServer(String data, Socket client, String time, TCPServerInterface tcp) {
-		tcp.broadcast(String.format("%c%s", headerCode, data));
+		tcp.broadcast(String.format("%c%s", NetworkEventSword.headerCode, data));
 
 	}
 
 	public static String createMsg(String name, int width) {
-		return String.format("%c%s:%d", headerCode, name, width);
+		return String.format("%c%s:%d", NetworkEventSword.headerCode, name, width);
 	}
 
 }

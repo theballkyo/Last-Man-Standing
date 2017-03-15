@@ -25,10 +25,18 @@ public class NetworkEventDead extends NetworkEvent {
 	@Override
 	public void process(String data, TCPClient TCPcn) {
 		String[] dat = data.split(":");
-		if (PlayerAPI.get(dat[1]).isGod())
+		if (PlayerAPI.get(dat[1]).isGod()) {
 			return;
+		}
 		PlayerAPI.addKill(dat[0]);
 		PlayerAPI.dead(dat[1]);
+		if (dat.length >= 3) {
+			try {
+				int bulletId = Integer.parseInt(dat[2]);
+			} catch (NumberFormatException e) {
+				System.out.println("NW Event dead: can't convert str to int");
+			}
+		}
 	}
 
 	@Override
@@ -42,11 +50,11 @@ public class NetworkEventDead extends NetworkEvent {
 		System.out.println(data);
 		String[] dat = data.split(":");
 		PlayerServerAPI.addKill(dat[0]);
-		tcp.broadcast(createMsg(dat[0], dat[1]));
+		tcp.broadcast(NetworkEventDead.createMsg(dat[0], dat[1]));
 	}
 
 	public static String createMsg(String playerKill, String playerDead) {
-		return String.format("%c%s:%s", headerCode, playerKill, playerDead);
+		return String.format("%c%s:%s", NetworkEventDead.headerCode, playerKill, playerDead);
 	}
 
 }

@@ -8,7 +8,7 @@ public class MainServer {
 	public static void main(String[] args) {
 
 		LmsConfig.gameType = GameType.Server;
-		
+
 		final UDPServer UDPserver = new UDPServer(LmsConfig.UDPport);
 
 		final TCPServer TCPserver = new TCPServer(LmsConfig.TCPport);
@@ -17,10 +17,8 @@ public class MainServer {
 			UDPserver.setDelay(Integer.parseInt(args[0]));
 		}
 		UDPserver.start();
-		System.out.println("UDP Server is started. - port=" + LmsConfig.UDPport);
 		TCPserver.start();
-		System.out.println("TCP Server is started. - port=" + LmsConfig.TCPport);
-		
+		System.out.println("Server version: " + LmsConfig.version);
 	}
 
 }

@@ -16,9 +16,9 @@ public class NetworkPing {
 	 */
 
 	public static void start() {
-		ping = new Thread(() -> {
+		NetworkPing.ping = new Thread(() -> {
 			while (true) {
-				ping();
+				NetworkPing.ping();
 				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {
@@ -27,7 +27,7 @@ public class NetworkPing {
 			}
 		});
 
-		ping.start();
+		NetworkPing.ping.start();
 	}
 
 	public static void addPingTime(long t) {
@@ -37,16 +37,16 @@ public class NetworkPing {
 	}
 
 	private static void ping() {
-		avgPingTime = (sumPingTime / countPing) / 1000.0f;
-		countPing = 0;
-		sumPingTime = 0;
+		NetworkPing.avgPingTime = (NetworkPing.sumPingTime / NetworkPing.countPing) / 1000.0f;
+		NetworkPing.countPing = 0;
+		NetworkPing.sumPingTime = 0;
 	}
 
 	public static float getPing() {
-		return avgPingTime;
+		return NetworkPing.avgPingTime;
 	}
 
 	public static String getString() {
-		return String.format("Ping %.2f ms. | avg %.6f ms.", pingTime / 1000.0, avgPingTime);
+		return String.format("Ping %.2f ms. | avg %.6f ms.", NetworkPing.pingTime / 1000.0, NetworkPing.avgPingTime);
 	}
 }

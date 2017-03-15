@@ -1,6 +1,7 @@
 package com.lms.buff;
 
 import com.lms.api.PlayerAPI;
+import com.lms.game.LmsConfig;
 
 public class GodBuff extends Buff {
 
@@ -10,7 +11,9 @@ public class GodBuff extends Buff {
 
 	@Override
 	public void init() {
-		System.out.println("God buff: " + duration);
+		if (LmsConfig.debug) {
+			System.out.println("GET God buff: " + duration);
+		}
 		PlayerAPI.get(playerName).setGodMode(duration);
 	}
 

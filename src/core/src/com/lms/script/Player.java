@@ -1,18 +1,26 @@
 package com.lms.script;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lms.api.PlayerAPI;
+import com.lms.api.PlayerData;
 import com.lms.entity.CoreEntity;
+import com.lms.entity.EntityData;
 import com.lms.game.LmsConfig;
 import com.lms.game.LmsGame;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
 import com.uwsoft.editor.renderer.components.TransformComponent;
+import com.uwsoft.editor.renderer.components.physics.PhysicsBodyComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationComponent;
 import com.uwsoft.editor.renderer.components.sprite.SpriteAnimationStateComponent;
 import com.uwsoft.editor.renderer.physics.PhysicsBodyLoader;
@@ -25,18 +33,25 @@ public class Player implements IScript {
 	private TransformComponent transformComponent;
 	private DimensionsComponent dimensionsComponent;
 	private SpriteAnimationComponent sac;
+	private PhysicsBodyComponent pbc;
 	private World world;
 	private SpriteAnimationStateComponent animation;
 	private Vector2 speed;
-	private float gravity = -1200f;
+	private float gravity = -3000f;
 	private CoreEntity ce;
-	private final float jumpSpeed = 600f;
+	private float jumpSpeed = 1000f;
 	private float decreseX;
 	private float maxWidth;
+	private PlayerData playerData;
+
+	private int jumpCount = 0;
+	private boolean isSpacebar;
 
 	private boolean isJump = false;
 	private boolean isWalk = false;
 	private boolean isPlay;
+
+	private Rectangle playerPosRect;
 
 	public Player(World world, float maxWidth, boolean isPlay) {
 		this.world = world;
@@ -52,11 +67,15 @@ public class Player implements IScript {
 		animation = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
 		dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
 		sac = ComponentRetriever.get(entity, SpriteAnimationComponent.class);
+		pbc = ComponentRetriever.get(entity, PhysicsBodyComponent.class);
 		speed = PlayerAPI.get(player.getId()).speed;
 		sac.currentAnimation = "stand";
 		animation.set(sac);
 		maxWidth -= dimensionsComponent.width;
 		ce = PlayerAPI.get(entity.getId()).getCoreEntity();
+		playerData = PlayerAPI.get(player.getId());
+		playerData.speedJump = 900f;
+		speed.x = 1100f;
 	}
 
 	public Entity getEntity() {
@@ -65,14 +84,19 @@ public class Player implements IScript {
 
 	@Override
 	public void act(float delta) {
+		jumpSpeed = playerData.speedJump;
 		speed.y += gravity * delta;
-		rayCast();
 
 		// animation.paused = true;
 		isWalk = false;
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !isJump && speed.y >= 0) {
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && jumpCount < 2 && !isSpacebar) {
 			speed.y = jumpSpeed;
 			isJump = true;
+			isSpacebar = true;
+			jumpCount++;
+		}
+		if (!Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			isSpacebar = false;
 		}
 
 		if (isJump) {
@@ -92,12 +116,26 @@ public class Player implements IScript {
 			transformComponent.scaleX = Math.abs(transformComponent.scaleX);
 			isWalk = true;
 		}
+		float a = speed.y * delta;
+		while (a != 0) {
+			if (a > 0) {
+				transformComponent.y += a;
+				break;
+			}
+			;
+			if (!rayCast2()) {
+				transformComponent.y -= 8;
+				a += 8;
+			} else {
+				break;
+			}
+		}
 
-		transformComponent.y += speed.y * delta;
 		if (!isPlay) {
 			if (transformComponent.y < 0) {
 				transformComponent.y = 1;
 				isJump = false;
+				jumpCount = 0;
 				speed.y = 0;
 			}
 		} else {
@@ -105,30 +143,29 @@ public class Player implements IScript {
 				LmsGame.networkManage.sendDead("-", LmsConfig.playerName);
 				PlayerAPI.dead(LmsConfig.playerName);
 				speed.y = 0;
-				transformComponent.y = transformComponent.y;
+				// transformComponent.y = transformComponent.y;
 			}
 		}
-		//if (transformComponent.x < 0) {
-		//	transformComponent.x = 0;
-		//}
+		// if (transformComponent.x < 0) {
+		// transformComponent.x = 0;
+		// }
 		if (transformComponent.x > maxWidth) {
 			transformComponent.x = maxWidth;
 		}
-		if (transformComponent.x < -2050) {
-			transformComponent.x = -2050;
+		if (transformComponent.x < -9700) {
+			transformComponent.x = -9700;
 		}
 		CoreEntity ce = PlayerAPI.get(player.getId()).getCoreEntity();
-		if (isWalk) {
-				if (PlayerAPI.get(player.getId()).isSword())
-					ce.setAnimation("runsword");
-				else if (PlayerAPI.get(player.getId()).isGun())
-					ce.setAnimation("rungun");
-				else ce.setAnimation("run");
-				
-		} else if (PlayerAPI.get(player.getId()).isJump()) {
+		if (PlayerAPI.get(player.getId()).isSword()) {
+			ce.setAnimation("runsword");
+		} else if (PlayerAPI.get(player.getId()).isGun()) {
+			ce.setAnimation("rungun");
+		} else if (isJump) {
 			if (!sac.currentAnimation.equals("jump")) {
-				ce.setAnimation("sword");
+				ce.setAnimation("jump");
 			}
+		} else if (isWalk) {
+			ce.setAnimation("run");
 		} else if (PlayerAPI.get(player.getId()).isSword()) {
 			if (!sac.currentAnimation.equals("sword")) {
 				ce.setAnimation("sword");
@@ -137,20 +174,31 @@ public class Player implements IScript {
 			if (!sac.currentAnimation.equals("gun")) {
 				ce.setAnimation("gun");
 			}
-		
+
 		} else {
 			if (!sac.currentAnimation.equals("stand")) {
 				ce.setAnimation("stand");
 			}
-		} 
+		}
 		// animation.set(sac);
-
 	}
 
-	private void rayCast2() {
+	private boolean rayCast2() {
 		if (speed.y > 0) {
-			return;
+			return false;
 		}
+		Iterator<Entry<Long, EntityData>> entities = EntityData.getAll().entrySet().iterator();
+		while (entities.hasNext()) {
+			EntityData e = entities.next().getValue();
+			if (e.isPhysic() && e.isRayCast(playerData.getRect().setHeight(20))) {
+				speed.y = 0;
+				isJump = false;
+				jumpCount = 0;
+				transformComponent.y = e.getUpperY() - 1;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void rayCast() {
@@ -162,7 +210,7 @@ public class Player implements IScript {
 		if (speed.y > 0) {
 			return;
 		}
-		
+
 		Vector2 rayFrom = new Vector2(
 				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
 				(transformComponent.y + rayGap) * PhysicsBodyLoader.getScale());
@@ -170,7 +218,8 @@ public class Player implements IScript {
 				(transformComponent.x + dimensionsComponent.width / 2) * PhysicsBodyLoader.getScale(),
 				(transformComponent.y - raySize) * PhysicsBodyLoader.getScale());
 		rayFrom.y -= 2f;
-		//rayTo.y -= 25;
+		// rayTo.y -= 25;
+		// System.out.println(rayFrom + ":" + rayTo);
 		world.rayCast(new RayCastCallback() {
 
 			@Override
@@ -178,6 +227,7 @@ public class Player implements IScript {
 
 				speed.y = 0;
 				isJump = false;
+				jumpCount = 0;
 				transformComponent.y = point.y / PhysicsBodyLoader.getScale();
 				// System.out.println();
 				return 0;

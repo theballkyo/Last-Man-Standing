@@ -15,7 +15,7 @@ public class NinjaEntity extends CoreEntity {
 		vo = new SpriteAnimationVO();
 
 		init();
-		
+
 		setScale(new Vector2(0.4f, 0.7f));
 
 	}

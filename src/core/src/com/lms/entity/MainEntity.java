@@ -10,7 +10,7 @@ public class MainEntity {
 
 	SceneLoader sl;
 
-	Map<String, Class<?>> ret = new HashMap<String, Class<?>>();
+	Map<String, Class<?>> ret = new HashMap<>();
 
 	public MainEntity(SceneLoader sl) {
 		this.sl = sl;

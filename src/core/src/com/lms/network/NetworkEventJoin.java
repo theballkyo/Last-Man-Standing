@@ -35,7 +35,7 @@ public class NetworkEventJoin extends NetworkEvent {
 			NetworkEventJoin.udpJoin = true;
 			return;
 		}
-		String[] dat = data.split(":");
+		data.split(":");
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class NetworkEventJoin extends NetworkEvent {
 			return;
 		}
 		String[] dat = data.split(":");
-		System.out.println(data);
+		System.out.println(data.length() + "," + data );
 		if (dat[0].equals(LmsConfig.playerName)) {
 			return;
 		}
@@ -63,7 +63,7 @@ public class NetworkEventJoin extends NetworkEvent {
 		float y = Float.parseFloat(dat[3]);
 		int kill = Integer.parseInt(dat[4]);
 
-		udp.sendMsg(address, port, String.format("%cOk", headerCode));
+		udp.sendMsg(address, port, String.format("%cOk", NetworkEventJoin.headerCode));
 		if (PlayerServerAPI.get(name) != null) {
 			if (PlayerServerAPI.get(name).getUdpAddress() != null) {
 				System.out.println("UDP Same name: " + name);
@@ -86,20 +86,20 @@ public class NetworkEventJoin extends NetworkEvent {
 		float y = Float.parseFloat(dat[3]);
 		int kill = Integer.parseInt(dat[4]);
 
-		tcp.sendMsg(client, String.format("%cOk", headerCode));
-		
-		if (PlayerServerAPI.get(name )!= null) {
+		tcp.sendMsg(client, String.format("%cOk", NetworkEventJoin.headerCode));
+		System.out.println("TCP JOIN > " + name);
+		if (PlayerServerAPI.get(name) != null) {
 			if (PlayerServerAPI.get(name).getTcpSocket() != null) {
 				System.out.println("TCP Same name: " + name);
-				// tcp.sendMsg(client, NetworkEventError.createMsg(1));
+				tcp.close(client);
 				return;
 			}
 		}
-		
+
 		PlayerServerAPI.add(name, type, x, y, kill);
 		PlayerServerAPI.setTcpLastConn(dat[0], System.currentTimeMillis());
 		PlayerServerAPI.setTcpClinet(name, client);
-		tcp.broadcast(createJoinMsg(name, type, x, y, kill));
+		tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
 
 		for (Entry<String, PlayerData> e : PlayerServerAPI.getAll().entrySet()) {
 			name = e.getValue().getName();
@@ -107,12 +107,12 @@ public class NetworkEventJoin extends NetworkEvent {
 			x = e.getValue().pos.x;
 			y = e.getValue().pos.y;
 			kill = e.getValue().getKill();
-			tcp.broadcast(createJoinMsg(name, type, x, y, kill));
+			tcp.broadcast(NetworkEventJoin.createJoinMsg(name, type, x, y, kill));
 		}
 
 	}
 
 	public static String createJoinMsg(String name, String type, float x, float y, int kill) {
-		return String.format("%c%s:%s:%.0f:%.0f:%d", headerCode, name, type, x, y, kill);
+		return String.format("%c%s:%s:%.0f:%.0f:%d", NetworkEventJoin.headerCode, name, type, x, y, kill);
 	}
 }

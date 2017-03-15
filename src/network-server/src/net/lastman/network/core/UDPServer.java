@@ -7,13 +7,14 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.lms.api.PlayerData;
 import com.lms.api.PlayerServerAPI;
+import com.lms.game.LmsConfig;
 import com.lms.network.NetworkEvent;
 import com.lms.network.NetworkEventDisconnect;
-import com.lms.network.NetworkEventJoin;
 import com.lms.network.NetworkEventManage;
 import com.lms.network.NetworkEventMove;
 import com.lms.network.NetworkEventPong;
@@ -21,21 +22,19 @@ import com.lms.network.UDPServerInterface;
 
 public class UDPServer implements UDPServerInterface, LMSServer {
 	private DatagramSocket sock = null;
-	private int port;
 	private Thread updatePl;
 	private Thread ping;
 	private Thread sv;
 	private UDPServer udp;
 	NetworkEventManage nem;
-	public HashMap<String, ClientProfile> clientList;
+	private HashMap<String, ClientProfile> clientList;
 
-	private int delayUpdate = 10;
+	private int delayUpdate = 1000/60;
 
 	public UDPServer(int port) {
-		this.port = port;
-		this.nem = new NetworkEventManage();
-		this.udp = this;
-		clientList = new HashMap<String, ClientProfile>();
+		nem = new NetworkEventManage();
+		udp = this;
+		clientList = new HashMap<>();
 
 		try {
 			sock = new DatagramSocket(port);
@@ -44,7 +43,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 				@Override
 				public void run() {
 					// Wait for msg from client
-					System.out.println("Start");
+					System.out.println("UDP Server is started. - port=" + LmsConfig.UDPport);
 					while (!Thread.currentThread().isInterrupted()) {
 						byte[] buffer = new byte[65536];
 						final DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
@@ -53,20 +52,21 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 					}
 				}
 			});
-
+			
 			// Thread - Update player position to player
 			updatePl = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (!Thread.currentThread().isInterrupted()) {
 						HashMap<String, PlayerData> pl = PlayerServerAPI.getAll();
-						
+						Iterator<Entry<String, PlayerData>> player = pl.entrySet().iterator();
 						try {
-							for (Entry<String, PlayerData> p : pl.entrySet()) {
-								String name = p.getKey();
-								PlayerData dat = p.getValue();
-								broadcast(name, NetworkEventMove.createMoveMsg(name, dat.pos.x, dat.pos.y) + "!"
-										+ System.currentTimeMillis());
+							while (player.hasNext()) {
+								PlayerData dat = player.next().getValue();
+								String name = dat.getName();
+								//broadcast(name, NetworkEventMove.createMoveMsg(name, dat.getMoveSeq(), dat.pos.x, dat.pos.y) + "!"
+								//		+ System.currentTimeMillis());
+								//dat.incrementMoveSeq();
 							}
 						} catch (ConcurrentModificationException e) {
 							e.printStackTrace();
@@ -122,14 +122,13 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 
 	private void listener(final DatagramPacket incoming) {
 		final String msg = readMsg(incoming);
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Byte header = msg.getBytes()[0];
 
 				String data = new String(msg.getBytes(), 1, msg.length() - 1);
-				
+
 				NetworkEvent event = nem.get(header);
 				String[] sData = data.split("!");
 				if (event != null) {
@@ -175,7 +174,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 	}
 
 	public void broadcast(String msg) {
-		
+
 		for (Entry<String, PlayerData> entry : PlayerServerAPI.getAll().entrySet()) {
 			PlayerData cp = entry.getValue();
 			sendMsg(cp.getUdpAddress(), cp.getUdpPort(), msg);
@@ -184,17 +183,20 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 
 	@Override
 	public void broadcast(String name, String msg) {
-		for (Entry<String, PlayerData> entry : PlayerServerAPI.getAll().entrySet()) {
-			if (entry.getKey().equals(name)) {
-				continue;
+		synchronized (this) {
+			for (Entry<String, PlayerData> entry : PlayerServerAPI.getAll().entrySet()) {
+				if (entry.getKey().equals(name)) {
+					continue;
+				}
+				PlayerData cp = entry.getValue();
+				// Check player address
+				if (cp.getUdpAddress() == null) {
+					System.out.println("NULL");
+					delClient(cp.getName());
+					continue;
+				}
+				sendMsg(cp.getUdpAddress(), cp.getUdpPort(), msg);
 			}
-			PlayerData cp = entry.getValue();
-			// Check player address
-			if (cp.getUdpAddress() == null) {
-				System.out.println("NULL");
-				continue;
-			}
-			sendMsg(cp.getUdpAddress(), cp.getUdpPort(), msg);
 		}
 	}
 
@@ -205,11 +207,15 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 
 	@Override
 	public void addClient(String name, DatagramPacket incoming) {
-		clientList.put(name, new ClientProfile(name, incoming));
+		synchronized (this) {
+			clientList.put(name, new ClientProfile(name, incoming));
+		}
 	}
 
 	public void delClient(String name) {
-		clientList.remove(name);
+		synchronized (this) {
+			clientList.remove(name);
+		}
 	}
 
 	private synchronized void checkClient() {
@@ -219,7 +225,7 @@ public class UDPServer implements UDPServerInterface, LMSServer {
 		for (Entry<String, PlayerData> p : pl.entrySet()) {
 			String name = p.getKey();
 			PlayerData dat = p.getValue();
-			if (dat.lastUdpConn + 5000 < System.currentTimeMillis()) {
+			if (dat.lastUdpConn + 1000 < System.currentTimeMillis()) {
 				System.out.println("Player " + name + " time out.");
 				delClient(name);
 				PlayerServerAPI.remove(name);

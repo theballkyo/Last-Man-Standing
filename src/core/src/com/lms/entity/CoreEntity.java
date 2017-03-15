@@ -1,6 +1,7 @@
 package com.lms.entity;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.uwsoft.editor.renderer.SceneLoader;
 import com.uwsoft.editor.renderer.components.DimensionsComponent;
@@ -37,9 +38,9 @@ public abstract class CoreEntity {
 	abstract public String getType();
 
 	public String scene = "";
- 
+
 	protected Vector2 scale;
-	
+
 	public CoreEntity(String entityName, SceneLoader sl) {
 		this.entityName = entityName;
 		this.sl = sl;
@@ -49,6 +50,7 @@ public abstract class CoreEntity {
 
 	protected void add() {
 		scene = sl.getSceneVO().sceneName;
+
 		sl.engine.addEntity(entity);
 
 		animationState = ComponentRetriever.get(entity, SpriteAnimationStateComponent.class);
@@ -57,8 +59,11 @@ public abstract class CoreEntity {
 		dc = ComponentRetriever.get(entity, DimensionsComponent.class);
 		tc = ComponentRetriever.get(entity, TintComponent.class);
 		zindexc = ComponentRetriever.get(entity, ZIndexComponent.class);
-		
-		zindexc.setZIndex(500);
+
+		zindexc.setZIndex(5000);
+		// zindexc.layerName = "player";
+		tf.scaleX = 1f;
+		tf.scaleY = 1f;
 	}
 
 	public void addScript(IScript script) {
@@ -132,10 +137,15 @@ public abstract class CoreEntity {
 	public Vector2 getPosition() {
 		return position;
 	}
+
+	public void removeEntity() {
+		sl.engine.removeEntity(entity);
+	}
+
 	public boolean isJump() {
 		return sac.currentAnimation.equals("jump");
 	}
-	
+
 	public boolean isWalk() {
 		if (sac == null) {
 			return false;
@@ -158,44 +168,46 @@ public abstract class CoreEntity {
 
 		animationState.set(sac);
 	}
-	
+
 	public void setAnimation(String name) {
+		sac.playMode = PlayMode.LOOP;
 		if (name.equals("run")) {
 			if (sac.currentAnimation.equals("run")) {
 				return;
 			}
 			sac.currentAnimation = "run";
-		} else if (name.equals("stand")){
+		} else if (name.equals("stand")) {
 			if (sac.currentAnimation.equals("stand")) {
 				return;
 			}
 			sac.currentAnimation = "stand";
-		} else if (name.equals("sword")){
+		} else if (name.equals("sword")) {
 			if (sac.currentAnimation.equals("sword")) {
 				return;
 			}
 			sac.currentAnimation = "sword";
-		} else if (name.equals("gun")){
+		} else if (name.equals("gun")) {
 			if (sac.currentAnimation.equals("gun")) {
 				return;
 			}
 			sac.currentAnimation = "gun";
-		} else if (name.equals("runsword")){
+		} else if (name.equals("runsword")) {
 			if (sac.currentAnimation.equals("runsword")) {
 				return;
 			}
 			sac.currentAnimation = "runsword";
-		}  else if (name.equals("rungun")){
+		} else if (name.equals("rungun")) {
 			if (sac.currentAnimation.equals("rungun")) {
 				return;
 			}
 			sac.currentAnimation = "rungun";
-		} else if (name.equals("jump")){
+		} else if (name.equals("jump")) {
 			if (sac.currentAnimation.equals("jump")) {
 				return;
 			}
 			sac.currentAnimation = "jump";
-		} else if (name.equals("fall")){
+			sac.playMode = PlayMode.NORMAL;
+		} else if (name.equals("fall")) {
 			if (sac.currentAnimation.equals("fall")) {
 				return;
 			}
@@ -204,11 +216,11 @@ public abstract class CoreEntity {
 
 		animationState.set(sac);
 	}
-	
+
 	public Vector2 getScale() {
 		return scale;
 	}
-	
+
 	public void setScale(Vector2 scale) {
 		this.scale = scale;
 	}

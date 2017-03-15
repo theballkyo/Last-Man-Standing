@@ -1,7 +1,5 @@
 package com.lms.game;
 
-import java.util.ConcurrentModificationException;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -26,11 +24,9 @@ public class LmsGame extends ApplicationAdapter {
 	private Viewport vp;
 	private MainEntity me;
 	private BitmapFont font;
-	private Thread plThread;
 	private ShapeRenderer shapes;
 	public static NetworkManage networkManage;
 	private SceneManage sm;
-	private int scene = 0;
 
 	@Override
 	public void create() {
@@ -44,15 +40,14 @@ public class LmsGame extends ApplicationAdapter {
 		shapes = new ShapeRenderer();
 		font.setColor(Color.WHITE);
 
-		
 		cam = (OrthographicCamera) vp.getCamera();
-
+		cam.zoom = 1.8f;
 		// Load API
 		PlayerAPI.load(sl, me);
 
 		sm = new SceneManage(sl, vp, cam);
-		LmsSound.load();
-		
+		// LmsSound.load();
+
 		LmsConfig.sl = sl;
 	}
 
@@ -62,16 +57,16 @@ public class LmsGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-			try {
-				Gdx.gl.glClearColor(0, 0, 0, 0);
-				Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-				act();
-				sl.getEngine().update(Gdx.graphics.getDeltaTime());
-				sm.render();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	
+		try {
+			Gdx.gl.glClearColor(0, 0, 0, 0);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			act();
+			sl.getEngine().update(Gdx.graphics.getDeltaTime());
+			sm.render();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
