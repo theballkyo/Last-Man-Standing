@@ -1,7 +1,10 @@
+
+
 buildscript {
     repositories {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
     dependencies {
     }
@@ -10,11 +13,11 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-
-    version = '1.0'
+	buildDir = "../build"
+    version = '0.9.60'
     ext {
         appName = "Last-Man-Standing"
-        gdxVersion = '1.7.0'
+        gdxVersion = '1.9.3'
         roboVMVersion = '1.8.0'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.6.0'
@@ -31,12 +34,13 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+		compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
 
@@ -48,7 +52,21 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        compile "com.badlogicgames.ashley:ashley:1.6.0"
         compile project(":Overlap2dRuntime")
+        compile project(":network-client")
+    }
+}
+
+project(":network-server") {
+    apply plugin: "java"
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        compile "org.mockito:mockito-all:1.9.5"
+        compile project(":core")
     }
 }
 

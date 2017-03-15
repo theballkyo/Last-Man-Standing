@@ -1,0 +1,1012 @@
+
+cyborg.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0000
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0001
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0009
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0002
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0008
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0003
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0007
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0004
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0006
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0005
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0010
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0011
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0019
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0012
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0018
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0013
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0017
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0014
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0016
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0015
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg3.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0020
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0021
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0029
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0022
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0028
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0023
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0027
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0024
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0026
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0025
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0030
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0031
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0039
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0032
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0038
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0033
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0037
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0034
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0036
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0035
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0040
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0041
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0042
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0043
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0044
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0045
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg6.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0046
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0047
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0048
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0049
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0050
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0051
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg7.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0052
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0053
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0054
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0055
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0056
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0057
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg8.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0058
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0059
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0060
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0061
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0062
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0063
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg9.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0064
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0065
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0066
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0067
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0068
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0069
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg10.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0070
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0071
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0072
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0073
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0074
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0075
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg11.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0076
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0077
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0078
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0079
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0080
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0081
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg12.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0082
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0083
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0084
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0085
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0086
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0087
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg13.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0088
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0089
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0090
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0091
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0092
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0093
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0094
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0095
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0096
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0097
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0098
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg14.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0099
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0100
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0101
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0102
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0103
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0104
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg15.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0105
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0106
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0107
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0108
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0109
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0110
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0111
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0112
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg16.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0113
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0114
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0115
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0116
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0117
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0118
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0119
+  rotate: false
+  xy: 405, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0120
+  rotate: false
+  xy: 405, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+
+cyborg17.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cyborg0121
+  rotate: false
+  xy: 2, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0122
+  rotate: false
+  xy: 2, 305
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0123
+  rotate: false
+  xy: 405, 608
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0124
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0125
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0126
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0127
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0128
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
+cyborg0129
+  rotate: false
+  xy: 2, 2
+  size: 401, 301
+  orig: 401, 301
+  offset: 0, 0
+  index: -1
